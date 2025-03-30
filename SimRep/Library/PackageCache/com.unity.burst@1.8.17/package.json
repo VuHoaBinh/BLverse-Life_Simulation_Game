@@ -1,0 +1,23 @@
+{
+  "name": "com.unity.burst",
+  "displayName": "Burst",
+  "version": "1.8.17",
+  "unity": "2020.3",
+  "description": "Burst is a compiler that translates from IL/.NET bytecode to highly optimized native code using LLVM.",
+  "dependencies": {
+    "com.unity.mathematics": "1.2.1",
+    "com.unity.modules.jsonserialize": "1.0.0"
+  },
+  "_upm": {
+    "changelog": "### Added\n\n### Removed\n\n### Changed\n- Improved performance of Burst-compiled code in the Windows x64 Editor by only emitting context-saving code when the code being compiled contains a `throw`\n- Improved error message for pointer-like types in non-`readonly` `static` fields\n\n### Fixed\n- Fixed another compiler crash caused by faulty alias analysis\n- BurstAotSettings files are no longer written to disk unless default settings are changed\n- Fixed the `BurstDebugInformation_DoNotShip` folder not being saved outside the player build folder for Embedded Linux and QNX platforms\n- Fixed direct negation of enums was not correctly promoting the underlying type, causing wrong results.\n- Fixed that `Mathf.Approximately` would return the wrong result approximately all of the time\n- Fixed an issue with default interface methods which would result in compiler errors due to IL corruption.\n- Creating a project with a space in the path would cause burst to fail on windows arm64.\n\n### Known Issues"
+  },
+  "upmCi": {
+    "footprint": "845f4941e769f30529b4122e14f627a9140d8ec8"
+  },
+  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.burst@1.8/manual/index.html",
+  "repository": {
+    "url": "https://github.cds.internal.unity3d.com/unity/burst.git",
+    "type": "git",
+    "revision": "234303811291ae524719609ac4e9ca24be4b58dd"
+  }
+}
