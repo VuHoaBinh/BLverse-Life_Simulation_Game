@@ -1,0 +1,31 @@
+# Ignore everything by default
+*
+
+# Allow essential Unity project folders
+!Assets/
+!ProjectSettings/
+!Packages/
+!.gitignore
+
+# Allow all contents inside allowed folders
+!Assets/**
+!ProjectSettings/**
+!Packages/**
+
+# Ignore Unity-generated folders and caches
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+MemoryCaptures/
+
+# IDE/editor
+.vscode/
+.idea/
+
+# OS generated
+.DS_Store
+Thumbs.db
