@@ -10,8 +10,6 @@ public class GameManager : MonoBehaviour
     public Astar astar;
     public Character character;
     public List<Vector3> path;
-    private Queue<Vector3> pathQueue = new Queue<Vector3>();
-    private Vector3 currentTargetNode;
 
     void Awake()
     {
@@ -20,6 +18,13 @@ public class GameManager : MonoBehaviour
         map.genMap();
         map.onAwake();
         // map.printTilePositions();
+    }
+    private void changeState(int lenght, Vector3 target, Vector3 target2)
+    {
+        Debug.Log("Change state to: " + lenght);
+        Debug.Log("Target position: " + target);
+        character.StartMove(target);
+        character.StartMove(target2);
     }
     void Update()
     {
@@ -30,10 +35,7 @@ public class GameManager : MonoBehaviour
             map.onClick();
             character.isMoving = true;
             path = astar.path;
-        }
-        if (path != null && path.Count > 0)
-        {
-            character.StartMove(path); // Gọi di chuyển
+            changeState(path.Count, path[0], path[1]);
         }
     }
 }

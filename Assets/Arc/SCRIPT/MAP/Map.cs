@@ -86,18 +86,17 @@ public class Map : MonoBehaviour
     public void onUpdate()
     {
         Vector3 mousePos = Input.mousePosition;
-
         Vector3 mouseWorldPos = mapUI.mainCamera.ScreenToWorldPoint(mousePos);
         Vector3Int cellPos = gameObject.GetComponentInChildren<Tilemap>().WorldToCell(mouseWorldPos);
-        // Debug.Log("Mouse Screen Pos: " + cellPos);
-        mouseWorldPos.z = 0;
+        mouseWorldPos.z = 0;    
+
+        //Get key from cell tilepositions
         Vector2Int key = new Vector2Int(cellPos.x, cellPos.y);
-
-
         tilepositions.TryGetValue(key, out bool hasTile);
+        //Check conditions to update UI on map
         if (cellPos != cellBefore && !hasTile)
         {
-            // Debug.Log("Mouse World Pos: " + mouseWorldPos);
+            //Put cellBefor equal cellPos
             cellBefore = cellPos;
             mapUI.deleteCircle("dot");
             mapUI.drawCircle(changeCellPos(cellPos));
@@ -115,10 +114,11 @@ public class Map : MonoBehaviour
     public void onClick()
     {
         mapUI.deleteCircle("path");
+
+        //Get mouse position and convert to cell position
         Vector3 mousePos = Input.mousePosition;
         Vector3 mouseWorldPos = mapUI.mainCamera.ScreenToWorldPoint(mousePos);
-        Vector3Int cellPos = gameObject.GetComponentInChildren<Tilemap>().WorldToCell(mouseWorldPos);
-        // Debug.Log("Mouse Screen Pos: " + cellPos);
+        Vector3Int cellPos = gameObject.GetComponentInChildren<Tilemap>().WorldToCell(mouseWorldPos);   
         mouseWorldPos.z = 0;
 
 
