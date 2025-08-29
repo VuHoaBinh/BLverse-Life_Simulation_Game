@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,27 +10,27 @@ public class Astar : MonoBehaviour
     public Map map;
     public Node startNode;
     public Node goalNode;
-
     public GameObject dot; // Prefab for visualizing the path
     public List<Vector3> path;
     // Update is called once per frame
     public void FindPath(Node start, Node goal)
     {
-        path = new List<Vector3>();
-        // A* pathfinding logic would go here
+        path = new List<Vector3>(); //Khởi tạo danh sách đường đi
         Node curentNode = start;
-        // Debug.Log("Starting A* pathfinding from: " + curentNode.heuristic);
+
+        /*Khai báo 2 hashset là openset và closedset 
+        - Không dubpltcate
+        - mỗi phần tử đưa vào sẽ có 1 hashcode khác nhau và dựa vào đó để tìm index chứa
+        phần từ
+        */
         HashSet<Node> openSet = new HashSet<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add(curentNode);
-
-        while (openSet.Count > 0)
+        while (openSet.Count > 0) //chạy khi openset còn phần tử
         {
             curentNode = GetLowestCostNode(openSet); // Lấy giá trí Node có chi phí nhỏ nhất
             if (Vector3.Distance(curentNode.position, goal.position) < 0.001f) // Điều kiện dừng
             {
-                // Debug.Log("Path found to goal node: " + curentNode.position);
-
                 // Debug vẽ đường đi
                 map.mapUI.deleteCircle("path"); // Xóa các vòng tròn cũ
                 Node node = curentNode;
@@ -41,7 +42,7 @@ public class Astar : MonoBehaviour
                 }
                 path.RemoveAt(path.Count - 1);
                 path.Reverse(); // Đảo ngược đường đi để từ start đến goal
-                Debug.Log("Path found with " + path.Count + " nodes.");
+                // Debug.Log("Path found with " + path.Count + " nodes.");
                 return;
             }
 
@@ -97,8 +98,7 @@ public class Astar : MonoBehaviour
 
     public bool checkIsInMap(Vector3 position)
     {
-        // Check if the position is within the bounds of the map
-        // This is just a placeholder for the method
+        // Kiểm tra postion có trong biên hay không
         int minX = (int)map.verticesList[0].transform.position.x;
         int maxX = (int)map.verticesList[1].transform.position.x;
         int minY = (int)map.verticesList[0].transform.position.y;
@@ -143,6 +143,7 @@ public class Astar : MonoBehaviour
                     break;
             }
             Vector3 neighborPosition = node.position + direction;
+            /*Cần tối ưu là nếu node hàng xóm đó đã xét rồi thì không nên xét nữa*/
             if (checkIsInMap(neighborPosition))
             {
                 Node neighborNode = new Node(neighborPosition);
