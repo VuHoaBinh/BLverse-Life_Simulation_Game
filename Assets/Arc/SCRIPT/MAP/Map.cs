@@ -85,10 +85,10 @@ public class Map : MonoBehaviour
     }
     public void onUpdate()
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 mouseWorldPos = mapUI.mainCamera.ScreenToWorldPoint(mousePos);
-        Vector3Int cellPos = gameObject.GetComponentInChildren<Tilemap>().WorldToCell(mouseWorldPos);
-        mouseWorldPos.z = 0;    
+        Vector3 mousePos = Input.mousePosition; //Lấy tọa độ của chuột 
+        Vector3 mouseWorldPos = mapUI.mainCamera.ScreenToWorldPoint(mousePos); //Chuyển sang tọa độ thế giới
+        Vector3Int cellPos = gameObject.GetComponentInChildren<Tilemap>().WorldToCell(mouseWorldPos); //chuyển sang tọa độ dạng lưới của tilemap
+        mouseWorldPos.z = 0; //2D nên trực z bằng 0
 
         //Get key from cell tilepositions
         Vector2Int key = new Vector2Int(cellPos.x, cellPos.y);

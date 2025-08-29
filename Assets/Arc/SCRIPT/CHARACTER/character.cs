@@ -30,8 +30,7 @@ public class Character : MonoBehaviour
             yield return null; // Chờ đến frame tiếp theo
         }
 
-        rb.MovePosition(targetPosition); // Snap
-        isMoving = false;
+        rb.MovePosition(targetPosition);
         moveCoroutine = null;
     }
 }

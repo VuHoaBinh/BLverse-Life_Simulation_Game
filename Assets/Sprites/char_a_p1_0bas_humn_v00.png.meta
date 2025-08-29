@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dc57b496109d41842b8e18a2798b7b43
+guid: 5b3365ba64e1cc440a78085111adfe7f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,1156 +110,1345 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Male Skin1_0
+      name: char_a_p1_0bas_humn_v00_0
       rect:
         serializedVersion: 2
-        x: 8
+        x: 0
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca9ec159bd32cab43a1509920c851937
+      internalID: 1888210936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f02062c79351c841af9049eb0832801
+      internalID: -1914857118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7f2f57956f25c04aa5bac0f785bf8aa
+      internalID: 1804830026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a2122ee5f537c441a065b7e351030a6
+      internalID: -1558335566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60b695d0a16470d48b93813ef26353ef
+      internalID: -1890134557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43a07697a89119b4899e0e749ed00e1b
+      internalID: 236896159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f51dffe80178d724d9b98dc24b3345e3
+      internalID: -1248370298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_7
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 448
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ee459783cb9c7a4ebe5682fd9c4fcd2
+      internalID: -1389111496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_8
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 384
         width: 64
         height: 64
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a7633d6ede9d45419008db743b2f6fe
-      internalID: -763104423
+      spriteID: 50a9bb06366048943a4f80f22f31946a
+      internalID: -828584777
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_1
+      name: char_a_p1_0bas_humn_v00_9
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 384
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6808dd064525f604b8a6b3c618e76037
-      internalID: 961301892
+      spriteID: 891b8413b1805bd49a590d40fd34106c
+      internalID: 1020369993
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_2
+      name: char_a_p1_0bas_humn_v00_10
       rect:
         serializedVersion: 2
-        x: 136
+        x: 128
         y: 384
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c7764a4165463684385aa142e3046f26
-      internalID: 792005155
+      spriteID: 5a03bf2ad4f2c344a8bf0628d53ad28a
+      internalID: 1690399715
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_3
+      name: char_a_p1_0bas_humn_v00_11
       rect:
         serializedVersion: 2
-        x: 200
+        x: 192
         y: 384
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86ef412e495345a479e0764e2afcf528
-      internalID: -1126076067
+      spriteID: 016d3941c604fe4418ef86203afd15dc
+      internalID: -1698465654
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_4
+      name: char_a_p1_0bas_humn_v00_12
       rect:
         serializedVersion: 2
-        x: 264
+        x: 256
         y: 384
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84fdbfaf6ae1a934aaa8abbffa398370
-      internalID: -1777342013
+      spriteID: b634ac5fadd189f438335ad870f10cb6
+      internalID: 1382194957
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_5
+      name: char_a_p1_0bas_humn_v00_13
       rect:
         serializedVersion: 2
-        x: 328
+        x: 320
         y: 384
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d9f21f2f7176d847856e02050b84091
-      internalID: 1932454108
+      spriteID: b5cabf5119a81444192b70a16df3df8e
+      internalID: 2015789101
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_6
+      name: char_a_p1_0bas_humn_v00_14
       rect:
         serializedVersion: 2
-        x: 8
+        x: 384
+        y: 384
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a71c5ad1e431ad4b8884f1ccc9e2170
+      internalID: -463312787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_15
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 384
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c874a5b6fc18a3f4fa426424df2ec8da
+      internalID: 1401173317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_16
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 320
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf2d2bf35234e0445ac8ad31401fd41b
-      internalID: 210925071
+      spriteID: 64e3f42f585e2f44a870cc3010059a34
+      internalID: 1256160576
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_7
+      name: char_a_p1_0bas_humn_v00_17
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 320
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 929915b820914e446bc1e3cebf385937
-      internalID: -1065589374
+      spriteID: a6255460f74bf9a4586e94dbd057fe66
+      internalID: 109866305
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_8
+      name: char_a_p1_0bas_humn_v00_18
       rect:
         serializedVersion: 2
-        x: 136
+        x: 128
         y: 320
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4826a5d05de08264aba6c357abff85cd
-      internalID: -1566642479
+      spriteID: 98a69ddbc5486c14c9123d632290b699
+      internalID: -1369219881
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_9
+      name: char_a_p1_0bas_humn_v00_19
       rect:
         serializedVersion: 2
-        x: 200
+        x: 192
         y: 320
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dc874b694a4d1994f80d4cba8bbaa859
-      internalID: 1178534678
+      spriteID: 7cc347493f12ee0408e733cca5d4f64a
+      internalID: -1662932110
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_10
+      name: char_a_p1_0bas_humn_v00_20
       rect:
         serializedVersion: 2
-        x: 264
+        x: 256
         y: 320
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6fa49c5056e6fbc44972d7ed881b1eec
-      internalID: -580202297
+      spriteID: 8fed608fc6f611a4f957b479d7a6189b
+      internalID: 1119509826
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_11
+      name: char_a_p1_0bas_humn_v00_21
       rect:
         serializedVersion: 2
-        x: 328
+        x: 320
         y: 320
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9178a9dab24197d459bfe1bf26a249c5
-      internalID: 1724144197
+      spriteID: 7268183f2e0a9594690876732a689043
+      internalID: 197004437
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_12
+      name: char_a_p1_0bas_humn_v00_22
       rect:
         serializedVersion: 2
-        x: 392
+        x: 384
         y: 320
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6be018b07222b60438d4dfd24677dd24
-      internalID: -1727761686
+      spriteID: 39073190e6ad0234e969f3864b41569a
+      internalID: 1792107307
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_13
+      name: char_a_p1_0bas_humn_v00_23
       rect:
         serializedVersion: 2
-        x: 456
+        x: 448
         y: 320
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e677844d76f9672498fc3c45e4d123bd
-      internalID: 1827165674
+      spriteID: 7d44dd711dcaa5d42959cbc8ebcc7e5f
+      internalID: -451138594
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_14
+      name: char_a_p1_0bas_humn_v00_24
       rect:
         serializedVersion: 2
-        x: 520
-        y: 320
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 73dbbf53f22449c4ab52935f9761888d
-      internalID: -563527249
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Male Skin1_15
-      rect:
-        serializedVersion: 2
-        x: 584
-        y: 320
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 93acdfd376845d24d87209a4dce54c13
-      internalID: 130200294
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Male Skin1_16
-      rect:
-        serializedVersion: 2
-        x: 8
+        x: 0
         y: 256
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ff866f12c7533447bdd2681320e051f
-      internalID: -462678362
+      spriteID: c4ac417eaef186f4aae317d3dbefa77d
+      internalID: 1741536953
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_17
+      name: char_a_p1_0bas_humn_v00_25
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 256
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f17b39ba61e94f94085e47c0889a0956
-      internalID: -1358076859
+      spriteID: 13d82a74eef87f043af3578d4345d4f5
+      internalID: 1444682736
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_18
+      name: char_a_p1_0bas_humn_v00_26
       rect:
         serializedVersion: 2
-        x: 136
+        x: 128
         y: 256
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be0e9fcf4fbe26f40b83f7650cbad39f
-      internalID: -482573725
+      spriteID: 2adddfba9d4533d4cb107e8ecf71c971
+      internalID: 2061269251
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_19
+      name: char_a_p1_0bas_humn_v00_27
       rect:
         serializedVersion: 2
-        x: 200
+        x: 192
         y: 256
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a45d3fa925c33a40b75092fa9a9960d
-      internalID: 283997365
+      spriteID: 4a089f2d70707494cbf22d3aa7de2ccc
+      internalID: -2118746507
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_20
+      name: char_a_p1_0bas_humn_v00_28
       rect:
         serializedVersion: 2
-        x: 264
+        x: 256
         y: 256
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 906b9bb5a0574ac40888df788e59e68c
-      internalID: -1705228225
+      spriteID: f9e5c252d229aea4a991253231a11c06
+      internalID: 1901323295
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_21
+      name: char_a_p1_0bas_humn_v00_29
       rect:
         serializedVersion: 2
-        x: 328
+        x: 320
         y: 256
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3361b415326fa1b438f672283c323362
-      internalID: -705503304
+      spriteID: 7e323dbd33499fe40af2f38e023d7ee0
+      internalID: -117887224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_22
+      name: char_a_p1_0bas_humn_v00_30
       rect:
         serializedVersion: 2
-        x: 392
+        x: 384
         y: 256
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 175894f3cfd112e45b3c5f95c71f0314
-      internalID: -406979868
+      spriteID: 431db7bd826c7ee4e98ee81c1795f1f7
+      internalID: -13405973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_23
+      name: char_a_p1_0bas_humn_v00_31
       rect:
         serializedVersion: 2
-        x: 456
+        x: 448
         y: 256
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 04cfdff0f70a52248b44c02d4e6800fb
-      internalID: 1280014315
+      spriteID: 5a5c1a5bd5c2e9e4ebb2e5af4d0454e2
+      internalID: 856551774
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_24
+      name: char_a_p1_0bas_humn_v00_32
       rect:
         serializedVersion: 2
-        x: 520
-        y: 256
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5a5867772f098a04f93fd2908b87c627
-      internalID: -1805298320
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Male Skin1_25
-      rect:
-        serializedVersion: 2
-        x: 584
-        y: 256
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f45e2fdf2d871674084d53d6fc3b5b5c
-      internalID: -683372746
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Male Skin1_26
-      rect:
-        serializedVersion: 2
-        x: 8
+        x: 0
         y: 192
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84f065db240b7d843b918bef105bcc60
-      internalID: 1292714908
+      spriteID: cd362206954d0494e95498e194d3b389
+      internalID: -1518675990
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_27
+      name: char_a_p1_0bas_humn_v00_33
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 192
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6431aa6a35a9c3747ae862f7d73c3141
-      internalID: 1076190459
+      spriteID: 828b58e1848e8044998f5701d9f4a6ea
+      internalID: -134544872
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_28
+      name: char_a_p1_0bas_humn_v00_34
       rect:
         serializedVersion: 2
-        x: 136
+        x: 128
         y: 192
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c0c7374723814b4284611f341d9cf03
-      internalID: -444643343
+      spriteID: 6cb4af81e45c3f848a2e5c664fc3f29a
+      internalID: -405704900
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_29
+      name: char_a_p1_0bas_humn_v00_35
       rect:
         serializedVersion: 2
-        x: 200
+        x: 192
         y: 192
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aa7891f2f99676e4ca9435c835634548
-      internalID: -1267330974
+      spriteID: f85b622e09a19934da252d450d21b1c8
+      internalID: -424635262
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_30
+      name: char_a_p1_0bas_humn_v00_36
       rect:
         serializedVersion: 2
-        x: 264
+        x: 256
         y: 192
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e0926012c8ee8d438e1a53433c9a952
-      internalID: -558513315
+      spriteID: ac267a7162e3d86479b51edc6399b493
+      internalID: -1484470511
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_31
+      name: char_a_p1_0bas_humn_v00_37
       rect:
         serializedVersion: 2
-        x: 8
+        x: 320
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59dba6d11065e97479586c0ec8e52e69
+      internalID: 804789143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_38
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c98b6f91b7c012a40852c2abdab7a517
+      internalID: 1418855554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_39
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: babef46a543708a4fb10db8f02a4722a
+      internalID: 2135304857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_40
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 128
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8460c5c46d0df8241bad12edfb7c99ac
-      internalID: 1712106708
+      spriteID: 9a12a0b768901bb43b74a66185762dcb
+      internalID: -1696091092
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_32
+      name: char_a_p1_0bas_humn_v00_41
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 128
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 902e4313900e928448906c2538741bae
-      internalID: 801067051
+      spriteID: afe4cd40e8982514bb534580ae69d0f6
+      internalID: 1714939169
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_33
+      name: char_a_p1_0bas_humn_v00_42
       rect:
         serializedVersion: 2
-        x: 136
+        x: 128
         y: 128
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8afd91fc81f57e74e98bf1217b00ea94
-      internalID: 503591617
+      spriteID: 74044f0702e3cba4daef2e66e17cb3d9
+      internalID: 2028655028
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_34
+      name: char_a_p1_0bas_humn_v00_43
       rect:
         serializedVersion: 2
-        x: 200
+        x: 192
         y: 128
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70872a3de41e3d648868698e6ac6929f
-      internalID: -362120733
+      spriteID: 1522027e94e1cb84ca2009bbeff9ec12
+      internalID: 173403062
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_35
+      name: char_a_p1_0bas_humn_v00_44
       rect:
         serializedVersion: 2
-        x: 264
+        x: 256
         y: 128
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 737ffe101a203a349acf358d81a39ccb
-      internalID: -1844177321
+      spriteID: 7b14e532093a0114ab99eefb1d96a631
+      internalID: -99653328
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_36
+      name: char_a_p1_0bas_humn_v00_45
       rect:
         serializedVersion: 2
-        x: 8
+        x: 320
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d590336dafce7d4999a4ace74880746
+      internalID: 1084526407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_46
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46f2af737cc3a7b46b9d7a133a7f7999
+      internalID: -2040129618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_47
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a657ee41c1d002448ce66950c4cfe1b
+      internalID: -1696791275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char_a_p1_0bas_humn_v00_48
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 64
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0850c43a8e50abd4da9d2f07da01b1be
-      internalID: 658689420
+      spriteID: adff096ed7ff27d46ae9b4b4e4cafdc9
+      internalID: 2019582479
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_37
+      name: char_a_p1_0bas_humn_v00_49
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 64
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f0491ceffcb2b34a803788353960cd9
-      internalID: -1333060754
+      spriteID: 9e8b1678ee756364aa68babfb3150c4a
+      internalID: 665696746
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_38
+      name: char_a_p1_0bas_humn_v00_50
       rect:
         serializedVersion: 2
-        x: 136
+        x: 128
         y: 64
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 58b1019cde00fcd4dbe53f08b8bf3bfe
-      internalID: 458150150
+      spriteID: 58862d82483e7f842b2a84470e946a08
+      internalID: -1832089865
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_39
+      name: char_a_p1_0bas_humn_v00_51
       rect:
         serializedVersion: 2
-        x: 200
+        x: 192
         y: 64
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88c01aa9210b1ab40876142ded82c566
-      internalID: 892668756
+      spriteID: a7bcdbaf6de887a46b726e6119ed2533
+      internalID: 1789804075
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_40
+      name: char_a_p1_0bas_humn_v00_52
       rect:
         serializedVersion: 2
-        x: 264
+        x: 256
         y: 64
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6f8f5f9c705242419ac8ccd059d7667
-      internalID: 398066302
+      spriteID: 83a4df156885bbc4185ecad4ad69e436
+      internalID: 1172669633
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_41
+      name: char_a_p1_0bas_humn_v00_53
       rect:
         serializedVersion: 2
-        x: 328
+        x: 320
         y: 64
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90c333c78fb627243b5f9f893b315409
-      internalID: -1185182111
+      spriteID: 642a5221e79e1cf468f3bf68730aa5b1
+      internalID: 924901897
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_42
+      name: char_a_p1_0bas_humn_v00_54
       rect:
         serializedVersion: 2
-        x: 392
+        x: 384
         y: 64
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1bffe9457b9c29a40b56bd1ede7b3925
-      internalID: -84373337
+      spriteID: 2f0d5e630122ff7449a2ce7de4cd3969
+      internalID: 352176896
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_43
+      name: char_a_p1_0bas_humn_v00_55
       rect:
         serializedVersion: 2
-        x: 8
-        y: 0
+        x: 448
+        y: 64
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a37c3fe942cc05244a652c146f6b2854
-      internalID: 1122343108
+      spriteID: dc702c943943b8e4b9875cc53799c3b1
+      internalID: 2022541926
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_44
+      name: char_a_p1_0bas_humn_v00_56
       rect:
         serializedVersion: 2
-        x: 72
+        x: 0
         y: 0
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c532089bbbc54db429cc6e4b5023cf9f
-      internalID: -478761376
+      spriteID: b7723938a5f2957459734a6909d1be89
+      internalID: -739751756
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_45
+      name: char_a_p1_0bas_humn_v00_57
       rect:
         serializedVersion: 2
-        x: 136
+        x: 64
         y: 0
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0ed01e3b57c574544ba8bab4a9ede3ad
-      internalID: 438271483
+      spriteID: b91991afdd14393449731952b48dce52
+      internalID: -733452291
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_46
+      name: char_a_p1_0bas_humn_v00_58
       rect:
         serializedVersion: 2
-        x: 200
+        x: 128
         y: 0
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7d494ecf99f3cc43a7d198a9f283055
-      internalID: 361999152
+      spriteID: 72f51567229f3d74fab2f2000a906da3
+      internalID: -1911765246
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_47
+      name: char_a_p1_0bas_humn_v00_59
       rect:
         serializedVersion: 2
-        x: 264
+        x: 192
         y: 0
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ea20f4021cd29c4d8168cdf0a3a6c09
-      internalID: -1241067999
+      spriteID: 1050c04538ec47040916891d9aa84e1c
+      internalID: 394739783
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_48
+      name: char_a_p1_0bas_humn_v00_60
       rect:
         serializedVersion: 2
-        x: 328
+        x: 256
         y: 0
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b65050653f708c44ea977c925dd79d99
-      internalID: 690709519
+      spriteID: acadb720d862eb64b8f03a912992f7e7
+      internalID: 965999226
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_49
+      name: char_a_p1_0bas_humn_v00_61
       rect:
         serializedVersion: 2
-        x: 392
+        x: 320
         y: 0
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0cc6c2b649c7cc047b8220056645cf70
-      internalID: -1667952719
+      spriteID: 6ecaa0b55296a9d429093645cde123fd
+      internalID: 1437664805
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_50
+      name: char_a_p1_0bas_humn_v00_62
       rect:
         serializedVersion: 2
-        x: 456
+        x: 384
         y: 0
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ca786f960779234b842bd3a827c90ff
-      internalID: -1541432222
+      spriteID: 4084d57f55655b440a83d9c10b0862bf
+      internalID: -1535583399
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Male Skin1_51
+      name: char_a_p1_0bas_humn_v00_63
       rect:
         serializedVersion: 2
-        x: 520
+        x: 448
         y: 0
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9471ba82f5cf3d74f94a9e5e513d86bf
-      internalID: -398296244
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Male Skin1_52
-      rect:
-        serializedVersion: 2
-        x: 584
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ec720f74e33c19141959bb7fe98aee70
-      internalID: -701379077
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Male Skin1_53
-      rect:
-        serializedVersion: 2
-        x: 648
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8d384f73e8b6dd540ab813c6a4412171
-      internalID: -1870444404
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Male Skin1_54
-      rect:
-        serializedVersion: 2
-        x: 712
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dde804bd8e017c84999a1954f4b8562f
-      internalID: -782283397
+      spriteID: d96a53924ffa9a948a3ad22868e2305f
+      internalID: -2094467573
       vertices: []
       indices: 
       edges: []
@@ -1275,61 +1464,70 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Male Skin1_0: -763104423
-      Male Skin1_1: 961301892
-      Male Skin1_10: -580202297
-      Male Skin1_11: 1724144197
-      Male Skin1_12: -1727761686
-      Male Skin1_13: 1827165674
-      Male Skin1_14: -563527249
-      Male Skin1_15: 130200294
-      Male Skin1_16: -462678362
-      Male Skin1_17: -1358076859
-      Male Skin1_18: -482573725
-      Male Skin1_19: 283997365
-      Male Skin1_2: 792005155
-      Male Skin1_20: -1705228225
-      Male Skin1_21: -705503304
-      Male Skin1_22: -406979868
-      Male Skin1_23: 1280014315
-      Male Skin1_24: -1805298320
-      Male Skin1_25: -683372746
-      Male Skin1_26: 1292714908
-      Male Skin1_27: 1076190459
-      Male Skin1_28: -444643343
-      Male Skin1_29: -1267330974
-      Male Skin1_3: -1126076067
-      Male Skin1_30: -558513315
-      Male Skin1_31: 1712106708
-      Male Skin1_32: 801067051
-      Male Skin1_33: 503591617
-      Male Skin1_34: -362120733
-      Male Skin1_35: -1844177321
-      Male Skin1_36: 658689420
-      Male Skin1_37: -1333060754
-      Male Skin1_38: 458150150
-      Male Skin1_39: 892668756
-      Male Skin1_4: -1777342013
-      Male Skin1_40: 398066302
-      Male Skin1_41: -1185182111
-      Male Skin1_42: -84373337
-      Male Skin1_43: 1122343108
-      Male Skin1_44: -478761376
-      Male Skin1_45: 438271483
-      Male Skin1_46: 361999152
-      Male Skin1_47: -1241067999
-      Male Skin1_48: 690709519
-      Male Skin1_49: -1667952719
-      Male Skin1_5: 1932454108
-      Male Skin1_50: -1541432222
-      Male Skin1_51: -398296244
-      Male Skin1_52: -701379077
-      Male Skin1_53: -1870444404
-      Male Skin1_54: -782283397
-      Male Skin1_6: 210925071
-      Male Skin1_7: -1065589374
-      Male Skin1_8: -1566642479
-      Male Skin1_9: 1178534678
+      char_a_p1_0bas_humn_v00_0: 1888210936
+      char_a_p1_0bas_humn_v00_1: -1914857118
+      char_a_p1_0bas_humn_v00_10: 1690399715
+      char_a_p1_0bas_humn_v00_11: -1698465654
+      char_a_p1_0bas_humn_v00_12: 1382194957
+      char_a_p1_0bas_humn_v00_13: 2015789101
+      char_a_p1_0bas_humn_v00_14: -463312787
+      char_a_p1_0bas_humn_v00_15: 1401173317
+      char_a_p1_0bas_humn_v00_16: 1256160576
+      char_a_p1_0bas_humn_v00_17: 109866305
+      char_a_p1_0bas_humn_v00_18: -1369219881
+      char_a_p1_0bas_humn_v00_19: -1662932110
+      char_a_p1_0bas_humn_v00_2: 1804830026
+      char_a_p1_0bas_humn_v00_20: 1119509826
+      char_a_p1_0bas_humn_v00_21: 197004437
+      char_a_p1_0bas_humn_v00_22: 1792107307
+      char_a_p1_0bas_humn_v00_23: -451138594
+      char_a_p1_0bas_humn_v00_24: 1741536953
+      char_a_p1_0bas_humn_v00_25: 1444682736
+      char_a_p1_0bas_humn_v00_26: 2061269251
+      char_a_p1_0bas_humn_v00_27: -2118746507
+      char_a_p1_0bas_humn_v00_28: 1901323295
+      char_a_p1_0bas_humn_v00_29: -117887224
+      char_a_p1_0bas_humn_v00_3: -1558335566
+      char_a_p1_0bas_humn_v00_30: -13405973
+      char_a_p1_0bas_humn_v00_31: 856551774
+      char_a_p1_0bas_humn_v00_32: -1518675990
+      char_a_p1_0bas_humn_v00_33: -134544872
+      char_a_p1_0bas_humn_v00_34: -405704900
+      char_a_p1_0bas_humn_v00_35: -424635262
+      char_a_p1_0bas_humn_v00_36: -1484470511
+      char_a_p1_0bas_humn_v00_37: 804789143
+      char_a_p1_0bas_humn_v00_38: 1418855554
+      char_a_p1_0bas_humn_v00_39: 2135304857
+      char_a_p1_0bas_humn_v00_4: -1890134557
+      char_a_p1_0bas_humn_v00_40: -1696091092
+      char_a_p1_0bas_humn_v00_41: 1714939169
+      char_a_p1_0bas_humn_v00_42: 2028655028
+      char_a_p1_0bas_humn_v00_43: 173403062
+      char_a_p1_0bas_humn_v00_44: -99653328
+      char_a_p1_0bas_humn_v00_45: 1084526407
+      char_a_p1_0bas_humn_v00_46: -2040129618
+      char_a_p1_0bas_humn_v00_47: -1696791275
+      char_a_p1_0bas_humn_v00_48: 2019582479
+      char_a_p1_0bas_humn_v00_49: 665696746
+      char_a_p1_0bas_humn_v00_5: 236896159
+      char_a_p1_0bas_humn_v00_50: -1832089865
+      char_a_p1_0bas_humn_v00_51: 1789804075
+      char_a_p1_0bas_humn_v00_52: 1172669633
+      char_a_p1_0bas_humn_v00_53: 924901897
+      char_a_p1_0bas_humn_v00_54: 352176896
+      char_a_p1_0bas_humn_v00_55: 2022541926
+      char_a_p1_0bas_humn_v00_56: -739751756
+      char_a_p1_0bas_humn_v00_57: -733452291
+      char_a_p1_0bas_humn_v00_58: -1911765246
+      char_a_p1_0bas_humn_v00_59: 394739783
+      char_a_p1_0bas_humn_v00_6: -1248370298
+      char_a_p1_0bas_humn_v00_60: 965999226
+      char_a_p1_0bas_humn_v00_61: 1437664805
+      char_a_p1_0bas_humn_v00_62: -1535583399
+      char_a_p1_0bas_humn_v00_63: -2094467573
+      char_a_p1_0bas_humn_v00_7: -1389111496
+      char_a_p1_0bas_humn_v00_8: -828584777
+      char_a_p1_0bas_humn_v00_9: 1020369993
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

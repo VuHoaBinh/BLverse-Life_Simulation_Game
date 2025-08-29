@@ -2404,6 +2404,7 @@ MonoBehaviour:
   astar: {fileID: 700400648}
   character: {fileID: 1014445028}
   path: []
+  currentState: 0
 --- !u!114 &700400648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2647,7 +2648,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -763104423, guid: dc57b496109d41842b8e18a2798b7b43, type: 3}
+  m_Sprite: {fileID: 1888210936, guid: 5b3365ba64e1cc440a78085111adfe7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2686,10 +2687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a2fd429c05ed164ea27aad433b1e3a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 164064337}
   player: {fileID: 1014445025}
   rb: {fileID: 1014445029}
-  speed: 5
+  speed: 12
   isMoving: 0
 --- !u!50 &1014445029
 Rigidbody2D:
