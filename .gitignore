@@ -107,6 +107,9 @@ Assets/Firebase/Plugins/x86_64/FirebaseCppApp-13_1_0.so
 
 
 ## Backend
-
 /Assets/BackEnd/.env
 /Assets/BackEnd/node_modules
+
+## LLMs
+/Assets/LLMs/.env
+/Assets/LLMs/venv   
