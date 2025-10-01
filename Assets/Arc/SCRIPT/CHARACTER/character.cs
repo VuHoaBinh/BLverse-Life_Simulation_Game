@@ -8,13 +8,16 @@ public class Character : MonoBehaviour
     public float speed = 12f;
     public bool isMoving = false;
 
+    public float health = 100;
+    public float food = 100;
+    public float drink = 100;
+
     private Coroutine moveCoroutine;
 
     public void StartMove(Vector3 targetPosition)
     {
         if (moveCoroutine != null)
             StopCoroutine(moveCoroutine); // Dừng nếu đang di chuyển
-
         moveCoroutine = StartCoroutine(MoveToPosition(targetPosition));
     }
 

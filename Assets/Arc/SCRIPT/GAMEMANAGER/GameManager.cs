@@ -1,15 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 // using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UIElements;
-
 public class GameManager : MonoBehaviour
 {
+    public Item[] itemsdemo;
     // Start is called before the first frame update
     public Map map;
+    public InventoryManager inventoryManager;
     public MapUI mapUI;
     public Astar astar;
     public Character character;
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GameState currentState = GameState.Waiting;
     public static int timeLine = -1;
     public Coroutine timeLineCouroutine;
+    public HealthBar healthBar;
     void Awake()
     {
         timeLine = 0;
@@ -43,6 +46,8 @@ public class GameManager : MonoBehaviour
         while (i < path.Count)
         {
             timeLine++;
+            character.health -= 2;
+            healthBar.setHP(character.health);
             character.StartMove(path[i++]);
             Debug.Log("Bộ đếm thời gian: " + timeLine);
             yield return new WaitForSecondsRealtime(0.5f);
