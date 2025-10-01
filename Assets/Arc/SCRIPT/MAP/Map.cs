@@ -118,7 +118,7 @@ public class Map : MonoBehaviour
         //Get mouse position and convert to cell position
         Vector3 mousePos = Input.mousePosition;
         Vector3 mouseWorldPos = mapUI.mainCamera.ScreenToWorldPoint(mousePos);
-        Vector3Int cellPos = gameObject.GetComponentInChildren<Tilemap>().WorldToCell(mouseWorldPos);   
+        Vector3Int cellPos = gameObject.GetComponentInChildren<Tilemap>().WorldToCell(mouseWorldPos);
         mouseWorldPos.z = 0;
 
 
