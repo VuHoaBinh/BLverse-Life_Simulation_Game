@@ -1,0 +1,17 @@
+behaviors:
+  GridBrain:
+    trainer_type: ppo
+    max_steps: 300000
+    time_horizon: 64
+    summary_freq: 10000
+    hyperparameters:
+      batch_size: 1024
+      buffer_size: 10240
+      learning_rate: 3.0e-4
+    network_settings:
+      num_layers: 2
+      hidden_units: 128
+    reward_signals:
+      extrinsic:
+        gamma: 0.99
+        strength: 1.0

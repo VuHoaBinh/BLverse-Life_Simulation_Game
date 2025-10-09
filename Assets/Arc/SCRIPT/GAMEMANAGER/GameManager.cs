@@ -21,14 +21,17 @@ public class GameManager : MonoBehaviour
     public static int timeLine = -1;
     public Coroutine timeLineCouroutine;
     public HealthBar healthBar;
+    public HealthBar foodBar;
+    public HealthBar drinkBar;
     void Awake()
     {
         timeLine = 0;
         map.getListVertices();
-        // Debug.Log(map.checkTileAtPosition(new Vector3Int(-4, -1, 0)));
         map.genMap();
         map.onAwake();
-        // map.printTilePositions();
+        // Vector3Int startCell = Vector3Int.CeilToInt(character.transform.position - new Vector3(0.5f, 0.5f, 0));
+        // Debug.Log(startCell + "!!!");
+        Debug.Log(map.astar.startNode.position + "!!!!");
     }
     public bool checkTimeline()
     {
@@ -46,8 +49,19 @@ public class GameManager : MonoBehaviour
         while (i < path.Count)
         {
             timeLine++;
-            character.health -= 2;
+            character.food -= 1f;
+            character.drink -= 1f;
+            if (character.food <= 50 || character.drink <= 50)
+            {
+                character.health -= 1f;
+            }
+            else if (character.food <= 30 || character.drink <= 30)
+            {
+                character.health -= 2f;
+            }
             healthBar.setHP(character.health);
+            foodBar.setHP(character.food);
+            drinkBar.setHP(character.drink);
             character.StartMove(path[i++]);
             Debug.Log("Bộ đếm thời gian: " + timeLine);
             yield return new WaitForSecondsRealtime(0.5f);
@@ -71,6 +85,7 @@ public class GameManager : MonoBehaviour
             currentState = GameState.Process;
             ProcessStep();
         }
+        // character.StartMove(new Vector3(-12.5f, 4.5f, 0));
     }
     public void ProcessStep()
     {

@@ -40,10 +40,10 @@ public class Map : MonoBehaviour
     //Other Methods
     public void onAwake()
     {
-        astar.startNode = new Node(player.transform.position - new Vector3(0.5f, 0.5f, 0)); // Example start node
+        astar.startNode = new Node(player.transform.position - new Vector3(0.5f, 0.5f, 0));
         astar.goalNode = new Node(recentCellPos);
         astar.calcHeuristic(astar.startNode, astar.goalNode);
-        astar.startNode.totalCost = astar.startNode.distance + astar.startNode.heuristic; // Initialize total cost
+        astar.startNode.totalCost = astar.startNode.distance + astar.startNode.heuristic;
     }
     public void getListVertices()
     {
@@ -54,11 +54,12 @@ public class Map : MonoBehaviour
             // Debug.Log("Vertex " + i + ": " + verticesList[i].transform.position);
         }
     }
-    public bool checkTileAtPosition(Vector3Int position)
+    public bool checkTileAtPosition(Vector3 position)
     {
         foreach (Tilemap tilemap in tilemapshasCollider)
         {
-            if (tilemap.HasTile(position))
+            Vector3Int positionVT3 = Vector3Int.RoundToInt(position);
+            if (tilemap.HasTile(positionVT3))
             {
                 return true;
             }
