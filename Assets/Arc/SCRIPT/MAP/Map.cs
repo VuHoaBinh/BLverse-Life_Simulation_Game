@@ -121,8 +121,6 @@ public class Map : MonoBehaviour
         Vector3 mouseWorldPos = mapUI.mainCamera.ScreenToWorldPoint(mousePos);
         Vector3Int cellPos = gameObject.GetComponentInChildren<Tilemap>().WorldToCell(mouseWorldPos);
         mouseWorldPos.z = 0;
-
-
         Vector2Int key = new Vector2Int(cellPos.x, cellPos.y);
         tilepositions.TryGetValue(key, out bool hasTile);
         if (!hasTile)

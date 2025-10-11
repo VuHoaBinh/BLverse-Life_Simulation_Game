@@ -29,9 +29,8 @@ public class GameManager : MonoBehaviour
         map.getListVertices();
         map.genMap();
         map.onAwake();
-        // Vector3Int startCell = Vector3Int.CeilToInt(character.transform.position - new Vector3(0.5f, 0.5f, 0));
-        // Debug.Log(startCell + "!!!");
         Debug.Log(map.astar.startNode.position + "!!!!");
+        map.printTilePositions();
     }
     public bool checkTimeline()
     {

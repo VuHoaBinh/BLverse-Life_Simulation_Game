@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+using UnityEngine.WSA;
 
 public class GridBrain : Agent
 {
@@ -21,8 +22,6 @@ public class GridBrain : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         // character.StartMove(new Vector3(-12.5f, -2.5f, 0));
-        Debug.Log("Chay day chua!!!");
-        // Vị trí agent (chuẩn hóa)
         Vector3 agentCell = character.transform.position;
         sensor.AddObservation(agentCell.x);
         sensor.AddObservation(agentCell.y);
@@ -35,27 +34,37 @@ public class GridBrain : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        Debug.Log("Chay day chua!!!!!!!");
+        Debug.Log("Chạy đây! OnActionReceived:\n");
         int action = actions.DiscreteActions[0];
 
         // Lấy vị trí hiện tại
         Vector3 currentCell = character.transform.position;
         Vector3 nextCell = currentCell;
-
+        Debug.Log(action + "," + nextCell);
         // 0 = lên, 1 = xuống, 2 = trái, 3 = phải
         switch (action)
         {
-            case 0: nextCell += Vector3.up; break;
-            case 1: nextCell += Vector3.down; break;
+            case 0: nextCell += Vector3.down; break;
+            case 1: nextCell += Vector3.up; break;
             case 2: nextCell += Vector3.left; break;
             case 3: nextCell += Vector3.right; break;
         }
+        Vector2Int key = new Vector2Int((int)(nextCell.x - 0.5f), (int)(nextCell.y - 0.5f));
+        Debug.Log(key + "Kiểm tra key");
+        gameManager.map.TilePositions.TryGetValue(key, out bool hasTile);
+        gameManager.map.TilePositions.TryGetValue(new Vector2Int(4, -1), out bool hasTile_t);
+        Debug.Log("Check kết quả!!" + hasTile_t);
         // Check hợp lệ (không đi ra ngoài)
-        Debug.Log("????");
-        if (gameManager.map.checkTileAtPosition(nextCell))
+        if (!hasTile && gameManager.map.TilePositions.ContainsKey(key))
         {
             Vector3 worldTarget = nextCell;
-            character.StartMove(worldTarget);
+            // character.StartMove(worldTarget);
+            // Debug.Log("Toa do: " + worldTarget);
+            character.transform.position = worldTarget;
+        }
+        else
+        {
+            Debug.Log("Fix Vật cản");
         }
         // Reward
         float distBefore = Vector3.Distance(currentCell, targetCell);
