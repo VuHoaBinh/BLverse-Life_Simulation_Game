@@ -5,6 +5,7 @@ using TMPro;
 
 // using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
@@ -23,14 +24,17 @@ public class GameManager : MonoBehaviour
     public HealthBar healthBar;
     public HealthBar foodBar;
     public HealthBar drinkBar;
+    public List<Transform> listLocations;
     void Awake()
     {
+
         timeLine = 0;
         map.getListVertices();
         map.genMap();
         map.onAwake();
         Debug.Log(map.astar.startNode.position + "!!!!");
-        map.printTilePositions();
+        // map.printTilePositions();
+        Debug.Log("Tọa độ của bếp: " + listLocations[0].position);
     }
     public bool checkTimeline()
     {
@@ -48,19 +52,19 @@ public class GameManager : MonoBehaviour
         while (i < path.Count)
         {
             timeLine++;
-            character.food -= 1f;
-            character.drink -= 1f;
-            if (character.food <= 50 || character.drink <= 50)
-            {
-                character.health -= 1f;
-            }
-            else if (character.food <= 30 || character.drink <= 30)
-            {
-                character.health -= 2f;
-            }
-            healthBar.setHP(character.health);
-            foodBar.setHP(character.food);
-            drinkBar.setHP(character.drink);
+            // character.food -= 1f;
+            // character.drink -= 1f;
+            // if (character.food <= 50 || character.drink <= 50)
+            // {
+            //     character.health -= 1f;
+            // }
+            // else if (character.food <= 30 || character.drink <= 30)
+            // {
+            //     character.health -= 2f;
+            // }
+            // healthBar.setHP(character.health);
+            // foodBar.setHP(character.food);
+            // drinkBar.setHP(character.drink);
             character.StartMove(path[i++]);
             Debug.Log("Bộ đếm thời gian: " + timeLine);
             yield return new WaitForSecondsRealtime(0.5f);
