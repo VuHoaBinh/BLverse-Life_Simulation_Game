@@ -7,10 +7,11 @@ public class Character : MonoBehaviour
     public Rigidbody2D rb;
     public float speed = 12f;
     public bool isMoving = false;
-
-    public float health = 100;
-    public float food = 100;
-    public float drink = 100;
+    public float food = 24;
+    public float drink = 24;
+    public float sleep = 24;
+    public float stress = 0;
+    public int money = 100;
 
     private Coroutine moveCoroutine;
 
