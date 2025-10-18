@@ -13,41 +13,81 @@ public class GridBrain : Agent
     public Character character;
     public Vector3 targetCell;   // Mục tiêu keos trên UI
 
-
+    private System.Random rand = new System.Random();
+    private float initSleep = 24;
+    private float initFood = 24;
+    private float initDrink = 24;
+    private float initStress = 0;
+    private int initMoney = 100;
 
     public override void OnEpisodeBegin()
     {
-        // Reset nhân vật về ô random
-        Vector3 startCell = new Vector3(12.5f, -2.5f, 0);
-        character.sleep = 24;
-        character.food = 24;
-        character.drink = 24;
-        character.stress = 0;
-        character.money = 100;
-
-        character.transform.position = startCell;
-        character.rb.velocity = Vector2.zero;
+        bool isInitial = true;
+        int maxAttempts = 100; // tránh loop vô hạn
+        int attempts = 0;
+        Vector3 startCell;
+        while (isInitial && attempts < maxAttempts)
+        {
+            attempts++;
+            // Reset nhân vật về ô random
+            int x = rand.Next(-8, 20);  // Random ngẫu nhiên theo kích thước map chiều ngang
+            int y = rand.Next(-14, -2); //Random ngẫu nhiên theo kích thước map chiều dọc
+            Vector2Int key = new Vector2Int(x, y);
+            bool inMap = gameManager.map.TilePositions.ContainsKey(key);
+            bool isValid;
+            gameManager.map.TilePositions.TryGetValue(key, out isValid);
+            if (inMap && !isValid)
+            {
+                startCell = new Vector3(x - 0.5f, y - 0.5f, 0); //trừ 0.5 để chuyển từ ô sang tọa độ world cho nhân vật
+                character.transform.position = startCell;
+                character.rb.velocity = Vector2.zero;
+                Debug.Log($"Đặt nhân vật tại ô sau khi đã random thành công: {key}");
+                isInitial = false;
+            }
+        }
+        if (isInitial)
+        {
+            startCell = new Vector3(-12.5f, -2.5f, 0);
+            character.transform.position = startCell;
+            Debug.Log($"Dùng tọa độ mặc định: {startCell}");
+        }
+        character.Sleep = initSleep;
+        character.Food = initFood;
+        character.Drink = initDrink;
+        character.Stress = initStress;
+        character.Money = initMoney;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         // character.StartMove(new Vector3(-12.5f, -2.5f, 0));
+
+        /*
+            - [0]: giá trị trục x của tọa độ npc
+            - [1]: giá trị trục y của tọa độ npc
+            - [2]: chỉ số ngủ của npc
+            - [3]: chỉ số đồ ăn của npc
+            - [4]: chỉ số thức uống của npc
+            - [5]: chỉ số căng thẳng của npc
+            - [6]: lượng tiền mà player có
+            - [7,8,9,10,11,12]: Tọa độ x,y,z của Bếp, và vector 
+            - [13,14,15,16,17,18]: Tọa độ x,y,z của Tủ Lạnh, và vector 
+            - [19,20,21,22,23,24]: Tọa độ x,y,z của Sofa, và vector 
+            - [25,26,27,28,29,30]: Tọa độ x,y,z của Cửa, và vector 
+            - [31,32,33,34,35,36]: Tọa độ x,y,z của Giường, và vector  
+            - [37,38,39,40,41]: Khoảng cách của npc đến bếp, tủ lạnh, sofa, cửa, giường
+            - [42]: thời gian trong ngày (1440=>6step mất 1 tiếng)    
+        */
         Vector3 agentCell = character.transform.position;
         sensor.AddObservation(agentCell.x);
         sensor.AddObservation(agentCell.y);
 
         //Các chỉ số
-        sensor.AddObservation(character.sleep);
-        sensor.AddObservation(character.food);
-        sensor.AddObservation(character.drink);
-        sensor.AddObservation(character.stress);
-        sensor.AddObservation(character.money);
-
-
-
-        // Vị trí mục tiêu (chuẩn hóa)
-        sensor.AddObservation(targetCell.x);
-        sensor.AddObservation(targetCell.y);
+        sensor.AddObservation(character.Sleep);
+        sensor.AddObservation(character.Food);
+        sensor.AddObservation(character.Drink);
+        sensor.AddObservation(character.Stress);
+        sensor.AddObservation(character.Money);
 
         //Vị trí của Bếp
         sensor.AddObservation(gameManager.listLocations[0].position); //Tuyệt đối
@@ -88,118 +128,45 @@ public class GridBrain : Agent
             case 3: nextCell += Vector3.right; break;
             case 4: nextCell += Vector3.zero; break;
         }
-        Vector2Int key = new Vector2Int((int)(nextCell.x - 0.5f), (int)(nextCell.y - 0.5f));
-        gameManager.map.TilePositions.TryGetValue(key, out bool hasTile);
-        gameManager.map.TilePositions.TryGetValue(new Vector2Int(4, -1), out bool hasTile_t);
-        // Check hợp lệ (không đi ra ngoài)
-        if (!hasTile && gameManager.map.TilePositions.ContainsKey(key))
-        {
-            Vector3 worldTarget = nextCell;
-            character.transform.position = worldTarget;
-            Vector3Int posPlayer = gameManager.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
-            Vector3Int posEat = gameManager.map.GetComponentInChildren<Tilemap>().WorldToCell(gameManager.listLocations[0].position);
-            Vector3Int posDrink = gameManager.map.GetComponentInChildren<Tilemap>().WorldToCell(gameManager.listLocations[1].position);
-            Vector3Int posStress = gameManager.map.GetComponentInChildren<Tilemap>().WorldToCell(gameManager.listLocations[2].position);
-            Vector3Int posWork = gameManager.map.GetComponentInChildren<Tilemap>().WorldToCell(gameManager.listLocations[3].position);
-            Vector3Int posSleep = gameManager.map.GetComponentInChildren<Tilemap>().WorldToCell(gameManager.listLocations[4].position);
-            character.food -= (1f / 18f);
-            Debug.Log("Check giá trị" + (1f / 18f));
-            character.drink -= (1f / 18f);
-            character.sleep -= (1f / 6f);
-            if (character.food < 12 || character.drink < 12)
-            {
-                character.stress += 1.5f;
-            }
-            if (posPlayer == posEat && character.money >= 15)
-            {
-                character.food += 8;
-                character.money -= 15;
-            }
-            if (posPlayer == posDrink && character.money >= 5)
-            {
-                character.drink += 4;
-                character.money -= 5;
-            }
-            if (posPlayer == posSleep)
-            {
-                character.sleep += 3;
-                character.stress -= 0.5f;
-            }
-            if (posPlayer == posWork)
-            {
-                character.money += 25;
-                character.food -= ((1f / 18f) / 2f);
-                character.drink -= ((1f / 18f) / 2f);
-                character.stress += 2;
-            }
-            if (posPlayer == posStress && character.stress <= 72)
-            {
-                character.stress -= 1f;
-            }
-        }
-        else
-        {
-            Debug.Log("Fix Vật cản");
-        }
-
-        // Rule (có thể sai số)
-        /*
-            mỗi lần ở ô ngủ +10 ngủ
-            cứ mỗi bước trừ độ đói 2 / khát 1 / ngủ 4
-            nếu không làm gì thì stress giảm 1/lần
-            mỗi lần ăn tiền trừ đi 15(+25 ăn), uống trừ 10(+25 khát)
-            mỗi lần đói/khát dưới 50 tăng stress 1 điểm mỗi bước
-            mỗi lần đi làm kiếm được 5đ/mỗi bước đứng ở ô đi làm
-                + 10 điểm stress mỗi bước
-                - 1 đói/khát mỗi bước
-            mỗi bước ở ô sofa -0.5đ stress
-
-            Chết thì quay lại giường
-                Nếu đói/khát < 0 thì chết
-                Nếu tress > 100 thì chết
-                Nếu ngủ < 0 thì chết
-        */
-        // Reward 
-        /*
-            Nếu mức độ đói dưới 50 thì phạt ??
-                Mỗi bước nếu độ đói trên 50 thưởng ??
-            Nếu mức độ khát dưới 50 thì phạt ??
-                Mỗi bước nếu độ khát trên 50 thưởng ??
-            Nếu stress trên 50 thì phạt ??
-            Nếu stress trên 80 thì phạt ??
-            Nếu 
-        */
         // Game over
-        if (character.food <= 0 || character.drink <= 0 || character.stress >= 72 || character.sleep < 0)
+        if (character.Food <= 0 || character.Drink <= 0 || character.Stress >= 72 || character.Sleep < 0)
         {
             AddReward(-1f);
             EndEpisode();
         }
         //Game still run
-        if (character.food >= 12 || character.drink >= 12)
-        {
-            AddReward(0.5f);
-        }
-        else
-        {
-            AddReward(-0.5f);
-        }
-        if (character.sleep >= 12)
-        {
-            AddReward(0.5f);
-        }
-        else
-        {
-            AddReward(-0.5f);
-        }
-        if (character.stress <= 36)
-        {
-            AddReward(0.5f);
-        }
-        else
-        {
-            AddReward(-0.5f);
-        }
+
+        // //Sửa lại điều kiện này
+        // if (action == 4 && (currentCell != posEat ||
+        // currentCell != posEat || currentCell != posDrink || currentCell != posSleep
+        // || currentCell != posStress || currentCell != posWork))
+        // {
+        //     AddReward(-0.75f);
+        // }
+        // if (character.food >= 12 || character.drink >= 12)
+        // {
+        //     AddReward(0.5f);
+        // }
+        // else
+        // {
+        //     AddReward(-0.5f);
+        // }
+        // if (character.sleep >= 12)
+        // {
+        //     AddReward(0.5f);
+        // }
+        // else
+        // {
+        //     AddReward(-0.5f);
+        // }
+        // if (character.stress <= 36)
+        // {
+        //     AddReward(0.5f);
+        // }
+        // else
+        // {
+        //     AddReward(-0.5f);
+        // }
 
     }
 
@@ -211,4 +178,12 @@ public class GridBrain : Agent
         else if (Input.GetKey(KeyCode.LeftArrow)) d[0] = 2;
         else if (Input.GetKey(KeyCode.RightArrow)) d[0] = 3;
     }
+    void Update()
+    {
+        // if (ReachedNextTile())
+        // {
+        //     RequestDecision(); // => sẽ dẫn tới OnActionReceived() được gọi sau 1 frame
+        // }
+    }
+
 }

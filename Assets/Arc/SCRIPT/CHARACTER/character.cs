@@ -7,11 +7,57 @@ public class Character : MonoBehaviour
     public Rigidbody2D rb;
     public float speed = 12f;
     public bool isMoving = false;
-    public float food = 24;
-    public float drink = 24;
-    public float sleep = 24;
-    public float stress = 0;
-    public int money = 100;
+    [SerializeField] private float food = 24;
+    [SerializeField] private float drink = 24;
+    [SerializeField] private float sleep = 24;
+    [SerializeField] private float stress = 0;
+    [SerializeField] private int money = 100;
+
+    //Get and set
+    public float Food
+    {
+        get { return food; }
+        set
+        {
+            food = Mathf.Clamp(value, 0f, 24f);
+        }
+    }
+
+    public float Drink
+    {
+        get { return drink; }
+        set
+        {
+            drink = Mathf.Clamp(value, 0f, 24f);
+        }
+    }
+
+    public float Sleep
+    {
+        get { return sleep; }
+        set
+        {
+            sleep = Mathf.Clamp(value, 0f, 24f);
+        }
+    }
+
+    public float Stress
+    {
+        get { return stress; }
+        set
+        {
+            stress = Mathf.Clamp(value, 0f, 72f);
+        }
+    }
+
+    public int Money
+    {
+        get { return money; }
+        set
+        {
+            money = Mathf.Max(value, 0);  // chỉ cần >= 0
+        }
+    }
 
     private Coroutine moveCoroutine;
 
