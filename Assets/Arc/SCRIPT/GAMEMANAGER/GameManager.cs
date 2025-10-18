@@ -52,25 +52,59 @@ public class GameManager : MonoBehaviour
         while (i < path.Count)
         {
             timeLine++;
-            // character.food -= 1f;
-            // character.drink -= 1f;
-            // if (character.food <= 50 || character.drink <= 50)
-            // {
-            //     character.health -= 1f;
-            // }
-            // else if (character.food <= 30 || character.drink <= 30)
-            // {
-            //     character.health -= 2f;
-            // }
-            // healthBar.setHP(character.health);
-            // foodBar.setHP(character.food);
-            // drinkBar.setHP(character.drink);
-            character.StartMove(path[i++]);
+            Vector3 nextCell = path[i++];
+            character.StartMove(nextCell);
+            calcReward();
+            // Check hợp lệ (không đi ra ngoài)
             Debug.Log("Bộ đếm thời gian: " + timeLine);
             yield return new WaitForSecondsRealtime(0.5f);
         }
         currentState = GameState.Waiting;
         character.isMoving = false;
+    }
+    private void calcReward()
+    {
+        Vector3Int posEat = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[0].position);
+        Vector3Int posDrink = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[1].position);
+        Vector3Int posStress = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[2].position);
+        Vector3Int posWork = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[3].position);
+        Vector3Int posSleep = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[4].position);
+        Vector3Int posPlayer = this.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
+        character.Food -= (1f / 18f);
+        character.Drink -= (1f / 18f);
+        character.Sleep -= (1f / 6f);
+        //Giới hạn giá trị tối đa
+        if (character.Food < 12 || character.Drink < 12)
+        {
+            character.Stress += 1.5f;
+        }
+        if (posPlayer == posEat && character.Money >= 15)
+        {
+            character.Food += 8;
+            character.Money -= 15;
+        }
+        if (posPlayer == posDrink && character.Money >= 5)
+        {
+            character.Drink += 4;
+            character.Money -= 5;
+        }
+        if (posPlayer == posSleep)
+        {
+            character.Sleep += 3;
+            character.Stress -= 0.5f;
+
+        }
+        if (posPlayer == posWork)
+        {
+            character.Money += 25;
+            character.Food -= ((1f / 18f) / 2f);
+            character.Drink -= ((1f / 18f) / 2f);
+            character.Stress += 2;
+        }
+        if (posPlayer == posStress)
+        {
+            character.Stress -= 1f;
+        }
     }
     void Update()
     {
@@ -86,16 +120,30 @@ public class GameManager : MonoBehaviour
         if (currentState == GameState.Waiting && Input.GetMouseButtonDown(0))
         {
             currentState = GameState.Process;
-            ProcessStep();
+            ProcessStep(false);
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            currentState = GameState.Process;
+            ProcessStep(true);
+
         }
         // character.StartMove(new Vector3(-12.5f, 4.5f, 0));
     }
-    public void ProcessStep()
+    public void ProcessStep(bool isIdle)
     {
         map.onClick();
         character.isMoving = true;
         path = astar.path;
-        timeLineCouroutine = StartCoroutine(movePerStep(path));
+        if (!isIdle)
+        {
+            timeLineCouroutine = StartCoroutine(movePerStep(path));
+        }
+        else
+        {
+            calcReward();
+            currentState = GameState.Waiting;
+        }
         // currentState = GameState.Waiting;
     }
 }
