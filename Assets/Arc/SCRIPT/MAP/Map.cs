@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework.Constraints;
+using Unity.Entities.UniversalDelegates;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -54,6 +55,12 @@ public class Map : MonoBehaviour
             // Debug.Log("Vertex " + i + ": " + verticesList[i].transform.position);
         }
     }
+    /// <summary>
+    /// - True = có vật thể
+    /// , False = không có
+    /// </summary>
+    /// <param name="checkTileAtPosition"></param>
+    /// <returns></returns>
     public bool checkTileAtPosition(Vector3 position)
     {
         foreach (Tilemap tilemap in tilemapshasCollider)
@@ -100,11 +107,19 @@ public class Map : MonoBehaviour
             //Put cellBefor equal cellPos
             cellBefore = cellPos;
             mapUI.deleteCircle("dot");
-            mapUI.drawCircle(changeCellPos(cellPos));
-
+            mapUI.drawBox(changeCellPos(cellPos));
             recentCellPos = cellPos;
             astar.goalNode.position = recentCellPos;
-            astar.FindPath(astar.startNode, astar.goalNode);
+            List<Vector3> path = astar.FindPath(astar.startNode, astar.goalNode);
+            if (path != null)
+            {
+                int index = 0;
+                while (index < path.Count)
+                {
+                    mapUI.drawCircle(changeCellPos(path[index++]));
+                }
+            }
+            path = null;
         }
         else if (cellPos != cellBefore && hasTile)
         {
@@ -115,7 +130,6 @@ public class Map : MonoBehaviour
     public void onClick()
     {
         mapUI.deleteCircle("path");
-
         //Get mouse position and convert to cell position
         Vector3 mousePos = Input.mousePosition;
         Vector3 mouseWorldPos = mapUI.mainCamera.ScreenToWorldPoint(mousePos);

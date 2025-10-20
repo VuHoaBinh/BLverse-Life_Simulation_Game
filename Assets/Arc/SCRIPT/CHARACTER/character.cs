@@ -71,16 +71,16 @@ public class Character : MonoBehaviour
     private IEnumerator MoveToPosition(Vector3 targetPosition)
     {
         isMoving = true;
-
+        /*19/10/2025: Chỗ này nếu cần thì nên fix đồ họa*/
         while (Vector3.Distance(player.transform.position, targetPosition) > 0.1f)
         {
             Vector3 direction = (targetPosition - player.transform.position).normalized;
             Vector3 moveStep = direction * speed * Time.deltaTime;
+            this.transform.position = targetPosition;
             rb.MovePosition(player.transform.position + moveStep);
             yield return null; // Chờ đến frame tiếp theo
         }
-
-        rb.MovePosition(targetPosition);
+        // this.transform.position = targetPosition;
         moveCoroutine = null;
     }
 }

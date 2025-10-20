@@ -21,9 +21,4 @@ public class TrajectoryStep
         this.episodeID = episodeID;
         this.stepIndex = stepIndex;
     }
-    // public float calcReward(float[] state, float[] action)
-    // {
-    //     if()
-    //     return 0;
-    // }
 }
