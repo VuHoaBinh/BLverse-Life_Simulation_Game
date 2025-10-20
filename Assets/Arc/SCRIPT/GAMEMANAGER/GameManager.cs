@@ -25,14 +25,13 @@ public class GameManager : MonoBehaviour
     public HealthBar foodBar;
     public HealthBar drinkBar;
     public List<Transform> listLocations;
-
-
     public Vector3Int posEat;
     public Vector3Int posDrink;
     public Vector3Int posStress;
     public Vector3Int posWork;
     public Vector3Int posSleep;
     public Vector3Int posPlayer;
+    public TrajectoryCollector trajectoryCollector;
     public int TimeLine
     {
         get { return timeLine; }
@@ -66,10 +65,12 @@ public class GameManager : MonoBehaviour
         while (i < path.Count)
         {
             timeLine++;
+            Vector3 beforeCharacterPosition = character.transform.position;
             character.StartMove(map.changeCellPos(path[i++]));
             calcStat();
-            // Check hợp lệ (không đi ra ngoài)
-            Debug.Log("Bộ đếm thời gian: " + timeLine);
+            TrajectoryStep trajectoryStep = new TrajectoryStep(map.changeCellPos(path[i - 1]) - beforeCharacterPosition, character, this);
+
+            trajectoryCollector.addStep(trajectoryStep);
             yield return new WaitForSecondsRealtime(0.5f);
         }
         currentState = GameState.Waiting;
@@ -132,6 +133,11 @@ public class GameManager : MonoBehaviour
             ProcessStep(true);
 
         }
+        //Để debug Trajectory
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log(trajectoryCollector.ToString());
+        }
         // character.StartMove(new Vector3(-12.5f, 4.5f, 0));
     }
     public void ProcessStep(bool isIdle)
@@ -146,6 +152,9 @@ public class GameManager : MonoBehaviour
         else
         {
             calcStat();
+            TrajectoryStep trajectoryStep = new TrajectoryStep(Vector3.zero, character, this);
+            trajectoryStep.stepIndex += 1;
+            trajectoryCollector.addStep(trajectoryStep);
             character.isMoving = false;
             currentState = GameState.Waiting;
         }

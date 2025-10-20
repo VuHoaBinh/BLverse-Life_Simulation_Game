@@ -8279,6 +8279,7 @@ GameObject:
   - component: {fileID: 700400646}
   - component: {fileID: 700400647}
   - component: {fileID: 700400648}
+  - component: {fileID: 700400649}
   m_Layer: 0
   m_Name: Game_Controller
   m_TagString: Untagged
@@ -8338,6 +8339,7 @@ MonoBehaviour:
   posWork: {x: 0, y: 0, z: 0}
   posSleep: {x: 0, y: 0, z: 0}
   posPlayer: {x: 0, y: 0, z: 0}
+  trajectoryCollector: {fileID: 700400649}
 --- !u!114 &700400648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8352,6 +8354,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 164064337}
   path: []
+--- !u!114 &700400649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700400645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856e3d11d8aa65c4da80fd0a09a12601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trajectorySteps: []
+  isRecording: 0
+  currentEpisode: 0
+  stepCount: 0
 --- !u!1 &714765116
 GameObject:
   m_ObjectHideFlags: 0
@@ -8981,7 +8999,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1014445025}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 789443840475f6b4bbe38c3f7f011fa8, type: 3}
   m_Name: 

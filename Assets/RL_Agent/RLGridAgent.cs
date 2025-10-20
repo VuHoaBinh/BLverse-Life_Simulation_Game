@@ -121,11 +121,15 @@ public class GridBrain : Agent
         // 0 = lên, 1 = xuống, 2 = trái, 3 = phải, 4 đứng im
         switch (action)
         {
-            case 0: nextCell += Vector3.up; break;
-            case 1: nextCell += Vector3.down; break;
-            case 2: nextCell += Vector3.left; break;
-            case 3: nextCell += Vector3.right; break;
-            case 4: nextCell += Vector3.zero; break;
+            case 0: nextCell += Vector3.up; break;                  // Lên
+            case 1: nextCell += Vector3.down; break;                // Xuống
+            case 2: nextCell += Vector3.left; break;                // Trái
+            case 3: nextCell += Vector3.right; break;               // Phải
+            case 4: nextCell += (Vector3.up + Vector3.left).normalized; break;    // Lên - Trái
+            case 5: nextCell += (Vector3.up + Vector3.right).normalized; break;   // Lên - Phải
+            case 6: nextCell += (Vector3.down + Vector3.left).normalized; break;  // Xuống - Trái
+            case 7: nextCell += (Vector3.down + Vector3.right).normalized; break; // Xuống - Phải
+            case 8: nextCell += Vector3.zero; break;                // Đứng yên
         }
         Vector2Int key = new Vector2Int((int)(nextCell.x - 0.5f), (int)(nextCell.y - 0.5f));
         gameManager.map.TilePositions.TryGetValue(key, out bool isValidToMoving);
@@ -139,15 +143,6 @@ public class GridBrain : Agent
         }
 
     }
-    // public IEnumerator moveStep(Vector3 nextCell)
-    // {
-    //     gameManager.TimeLine++;
-    //     character.StartMove(nextCell);
-    //     gameManager.calcStat();
-    //     // Check hợp lệ (không đi ra ngoài)
-    //     Debug.Log("Bộ đếm thời gian: " + gameManager.TimeLine);
-    //     yield return new WaitForSecondsRealtime(0.5f);
-    // }
     private void calcReward(int action, Vector3 currentCell, Vector3 posEat,
     Vector3 posDrink, Vector3 posSleep, Vector3 posStress, Vector3 posWork)
     {
@@ -156,10 +151,9 @@ public class GridBrain : Agent
             AddReward(-1f);
             EndEpisode();
         }
-        //Game still run
 
         //Sửa lại điều kiện này
-        if (action == 4 && (currentCell != posEat ||
+        if (action == 8 && (currentCell != posEat ||
         currentCell != posEat || currentCell != posDrink || currentCell != posSleep
         || currentCell != posStress || currentCell != posWork))
         {
