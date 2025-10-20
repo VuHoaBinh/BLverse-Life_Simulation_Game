@@ -537,7 +537,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
-  dot: {fileID: 4565474842307852872, guid: dad4f9f677ae9234a9e7e5575cbaf96b, type: 3}
+  box: {fileID: 4565474842307852872, guid: dad4f9f677ae9234a9e7e5575cbaf96b, type: 3}
+  dot: {fileID: 1486900381094260946, guid: 5afeb6484bb44634d8a74018952d4606, type: 3}
 --- !u!1001 &180852588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8278,6 +8279,7 @@ GameObject:
   - component: {fileID: 700400646}
   - component: {fileID: 700400647}
   - component: {fileID: 700400648}
+  - component: {fileID: 700400649}
   m_Layer: 0
   m_Name: Game_Controller
   m_TagString: Untagged
@@ -8331,6 +8333,13 @@ MonoBehaviour:
   - {fileID: 1449255349}
   - {fileID: 342459617}
   - {fileID: 1676663162}
+  posEat: {x: 0, y: 0, z: 0}
+  posDrink: {x: 0, y: 0, z: 0}
+  posStress: {x: 0, y: 0, z: 0}
+  posWork: {x: 0, y: 0, z: 0}
+  posSleep: {x: 0, y: 0, z: 0}
+  posPlayer: {x: 0, y: 0, z: 0}
+  trajectoryCollector: {fileID: 700400649}
 --- !u!114 &700400648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8344,8 +8353,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 164064337}
-  dot: {fileID: 1486900381094260946, guid: 5afeb6484bb44634d8a74018952d4606, type: 3}
   path: []
+--- !u!114 &700400649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700400645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856e3d11d8aa65c4da80fd0a09a12601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trajectorySteps: []
+  isRecording: 0
+  currentEpisode: 0
+  stepCount: 0
 --- !u!1 &714765116
 GameObject:
   m_ObjectHideFlags: 0
@@ -8844,8 +8868,8 @@ GameObject:
   - component: {fileID: 1014445029}
   - component: {fileID: 1014445031}
   - component: {fileID: 1014445030}
-  - component: {fileID: 1014445032}
   - component: {fileID: 1014445033}
+  - component: {fileID: 1014445034}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -8987,6 +9011,11 @@ MonoBehaviour:
   gameManager: {fileID: 700400647}
   character: {fileID: 1014445028}
   targetCell: {x: -2.5, y: -8.5, z: 0}
+  initSleep: 24
+  initFood: 24
+  initDrink: 24
+  initStress: 0
+  initMoney: 100
 --- !u!114 &1014445031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9017,20 +9046,6 @@ MonoBehaviour:
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &1014445032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1014445025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 10
-  TakeActionsBetweenDecisions: 1
 --- !u!114 &1014445033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9047,6 +9062,20 @@ MonoBehaviour:
   NumStepsToRecord: 1000
   DemonstrationName: FirstTry
   DemonstrationDirectory: Assets/Arc/SCRIPT/Trajectories
+--- !u!114 &1014445034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014445025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  TakeActionsBetweenDecisions: 1
 --- !u!1 &1025059672
 GameObject:
   m_ObjectHideFlags: 0

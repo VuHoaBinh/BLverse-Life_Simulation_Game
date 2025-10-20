@@ -19,15 +19,37 @@ public class GameManager : MonoBehaviour
     public List<Vector3> path;
     public enum GameState { Waiting, Process, End };
     public GameState currentState = GameState.Waiting;
-    public static int timeLine = -1;
+    private static int timeLine = -1;
     public Coroutine timeLineCouroutine;
     public HealthBar healthBar;
     public HealthBar foodBar;
     public HealthBar drinkBar;
     public List<Transform> listLocations;
+    public Vector3Int posEat;
+    public Vector3Int posDrink;
+    public Vector3Int posStress;
+    public Vector3Int posWork;
+    public Vector3Int posSleep;
+    public Vector3Int posPlayer;
+    public TrajectoryCollector trajectoryCollector;
+    public int TimeLine
+    {
+        get { return timeLine; }
+
+        set
+        {
+            timeLine = Mathf.Clamp(value, 0, 1440);
+        }
+    }
+
     void Awake()
     {
-
+        posEat = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[0].position);
+        posDrink = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[1].position);
+        posStress = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[2].position);
+        posWork = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[3].position);
+        posSleep = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[4].position);
+        posPlayer = this.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
         timeLine = 0;
         map.getListVertices();
         map.genMap();
@@ -36,40 +58,26 @@ public class GameManager : MonoBehaviour
         // map.printTilePositions();
         Debug.Log("Tọa độ của bếp: " + listLocations[0].position);
     }
-    public bool checkTimeline()
-    {
-        if (timeLine >= 144)
-        {
-            timeLine = 0;
-            return false;
-        }
-        return true;
-    }
     public IEnumerator movePerStep(List<Vector3> path)
     {
         int i = 0;
-        Debug.Log(path.Count);
+        // Debug.Log(path.Count);
         while (i < path.Count)
         {
             timeLine++;
-            Vector3 nextCell = path[i++];
-            character.StartMove(nextCell);
-            calcReward();
-            // Check hợp lệ (không đi ra ngoài)
-            Debug.Log("Bộ đếm thời gian: " + timeLine);
+            Vector3 beforeCharacterPosition = character.transform.position;
+            character.StartMove(map.changeCellPos(path[i++]));
+            calcStat();
+            TrajectoryStep trajectoryStep = new TrajectoryStep(map.changeCellPos(path[i - 1]) - beforeCharacterPosition, character, this);
+
+            trajectoryCollector.addStep(trajectoryStep);
             yield return new WaitForSecondsRealtime(0.5f);
         }
         currentState = GameState.Waiting;
         character.isMoving = false;
     }
-    private void calcReward()
+    public void calcStat()
     {
-        Vector3Int posEat = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[0].position);
-        Vector3Int posDrink = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[1].position);
-        Vector3Int posStress = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[2].position);
-        Vector3Int posWork = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[3].position);
-        Vector3Int posSleep = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[4].position);
-        Vector3Int posPlayer = this.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
         character.Food -= (1f / 18f);
         character.Drink -= (1f / 18f);
         character.Sleep -= (1f / 6f);
@@ -113,10 +121,6 @@ public class GameManager : MonoBehaviour
         {
             map.onUpdate();
         }
-        if (!checkTimeline())
-        {
-            Debug.Log("Đã chỉnh sửa timeline");
-        }
         if (currentState == GameState.Waiting && Input.GetMouseButtonDown(0))
         {
             currentState = GameState.Process;
@@ -124,9 +128,15 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            timeLine++;
             currentState = GameState.Process;
             ProcessStep(true);
 
+        }
+        //Để debug Trajectory
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log(trajectoryCollector.ToString());
         }
         // character.StartMove(new Vector3(-12.5f, 4.5f, 0));
     }
@@ -141,9 +151,12 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            calcReward();
+            calcStat();
+            TrajectoryStep trajectoryStep = new TrajectoryStep(Vector3.zero, character, this);
+            trajectoryStep.stepIndex += 1;
+            trajectoryCollector.addStep(trajectoryStep);
+            character.isMoving = false;
             currentState = GameState.Waiting;
         }
-        // currentState = GameState.Waiting;
     }
 }

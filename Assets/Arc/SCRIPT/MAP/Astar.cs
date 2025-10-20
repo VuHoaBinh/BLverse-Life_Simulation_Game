@@ -10,10 +10,9 @@ public class Astar : MonoBehaviour
     public Map map;
     public Node startNode;
     public Node goalNode;
-    public GameObject dot; // Prefab for visualizing the path
     public List<Vector3> path;
     // Update is called once per frame
-    public void FindPath(Node start, Node goal)
+    public List<Vector3> FindPath(Node start, Node goal)
     {
         path = new List<Vector3>(); //Khởi tạo danh sách đường đi
         Node curentNode = start;
@@ -36,14 +35,12 @@ public class Astar : MonoBehaviour
                 Node node = curentNode;
                 while (node != null)
                 {
-                    path.Add(map.changeCellPos(node.position));
-                    Instantiate(dot, map.changeCellPos(node.position), Quaternion.identity);
+                    path.Add(node.position);
                     node = node.parent;
                 }
                 path.RemoveAt(path.Count - 1);
                 path.Reverse(); // Đảo ngược đường đi để từ start đến goal
-                // Debug.Log("Path found with " + path.Count + " nodes.");
-                return;
+                return path;
             }
 
             openSet.Remove(curentNode); // Xóa Node hiện tại khỏi tập hợp mở
@@ -72,6 +69,7 @@ public class Astar : MonoBehaviour
 
         // In ra đường đi cuối cuùng
         Debug.Log("No path found to goal node.");
+        return null;
     }
     public Node GetLowestCostNode(HashSet<Node> openSet)
     {
