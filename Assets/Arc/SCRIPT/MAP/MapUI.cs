@@ -9,10 +9,16 @@ public class MapUI : MonoBehaviour
 {
     // Update is called once per frame
     public Camera mainCamera;
+    public GameObject box;
+
     public GameObject dot;
     public void drawCircle(Vector3 cellPos)
     {
-        Instantiate(dot,  cellPos, Quaternion.identity);
+        Instantiate(dot, cellPos, Quaternion.identity);
+    }
+    public void drawBox(Vector3 cellPos)
+    {
+        Instantiate(box, cellPos, Quaternion.identity);
     }
 
     public void deleteCircle(String name)
