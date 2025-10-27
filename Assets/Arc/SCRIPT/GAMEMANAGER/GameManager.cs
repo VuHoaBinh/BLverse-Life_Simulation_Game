@@ -49,7 +49,6 @@ public class GameManager : MonoBehaviour
         posStress = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[2].position);
         posWork = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[3].position);
         posSleep = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[4].position);
-        posPlayer = this.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
         timeLine = 0;
         map.getListVertices();
         map.genMap();
@@ -78,10 +77,15 @@ public class GameManager : MonoBehaviour
     }
     public void calcStat()
     {
+        posPlayer = this.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
+        Debug.Log("Sao không chạy vào đây!!!!");
         character.Food -= (1f / 18f);
         character.Drink -= (1f / 18f);
         character.Sleep -= (1f / 6f);
         //Giới hạn giá trị tối đa
+        Debug.Log("Check!!" + posEat);
+        Debug.Log("Check!!" + posPlayer);
+
         if (character.Food < 12 || character.Drink < 12)
         {
             character.Stress += 1.5f;
@@ -131,7 +135,6 @@ public class GameManager : MonoBehaviour
             timeLine++;
             currentState = GameState.Process;
             ProcessStep(true);
-
         }
         //Để debug Trajectory
         if (Input.GetKeyDown(KeyCode.T))
