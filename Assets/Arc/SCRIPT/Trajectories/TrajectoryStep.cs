@@ -32,7 +32,7 @@ public class TrajectoryStep
         if (direction == (Vector3.down + Vector3.left).normalized) return 6;  // Xuống - Trái
         if (direction == (Vector3.down + Vector3.right).normalized) return 7; // Xuống - Phải
         if (direction == Vector3.zero) return 8;                // Đứng yên
-        return 9;
+        return -1;
     }
     private void calcReward_forTrajectoriesPerStep(Character character, GameManager gameManager, int action)
     {
@@ -42,16 +42,27 @@ public class TrajectoryStep
             this.isDone = true;
         }
         //Game still run
-        //Sửa lại điều kiện này
-        if (action == 4 && (gameManager.posPlayer != gameManager.posEat
+
+        //Hạn chế đứng yên không cần thiết
+        if (action == 8 && (gameManager.posPlayer != gameManager.posEat
         || gameManager.posPlayer != gameManager.posEat
         || gameManager.posPlayer != gameManager.posDrink
         || gameManager.posPlayer != gameManager.posSleep
         || gameManager.posPlayer != gameManager.posStress
         || gameManager.posPlayer != gameManager.posWork))
         {
-            this.reward += -0.02f;
+            this.reward += -0.05f;
         }
+        //Khuyến khích tìm được chỗ để thực hiện hành vi
+        if ((gameManager.posPlayer == gameManager.posEat
+        || gameManager.posPlayer == gameManager.posDrink
+        || gameManager.posPlayer == gameManager.posSleep
+        || gameManager.posPlayer == gameManager.posStress
+        || gameManager.posPlayer == gameManager.posWork) && action == 8)
+        {
+            this.reward += 0.06f;
+        }
+        //Khuyến khích nên duy trì chỉ số ăn , uống ở mức hợp lý
         if (character.Food >= 12 || character.Drink >= 12)
         {
             this.reward += 0.05f;
@@ -60,6 +71,41 @@ public class TrajectoryStep
         {
             this.reward += -0.05f;
         }
+
+        /*
+            - Không nên ngủ vào buổi sáng
+            - Nên đi làm vào lúc 8h30 sáng và về lúc 17h chiều ()
+            - Nên ăn đủ 3 bữa 1 ngày
+        */
+
+        /* 
+            - các mốc giờ
+                + 0 - 360 : 0h - 6h sáng
+                + 360 - 720: 6h - 12h trưa
+                + 720 - 1080: 12h trưa đến 6h chiều
+                + 1080 - 1440: 6h chiều đến 0h khuya
+
+        */
+        // Nên ngủ lúc 9h - 11h30
+        if (gameManager.posPlayer == gameManager.posSleep && gameManager.TimeLine >= 1260 && gameManager.TimeLine <= 1410)
+        {
+            this.reward += 0.05f;
+        }
+        else
+        {
+            this.reward -= 0.1f;
+        }
+        //Nên đi làm lúc 8h30 sáng
+        if (gameManager.posPlayer == gameManager.posWork && gameManager.TimeLine == 550)
+        {
+            this.reward += 0.05f;
+        }
+        else
+        {
+            this.reward -= 0.1f;
+        }
+
+        // Khuyến khích ngủ đủ giấc
         if (character.Sleep >= 12)
         {
             this.reward += 0.05f;
@@ -68,6 +114,7 @@ public class TrajectoryStep
         {
             this.reward += -0.05f;
         }
+        //Khuyến khích không nên để stress quá cao
         if (character.Stress <= 36)
         {
             this.reward += 0.05f;
