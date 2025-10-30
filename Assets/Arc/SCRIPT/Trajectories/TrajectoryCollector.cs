@@ -36,19 +36,28 @@ public class TrajectoryCollector : MonoBehaviour
         trajectoryStep.episodeIndex = currentEpisode;
         trajectoryStep.stepIndex = stepCount++;
     }
+
     public override string ToString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"=== Trajectory Collector ===");
-        sb.AppendLine($"Số episode hiện tại: {currentEpisode}");
-        sb.AppendLine($"Tổng số step: {trajectorySteps.Count}");
-        sb.AppendLine("----------------------------");
+        sb.Append("episode,step");
+        for (int i = 0; i <= 42; i++) sb.Append($", state_{i}");
+        sb.AppendLine(",action,reward,done");
 
         foreach (var step in trajectorySteps)
         {
-            sb.AppendLine($"Episode {step.episodeIndex}, Step {step.stepIndex} | Action: {step.action} | Reward: {step.reward} | Done: {step.isDone}");
+            sb.Append($"{step.episodeIndex}, {step.stepIndex}");
+            if (step.states != null && step.states.Length >= 43)
+            {
+                for (int i = 0; i <= 42; i++) sb.Append($",{step.states[i]}");
+            }
+            else
+            {
+                for (int i = 0; i <= 42; i++) sb.Append(",0.0");
+            }
+            sb.Append($",{step.action},{step.reward},{step.isDone}");
+            sb.AppendLine();
         }
-
         return sb.ToString();
     }
 }
