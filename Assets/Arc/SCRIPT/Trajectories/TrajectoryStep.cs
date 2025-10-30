@@ -17,7 +17,7 @@ public class TrajectoryStep
     public TrajectoryStep(Vector3 direction, Character character, GameManager gameManager)
     {
         this.state = new float[43];
-        CollectSate(character, gameManager);
+        CollectState(character, gameManager);
         this.action = changeDirectionToNumber(direction);
         calcReward_forTrajectoriesPerStep(character, gameManager, action);
     }
@@ -27,10 +27,10 @@ public class TrajectoryStep
         if (direction == Vector3.down) return 1;               // Xuống
         if (direction == Vector3.left) return 2;                // Trái
         if (direction == Vector3.right) return 3;               // Phải
-        if (direction == (Vector3.up + Vector3.left).normalized) return 4;    // Lên - Trái
-        if (direction == (Vector3.up + Vector3.right).normalized) return 5;   // Lên - Phải
-        if (direction == (Vector3.down + Vector3.left).normalized) return 6;  // Xuống - Trái
-        if (direction == (Vector3.down + Vector3.right).normalized) return 7; // Xuống - Phải
+        if (direction == (Vector3.up + Vector3.left)) return 4;    // Lên - Trái
+        if (direction == (Vector3.up + Vector3.right)) return 5;   // Lên - Phải
+        if (direction == (Vector3.down + Vector3.left)) return 6;  // Xuống - Trái
+        if (direction == (Vector3.down + Vector3.right)) return 7; // Xuống - Phải
         if (direction == Vector3.zero) return 8;                // Đứng yên
         return -1;
     }
@@ -124,7 +124,7 @@ public class TrajectoryStep
             this.reward += -0.05f;
         }
     }
-    public void CollectSate(Character character, GameManager gameManager)
+    public void CollectState(Character character, GameManager gameManager)
     {
         // character.StartMove(new Vector3(-12.5f, -2.5f, 0));
 
@@ -142,7 +142,7 @@ public class TrajectoryStep
             - [25,26,27,28,29,30]: Tọa độ x,y,z của Cửa, và vector 
             - [31,32,33,34,35,36]: Tọa độ x,y,z của Giường, và vector  
             - [37,38,39,40,41]: Khoảng cách của npc đến bếp, tủ lạnh, sofa, cửa, giường
-            - [42]: thời gian trong ngày (1440=>60step mất 1 tiếng)    
+            - [42]: thời gian trong ngày (1440 => 60step mất 1 tiếng)    
         */
         Vector3 agentCell = character.transform.position;
 
