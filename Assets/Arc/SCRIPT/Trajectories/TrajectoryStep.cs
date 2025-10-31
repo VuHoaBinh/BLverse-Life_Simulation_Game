@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 [Serializable]
 public class TrajectoryStep
 {
-    public int episodeIndex;
+    public int episodeIndex; //Nó nằm ở episode nào
     public int stepIndex; //Để nói step này là step số mấy trong espisode
     public float[] state;
     public int action; //Hành động đã được chuyển thành dạng số
@@ -27,10 +27,10 @@ public class TrajectoryStep
         if (direction == Vector3.down) return 1;               // Xuống
         if (direction == Vector3.left) return 2;                // Trái
         if (direction == Vector3.right) return 3;               // Phải
-        if (direction == (Vector3.up + Vector3.left).normalized) return 4;    // Lên - Trái
-        if (direction == (Vector3.up + Vector3.right).normalized) return 5;   // Lên - Phải
-        if (direction == (Vector3.down + Vector3.left).normalized) return 6;  // Xuống - Trái
-        if (direction == (Vector3.down + Vector3.right).normalized) return 7; // Xuống - Phải
+        if (direction == (Vector3.up + Vector3.left)) return 4;    // Lên - Trái
+        if (direction == (Vector3.up + Vector3.right)) return 5;   // Lên - Phải
+        if (direction == (Vector3.down + Vector3.left)) return 6;  // Xuống - Trái
+        if (direction == (Vector3.down + Vector3.right)) return 7; // Xuống - Phải
         if (direction == Vector3.zero) return 8;                // Đứng yên
         return -1;
     }
