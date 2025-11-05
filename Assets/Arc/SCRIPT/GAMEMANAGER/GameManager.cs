@@ -172,10 +172,10 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        map.onAwake();
+        // map.onAwake();
         if (!character.isMoving)
         {
-            map.onUpdate();
+            // map.onUpdate();
         }
         if (currentState == GameState.Waiting && Input.GetMouseButtonDown(0))
         {

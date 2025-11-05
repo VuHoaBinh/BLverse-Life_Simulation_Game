@@ -2,31 +2,58 @@
     "GridBrain": {
         "checkpoints": [
             {
-                "steps": 100001,
-                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-100001.onnx",
-                "reward": -3.481648301262412,
-                "creation_time": 1761864508.8166103,
+                "steps": 217500,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-217500.onnx",
+                "reward": -3.203457898756419,
+                "creation_time": 1762179681.4212015,
                 "auxillary_file_paths": [
-                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-100001.pt"
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-217500.pt"
                 ]
             },
             {
-                "steps": 200001,
-                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-200001.onnx",
-                "reward": -3.1704094365187765,
-                "creation_time": 1761924451.588673,
+                "steps": 245080,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-245080.onnx",
+                "reward": -98.08286289484879,
+                "creation_time": 1762180165.8007233,
                 "auxillary_file_paths": [
-                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-200001.pt"
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-245080.pt"
+                ]
+            },
+            {
+                "steps": 255572,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-255572.onnx",
+                "reward": -590.2019220987955,
+                "creation_time": 1762181134.143583,
+                "auxillary_file_paths": [
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-255572.pt"
+                ]
+            },
+            {
+                "steps": 256128,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-256128.onnx",
+                "reward": -383.3328773498535,
+                "creation_time": 1762181205.2694488,
+                "auxillary_file_paths": [
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-256128.pt"
+                ]
+            },
+            {
+                "steps": 479955,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-479955.onnx",
+                "reward": -22.92965695696935,
+                "creation_time": 1762186805.8962822,
+                "auxillary_file_paths": [
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-479955.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 200001,
+            "steps": 479955,
             "file_path": "results\\RL38(again_nospace)\\GridBrain.onnx",
-            "reward": -3.1704094365187765,
-            "creation_time": 1761924451.588673,
+            "reward": -22.92965695696935,
+            "creation_time": 1762186805.8962822,
             "auxillary_file_paths": [
-                "results\\RL38(again_nospace)\\GridBrain\\GridBrain-200001.pt"
+                "results\\RL38(again_nospace)\\GridBrain\\GridBrain-479955.pt"
             ]
         }
     },

@@ -150,6 +150,7 @@ public class GridBrain : Agent
         bool isInMap = gameManager.map.TilePositions.ContainsKey(key);
         if (isInMap && !isValidToMoving)
         {
+            AddReward(0.2f);
             character.transform.position = nextCell;
             gameManager.calcStat_noSpace();
             //     gameManager.posEat, gameManager.posDrink,
@@ -159,8 +160,10 @@ public class GridBrain : Agent
         }
         else
         {
-            AddReward(-5f);
-            EndEpisode();
+            gameManager.calcStat_noSpace();
+            calcReward_tuDuyTriChiSoSong();
+            Debug.Log("Nhân vật đã va vào tường");
+            AddReward(-0.2f);
         }
     }
     private void calcReward_tuDuyTriChiSoSong()
@@ -178,17 +181,17 @@ public class GridBrain : Agent
         AddReward(-0.01f * (hunger + thirst + tired + stress));
 
         //Phạt mạnh nếu chạm ngưỡng nguy hiểm
-        if (character.Food <= 2f) AddReward(-20f);
-        if (character.Drink <= 2f) AddReward(-20f);
-        if (character.Sleep <= 2f) AddReward(-20f);
-        if (character.Stress >= 60f) AddReward(-20f);
+        if (character.Food <= 2f) AddReward(-1f);
+        if (character.Drink <= 2f) AddReward(-1f);
+        if (character.Sleep <= 2f) AddReward(-1f);
+        if (character.Stress >= 60f) AddReward(-1f);
 
         //Nếu nhân vật "chết" (kiệt sức, đói, khát, stress max)
         if (character.Food <= 0f || character.Drink <= 0f ||
             character.Sleep <= 0f || character.Stress >= 72f)
         {
             Debug.Log("Nhân vật đã chết");
-            AddReward(-100f);
+            AddReward(-1f);
             EndEpisode();
         }
 
@@ -197,30 +200,30 @@ public class GridBrain : Agent
 
         if (pos == gameManager.posEat)
         {
-            if (character.Food < 15f) AddReward(5f);   // ăn khi đói → tốt
-            else AddReward(-2f);                       // ăn khi no → lãng phí
+            if (character.Food < 15f) AddReward(0.5f);   // ăn khi đói → tốt
+            else AddReward(-0.2f);                       // ăn khi no → lãng phí
         }
         else if (pos == gameManager.posDrink)
         {
-            if (character.Drink < 15f) AddReward(5f);
-            else AddReward(-2f);
+            if (character.Drink < 15f) AddReward(0.5f);
+            else AddReward(-0.2f);
         }
         else if (pos == gameManager.posSleep)
         {
-            if (character.Sleep < 10f) AddReward(8f);  // ngủ khi mệt → tốt
-            else AddReward(-2f);
+            if (character.Sleep < 10f) AddReward(0.8f);  // ngủ khi mệt → tốt
+            else AddReward(-0.2f);
         }
         else if (pos == gameManager.posWork)
         {
             if (character.Sleep > 10f && character.Food > 10f && character.Drink > 10f)
-                AddReward(10f);                        // đủ điều kiện làm việc → tốt
+                AddReward(1f);                        // đủ điều kiện làm việc → tốt
             else
-                AddReward(-5f);                        // làm khi mệt → xấu
+                AddReward(-0.5f);                        // làm khi mệt → xấu
         }
         else if (pos == gameManager.posStress)
         {
-            if (character.Stress > 30f) AddReward(6f); // đi xả stress khi stress cao
-            else AddReward(-1f);                       // stress thấp mà vẫn đi → lãng phí
+            if (character.Stress > 30f) AddReward(0.6f); // đi xả stress khi stress cao
+            else AddReward(-0.1f);                       // stress thấp mà vẫn đi → lãng phí
         }
 
         //Thưởng nhỏ khi duy trì trạng thái cân bằng tổng thể
