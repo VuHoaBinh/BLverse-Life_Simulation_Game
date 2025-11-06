@@ -1,0 +1,29 @@
+{
+    "GridBrain": {
+        "checkpoints": [
+            {
+                "steps": 743,
+                "file_path": "results\\Buoi2_1\\GridBrain\\GridBrain-743.onnx",
+                "reward": -14.584116424833026,
+                "creation_time": 1760198572.8287632,
+                "auxillary_file_paths": [
+                    "results\\Buoi2_1\\GridBrain\\GridBrain-743.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 743,
+            "file_path": "results\\Buoi2_1\\GridBrain.onnx",
+            "reward": -14.584116424833026,
+            "creation_time": 1760198572.8287632,
+            "auxillary_file_paths": [
+                "results\\Buoi2_1\\GridBrain\\GridBrain-743.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

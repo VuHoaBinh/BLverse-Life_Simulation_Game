@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 [Serializable]
 public class TrajectoryStep
 {
-    public int episodeIndex;
+    public int episodeIndex; //Nó nằm ở episode nào
     public int stepIndex; //Để nói step này là step số mấy trong espisode
     public float[] state;
     public int action; //Hành động đã được chuyển thành dạng số
