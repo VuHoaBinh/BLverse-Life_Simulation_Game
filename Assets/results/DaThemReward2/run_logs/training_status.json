@@ -1,0 +1,29 @@
+{
+    "GridBrain": {
+        "checkpoints": [
+            {
+                "steps": 128,
+                "file_path": "results\\DaThemReward2\\GridBrain\\GridBrain-128.onnx",
+                "reward": null,
+                "creation_time": 1760290308.5754535,
+                "auxillary_file_paths": [
+                    "results\\DaThemReward2\\GridBrain\\GridBrain-128.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 128,
+            "file_path": "results\\DaThemReward2\\GridBrain.onnx",
+            "reward": null,
+            "creation_time": 1760290308.5754535,
+            "auxillary_file_paths": [
+                "results\\DaThemReward2\\GridBrain\\GridBrain-128.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

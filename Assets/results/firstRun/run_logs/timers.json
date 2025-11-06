@@ -1,0 +1,47 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1760024004",
+        "python_version": "3.8.20 (default, Oct  3 2024, 15:19:54) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\LDPlayer\\anaconda3\\envs\\RL_forGame\\Scripts\\mlagents-learn C:\\Users\\M S I\\Desktop\\GamePartI\\FinalProject\\Assets\\config\\grid_config.yaml --run-id=firstRun --time-scale=1",
+        "mlagents_version": "0.30.0",
+        "mlagents_envs_version": "0.30.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.4.1+cpu",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1760024094"
+    },
+    "total": 89.7226769,
+    "count": 1,
+    "self": 0.03766170000000102,
+    "children": {
+        "run_training.setup": {
+            "total": 0.1821698000000005,
+            "count": 1,
+            "self": 0.1821698000000005
+        },
+        "TrainerController.start_learning": {
+            "total": 89.5028454,
+            "count": 1,
+            "self": 0.000725499999987278,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 89.5020865,
+                    "count": 1,
+                    "self": 89.5020865
+                },
+                "trainer_threads": {
+                    "total": 3.000000006636583e-06,
+                    "count": 1,
+                    "self": 3.000000006636583e-06
+                },
+                "TrainerController._save_models": {
+                    "total": 3.0399999999985994e-05,
+                    "count": 1,
+                    "self": 3.0399999999985994e-05
+                }
+            }
+        }
+    }
+}
