@@ -2,58 +2,58 @@
     "GridBrain": {
         "checkpoints": [
             {
-                "steps": 217500,
-                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-217500.onnx",
-                "reward": -3.203457898756419,
-                "creation_time": 1762179681.4212015,
+                "steps": 481951,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-481951.onnx",
+                "reward": -23.154064540863036,
+                "creation_time": 1762383959.3827748,
                 "auxillary_file_paths": [
-                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-217500.pt"
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-481951.pt"
                 ]
             },
             {
-                "steps": 245080,
-                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-245080.onnx",
-                "reward": -98.08286289484879,
-                "creation_time": 1762180165.8007233,
+                "steps": 499996,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-499996.onnx",
+                "reward": -22.02241651091465,
+                "creation_time": 1762384682.8176632,
                 "auxillary_file_paths": [
-                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-245080.pt"
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-499996.pt"
                 ]
             },
             {
-                "steps": 255572,
-                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-255572.onnx",
-                "reward": -590.2019220987955,
-                "creation_time": 1762181134.143583,
+                "steps": 530626,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-530626.onnx",
+                "reward": -21.442142722069597,
+                "creation_time": 1762385896.753875,
                 "auxillary_file_paths": [
-                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-255572.pt"
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-530626.pt"
                 ]
             },
             {
-                "steps": 256128,
-                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-256128.onnx",
-                "reward": -383.3328773498535,
-                "creation_time": 1762181205.2694488,
+                "steps": 530772,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-530772.onnx",
+                "reward": -18.811219882965087,
+                "creation_time": 1762386406.9951339,
                 "auxillary_file_paths": [
-                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-256128.pt"
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-530772.pt"
                 ]
             },
             {
-                "steps": 479955,
-                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-479955.onnx",
-                "reward": -22.92965695696935,
-                "creation_time": 1762186805.8962822,
+                "steps": 553918,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-553918.onnx",
+                "reward": -20.533130369551195,
+                "creation_time": 1762387521.790738,
                 "auxillary_file_paths": [
-                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-479955.pt"
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-553918.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 479955,
+            "steps": 553918,
             "file_path": "results\\RL38(again_nospace)\\GridBrain.onnx",
-            "reward": -22.92965695696935,
-            "creation_time": 1762186805.8962822,
+            "reward": -20.533130369551195,
+            "creation_time": 1762387521.790738,
             "auxillary_file_paths": [
-                "results\\RL38(again_nospace)\\GridBrain\\GridBrain-479955.pt"
+                "results\\RL38(again_nospace)\\GridBrain\\GridBrain-553918.pt"
             ]
         }
     },

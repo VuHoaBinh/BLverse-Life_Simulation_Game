@@ -162,7 +162,7 @@ public class GridBrain : Agent
         {
             gameManager.calcStat_noSpace();
             calcReward_tuDuyTriChiSoSong();
-            Debug.Log("Nhân vật đã va vào tường");
+            // Debug.Log("Nhân vật đã va vào tường");
             AddReward(-0.2f);
         }
     }
@@ -190,7 +190,7 @@ public class GridBrain : Agent
         if (character.Food <= 0f || character.Drink <= 0f ||
             character.Sleep <= 0f || character.Stress >= 72f)
         {
-            Debug.Log("Nhân vật đã chết");
+            // Debug.Log("Nhân vật đã chết");
             AddReward(-1f);
             EndEpisode();
         }
