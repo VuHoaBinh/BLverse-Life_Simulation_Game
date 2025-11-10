@@ -4,3 +4,8 @@ mlagents-learn "C:\Users\M S I\Desktop\GamePartI\FinalProject\Assets\config\grid
 RL38(again_nospace) bản mới nhất
 (base) C:\Users\M S I>conda env list
 (base) C:\Users\M S I>conda activate RL_forGame
+
+
+
+
+mlagents-learn "C:\Users\Administrator\Downloads\BLverse-Life_Simulation_Game\Assets\config\grid_config.yaml" --run-id=RL38(again_nospace) --resume
