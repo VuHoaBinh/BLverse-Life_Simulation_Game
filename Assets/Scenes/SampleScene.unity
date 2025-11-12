@@ -7299,7 +7299,7 @@ Transform:
   m_GameObject: {fileID: 342459616}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5, y: -13.5, z: 0.0113308}
+  m_LocalPosition: {x: -2.5, y: -13.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7383,7 +7383,7 @@ Transform:
   m_GameObject: {fileID: 345899731}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: -2.5, z: 0.0113308}
+  m_LocalPosition: {x: -3.5, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9007,7 +9007,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 3000
+  MaxStep: 10000
   gameManager: {fileID: 700400647}
   character: {fileID: 1014445028}
   initSleep: 24
@@ -9015,6 +9015,7 @@ MonoBehaviour:
   initDrink: 24
   initStress: 0
   initMoney: 100
+  astar: {fileID: 700400648}
 --- !u!114 &1014445031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9039,7 +9040,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 1
   m_BehaviorName: GridBrain
   TeamId: 0
   m_UseChildSensors: 1
@@ -9052,13 +9053,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1014445025}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Record: 1
-  NumStepsToRecord: 1000
+  NumStepsToRecord: 100000
   DemonstrationName: FirstTry
   DemonstrationDirectory: Assets/Arc/SCRIPT/Trajectories
 --- !u!114 &1014445034
@@ -9073,7 +9074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 20
+  DecisionPeriod: 1
   TakeActionsBetweenDecisions: 1
 --- !u!1 &1025059672
 GameObject:
@@ -11102,7 +11103,7 @@ Transform:
   m_GameObject: {fileID: 1449255348}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: -10.5, z: 0.0113308}
+  m_LocalPosition: {x: 1.5, y: -10.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11509,7 +11510,7 @@ Transform:
   m_GameObject: {fileID: 1676663161}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.5, y: -2.5, z: 0.0113308}
+  m_LocalPosition: {x: 9.5, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

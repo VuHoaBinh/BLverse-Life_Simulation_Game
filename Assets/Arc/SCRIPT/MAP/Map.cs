@@ -110,7 +110,7 @@ public class Map : MonoBehaviour
             mapUI.drawBox(changeCellPos(cellPos));
             recentCellPos = cellPos;
             astar.goalNode.position = recentCellPos;
-            List<Vector3> path = astar.FindPath(astar.startNode, astar.goalNode);
+            List<Vector3> path = astar.FindPath();
             if (path != null)
             {
                 int index = 0;
