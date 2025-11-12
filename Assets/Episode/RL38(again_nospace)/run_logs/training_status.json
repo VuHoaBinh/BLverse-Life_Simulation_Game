@@ -1,0 +1,65 @@
+{
+    "GridBrain": {
+        "checkpoints": [
+            {
+                "steps": 579256,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-579256.onnx",
+                "reward": -20.940430096599542,
+                "creation_time": 1762710437.4622428,
+                "auxillary_file_paths": [
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-579256.pt"
+                ]
+            },
+            {
+                "steps": 580541,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-580541.onnx",
+                "reward": -21.512327156497935,
+                "creation_time": 1762710859.4603894,
+                "auxillary_file_paths": [
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-580541.pt"
+                ]
+            },
+            {
+                "steps": 999998,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-999998.onnx",
+                "reward": -14.590705460480281,
+                "creation_time": 1762733747.1790185,
+                "auxillary_file_paths": [
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-999998.pt"
+                ]
+            },
+            {
+                "steps": 1161388,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-1161388.onnx",
+                "reward": -18.40013214533891,
+                "creation_time": 1762740450.8462856,
+                "auxillary_file_paths": [
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-1161388.pt"
+                ]
+            },
+            {
+                "steps": 1162485,
+                "file_path": "results\\RL38(again_nospace)\\GridBrain\\GridBrain-1162485.onnx",
+                "reward": -17.286661905958162,
+                "creation_time": 1762740747.6450555,
+                "auxillary_file_paths": [
+                    "results\\RL38(again_nospace)\\GridBrain\\GridBrain-1162485.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1162485,
+            "file_path": "results\\RL38(again_nospace)\\GridBrain.onnx",
+            "reward": -17.286661905958162,
+            "creation_time": 1762740747.6450555,
+            "auxillary_file_paths": [
+                "results\\RL38(again_nospace)\\GridBrain\\GridBrain-1162485.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

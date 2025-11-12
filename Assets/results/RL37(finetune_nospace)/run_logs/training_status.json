@@ -1,0 +1,38 @@
+{
+    "GridBrain": {
+        "checkpoints": [
+            {
+                "steps": 44980,
+                "file_path": "results\\RL37(finetune_nospace)\\GridBrain\\GridBrain-44980.onnx",
+                "reward": -726.3210563659668,
+                "creation_time": 1761861514.7902257,
+                "auxillary_file_paths": [
+                    "results\\RL37(finetune_nospace)\\GridBrain\\GridBrain-44980.pt"
+                ]
+            },
+            {
+                "steps": 100028,
+                "file_path": "results\\RL37(finetune_nospace)\\GridBrain\\GridBrain-100028.onnx",
+                "reward": -722.4952297210693,
+                "creation_time": 1761862083.7192955,
+                "auxillary_file_paths": [
+                    "results\\RL37(finetune_nospace)\\GridBrain\\GridBrain-100028.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 100028,
+            "file_path": "results\\RL37(finetune_nospace)\\GridBrain.onnx",
+            "reward": -722.4952297210693,
+            "creation_time": 1761862083.7192955,
+            "auxillary_file_paths": [
+                "results\\RL37(finetune_nospace)\\GridBrain\\GridBrain-100028.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

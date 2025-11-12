@@ -1,0 +1,11 @@
+﻿mlagents-learn "C:\Users\Administrator\Downloads\BLverse-Life_Simulation_Game\Assets\config\grid_config.yaml" --run-id=DemoCUOI --time-scale=1
+mlagents-learn "C:\Users\M S I\Desktop\GamePartI\FinalProject\Assets\config\grid_config.yaml" --run-id=RL38(again_nospace) --resume
+mlagents-learn "C:\Users\M S I\Desktop\GamePartI\FinalProject\Assets\config\grid_config.yaml" --run-id=RL29_finetune --initialize-from=RL28_timdiem
+RL38(again_nospace) bản mới nhất
+(base) C:\Users\M S I>conda env list
+(base) C:\Users\M S I>conda activate RL_forGame
+
+
+
+
+mlagents-learn "C:\Users\Administrator\Downloads\BLverse-Life_Simulation_Game\Assets\config\grid_config.yaml" --run-id=RL38(again_nospace) --resume
