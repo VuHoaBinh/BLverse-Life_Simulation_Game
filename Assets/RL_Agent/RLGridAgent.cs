@@ -131,8 +131,8 @@ public class GridBrain : Agent
         // Lấy vị trí hiện tại
         Vector3 currentCell = character.transform.position;
         Vector3 nextCell = currentCell;
-        Debug.Log($"Vẫn gọi {action}");
-        Debug.Log("dau vao:" + action);
+        // Debug.Log($"Vẫn gọi {action}");
+        // Debug.Log("dau vao:" + action);
         switch (action)
         {
             case 0: nextCell += Vector3.up; break;                  // Lên
@@ -155,12 +155,12 @@ public class GridBrain : Agent
         {
             AddReward(0.2f);
             character.transform.position = nextCell;
-            // gameManager.calcStat_noSpace();
+            gameManager.calcStat(action == 8);
             calcReward_tuDuyTriChiSoSong();
         }
         else
         {
-            // gameManager.calcStat_noSpace();
+            gameManager.calcStat(action == 8);
             calcReward_tuDuyTriChiSoSong();
             // Debug.Log("Nhân vật đã va vào tường");
             AddReward(-0.2f);
@@ -238,6 +238,102 @@ public class GridBrain : Agent
 
 
 
+    private void calcReward_tuDuyTriChiSoSong_phase2(int action)
+    {
+        // 👣 Phạt nhẹ mỗi bước để tránh đi lung tung
+        AddReward(-0.002f);
+
+        //Chuẩn hóa chỉ số về [0,1]
+        float hunger = Mathf.Clamp01(1f - character.Food / 24f);
+        float thirst = Mathf.Clamp01(1f - character.Drink / 24f);
+        float tired = Mathf.Clamp01(1f - character.Sleep / 24f);
+        float stress = Mathf.Clamp01(character.Stress / 72f);
+
+        //Phạt dần theo trạng thái xấu
+        AddReward(-0.01f * (hunger + thirst + tired + stress));
+
+        //Phạt mạnh nếu chạm ngưỡng nguy hiểm
+        if (character.Food <= 2f) AddReward(-1f);
+        if (character.Drink <= 2f) AddReward(-1f);
+        if (character.Sleep <= 2f) AddReward(-1f);
+        if (character.Stress >= 60f) AddReward(-1f);
+
+        //Nếu nhân vật "chết" (kiệt sức, đói, khát, stress max)
+        if (character.Food <= 0f || character.Drink <= 0f ||
+            character.Sleep <= 0f || character.Stress >= 72f)
+        {
+            Debug.Log($"Nhân vật đã chết: {character.Food}, {character.Drink}, {character.Sleep}, {character.Stress}");
+            gameManager.resetTimeLine();
+            AddReward(-1f);
+            EndEpisode();
+        }
+
+        //Thưởng hợp lý theo vị trí hiện tại và trạng thái
+        Vector3 pos = gameManager.posPlayer;
+
+        if (pos == gameManager.posEat)
+        {
+            if (action == 8)
+            {
+                AddReward(0.2f);
+
+            }
+            if (character.Food < 15f) AddReward(0.5f);   // ăn khi đói → tốt
+            else AddReward(-0.2f);                       // ăn khi no → lãng phí
+        }
+        else if (pos == gameManager.posDrink)
+        {
+            if (action == 8)
+            {
+                AddReward(0.2f);
+
+            }
+            if (character.Drink < 15f) AddReward(0.5f);
+            else AddReward(-0.2f);
+        }
+        else if (pos == gameManager.posSleep)
+        {
+            if (action == 8)
+            {
+                AddReward(0.2f);
+
+            }
+            if (character.Sleep < 10f) AddReward(0.8f);  // ngủ khi mệt → tốt
+            else AddReward(-0.2f);
+        }
+        else if (pos == gameManager.posWork)
+        {
+            if (action == 8)
+            {
+                AddReward(0.2f);
+
+            }
+            if (character.Sleep > 10f && character.Food > 10f && character.Drink > 10f)
+                AddReward(1f);                        // đủ điều kiện làm việc → tốt
+            else
+                AddReward(-0.5f);                        // làm khi mệt → xấu
+        }
+        else if (pos == gameManager.posStress)
+        {
+            if (action == 8)
+            {
+                AddReward(0.2f);
+
+            }
+            if (character.Stress > 30f) AddReward(0.6f); // đi xả stress khi stress cao
+            else AddReward(-0.1f);                       // stress thấp mà vẫn đi → lãng phí
+        }
+
+        //Thưởng nhỏ khi duy trì trạng thái cân bằng tổng thể
+        if (character.Food > 12f && character.Drink > 12f &&
+            character.Sleep > 12f && character.Stress < 30f)
+        {
+            AddReward(0.05f);
+        }
+    }
+
+
+
 
 
 
@@ -255,35 +351,35 @@ public class GridBrain : Agent
         astar.startNode = new Node(currentPosition_gridBase);
         if (isFinish)
         {
-            if (character.Food <= 12)
+            if (character.Food <= 18)
             {
                 isInteracable = true;
                 target_ = new Node(gameManager.posEat);
-                Debug.Log($"Đi ăn lúc: {gameManager.TimeLine}");
+                // Debug.Log($"Đi ăn lúc: {gameManager.TimeLine}");
             }
-            else if (character.Drink <= 12)
+            else if (character.Drink <= 18)
             {
                 isInteracable = true;
                 target_ = new Node(gameManager.posDrink);
-                Debug.Log($"Đi uông lúc: {gameManager.TimeLine}");
+                // Debug.Log($"Đi uông lúc: {gameManager.TimeLine}");
             }
             else if (character.Sleep <= 6)
             {
                 isInteracable = true;
                 target_ = new Node(gameManager.posSleep);
-                Debug.Log($"Đi ngủ lúc: {gameManager.TimeLine}");
+                // Debug.Log($"Đi ngủ lúc: {gameManager.TimeLine}");
             }
-            else if (character.Stress >= 36)
+            else if (character.Stress >= 20)
             {
                 isInteracable = true;
                 target_ = new Node(gameManager.posStress);
-                Debug.Log($"Đi giải trí: {gameManager.TimeLine}");
+                // Debug.Log($"Đi giải trí: {gameManager.TimeLine}");
             }
             else if (character.Money <= 25)
             {
                 isInteracable = true;
                 target_ = new Node(gameManager.posWork);
-                Debug.Log($"Đi làm lúc: {gameManager.TimeLine}");
+                // Debug.Log($"Đi làm lúc: {gameManager.TimeLine}");
             }
             else
             {
@@ -291,75 +387,36 @@ public class GridBrain : Agent
                 if (gameManager.TimeLine == 22 * 60)
                 {
                     target_ = new Node(gameManager.posSleep);
-                    Debug.Log($"Đi ngủ lúc: {gameManager.TimeLine}");
+                    // Debug.Log($"Đi ngủ lúc: {gameManager.TimeLine}");
                 }
                 else if (gameManager.TimeLine == 5 * 60)
                 {
                     target_ = new Node(gameManager.posEat);
-                    Debug.Log($"Đi ăn lúc: {gameManager.TimeLine}");
+                    // Debug.Log($"Đi ăn lúc: {gameManager.TimeLine}");
                 }
                 else if (gameManager.TimeLine == 7 * 60)
                 {
                     target_ = new Node(gameManager.posDrink);
-                    Debug.Log($"Đi uống lúc: {gameManager.TimeLine}");
+                    // Debug.Log($"Đi uống lúc: {gameManager.TimeLine}");
                 }
                 else if (gameManager.TimeLine == 8 * 60)
                 {
                     target_ = new Node(gameManager.posWork);
-                    Debug.Log($"Đi làm lúc: {gameManager.TimeLine}");
+                    // Debug.Log($"Đi làm lúc: {gameManager.TimeLine}");
                 }
                 else if (gameManager.TimeLine >= 16 * 60)
                 {
                     target_ = new Node(gameManager.posStress);
-                    Debug.Log($"Đi giải trí lúc: {gameManager.TimeLine}");
+                    // Debug.Log($"Đi giải trí lúc: {gameManager.TimeLine}");
                 }
                 else
                 {
                     target_ = new Node(gameManager.posStress);
-                    Debug.Log($"Đi giải trí lúc: {gameManager.TimeLine}");
+                    // Debug.Log($"Đi giải trí lúc: {gameManager.TimeLine}");
                 }
             }
         }
         astar.goalNode = target_;
-
-        // astar.startNode = new Node(character.transform.position - new Vector3(0.5f, 0.5f, 0));
-        // if (!toChange)
-        // {
-        //     if (gameManager.TimeLine == 22 * 60)
-        //     {
-        //         astar.goalNode = new Node(gameManager.posSleep);
-        //         Debug.Log($"Đi ngủ lúc: {gameManager.TimeLine}");
-        //     }
-        //     else if (gameManager.TimeLine == 5 * 60)
-        //     {
-        //         astar.goalNode = new Node(gameManager.posEat);
-        //         Debug.Log($"Đi ăn lúc: {gameManager.TimeLine}");
-        //     }
-        //     else if (gameManager.TimeLine == 7 * 60)
-        //     {
-        //         astar.goalNode = new Node(gameManager.posDrink);
-        //         Debug.Log($"Đi uống lúc: {gameManager.TimeLine}");
-        //     }
-        //     else if (gameManager.TimeLine == 8 * 60)
-        //     {
-        //         astar.goalNode = new Node(gameManager.posWork);
-        //         Debug.Log($"Đi làm lúc: {gameManager.TimeLine}");
-        //     }
-        //     else if (gameManager.TimeLine >= 16 * 60)
-        //     {
-        //         astar.goalNode = new Node(gameManager.posStress);
-        //         Debug.Log($"Đi giải trí lúc: {gameManager.TimeLine}");
-        //     }
-        //     else
-        //     {
-        //         astar.goalNode = new Node(gameManager.posStress);
-        //         Debug.Log($"Đi giải trí lúc: {gameManager.TimeLine}");
-        //     }
-        // }
-        // else
-        // {
-        //     astar.goalNode = new Node(new Vector3(-2, -9, 0));
-        // }
 
         if (Vector3.Distance(currentPosition_gridBase, astar.goalNode.position) >= 0.01f)
         {
@@ -377,20 +434,23 @@ public class GridBrain : Agent
             else if (direction == Vector3.down + Vector3.left) d[0] = 6; // Xuống - Trái
             else if (direction == Vector3.down + Vector3.right) d[0] = 7;  // Xuống - Phải
             gameManager.calcStat(false);
+            gameManager.textSetter.setDatePerFrame(character);
         }
         else
         {
             d[0] = 8;
+            gameManager.calcStat(true);
+            gameManager.textSetter.setDatePerFrame(character);
             isFinish = true; //Để đổi sang vị trí mới
             if (isInteracable)
             {
-                gameManager.calcStat(true);
-                Debug.Log("vao day!!!");
+                // gameManager.calcStat(true);
+                // Debug.Log("vao day!!!");
                 isInteracable = false;
             }
             else
             {
-                gameManager.calcStat(false);
+                // gameManager.calcStat(false);
             }
         }
     }
