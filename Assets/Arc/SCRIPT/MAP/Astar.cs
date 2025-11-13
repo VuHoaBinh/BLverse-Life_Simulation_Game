@@ -12,10 +12,10 @@ public class Astar : MonoBehaviour
     public Node goalNode;
     public List<Vector3> path;
     // Update is called once per frame
-    public List<Vector3> FindPath(Node start, Node goal)
+    public List<Vector3> FindPath()
     {
         path = new List<Vector3>(); //Khởi tạo danh sách đường đi
-        Node curentNode = start;
+        Node curentNode = startNode;
 
         /*Khai báo 2 hashset là openset và closedset 
         - Không dubpltcate
@@ -28,7 +28,7 @@ public class Astar : MonoBehaviour
         while (openSet.Count > 0) //chạy khi openset còn phần tử
         {
             curentNode = GetLowestCostNode(openSet); // Lấy giá trí Node có chi phí nhỏ nhất
-            if (Vector3.Distance(curentNode.position, goal.position) < 0.001f) // Điều kiện dừng
+            if (Vector3.Distance(curentNode.position, goalNode.position) < 0.001f) // Điều kiện dừng
             {
                 // Debug vẽ đường đi
                 map.mapUI.deleteCircle("path"); // Xóa các vòng tròn cũ
@@ -46,7 +46,7 @@ public class Astar : MonoBehaviour
             openSet.Remove(curentNode); // Xóa Node hiện tại khỏi tập hợp mở
             closedSet.Add(curentNode); // Thêm Node hiện tại vào tập hợp đã đóng
 
-            addNeighborsByDirection(curentNode, goal); // Thêm các Node lân cận vào Node hiện tại
+            addNeighborsByDirection(curentNode, goalNode); // Thêm các Node lân cận vào Node hiện tại
 
             // Duyệt qua các Node lân cận
             foreach (var neighbor in curentNode.neighbors)

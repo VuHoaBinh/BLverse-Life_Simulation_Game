@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     public List<Vector3> path;
     public enum GameState { Waiting, Process, End };
     public GameState currentState = GameState.Waiting;
-    private static int timeLine = -1;
     public Coroutine timeLineCouroutine;
     public HealthBar healthBar;
     public HealthBar foodBar;
@@ -32,13 +31,14 @@ public class GameManager : MonoBehaviour
     public Vector3Int posSleep;
     public Vector3Int posPlayer;
     public TrajectoryCollector trajectoryCollector;
+    private static int timeLine = -1;
     public int TimeLine
     {
         get { return timeLine; }
 
         set
         {
-            timeLine = Mathf.Clamp(value, 0, 1440);
+            timeLine = (value + 1441) % 1441;
         }
     }
 
@@ -49,13 +49,16 @@ public class GameManager : MonoBehaviour
         posStress = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[2].position);
         posWork = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[3].position);
         posSleep = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[4].position);
+
         timeLine = 0;
         map.getListVertices();
         map.genMap();
         map.onAwake();
-        Debug.Log(map.astar.startNode.position + "!!!!");
         // map.printTilePositions();
-        Debug.Log("Tọa độ của bếp: " + listLocations[0].position);
+    }
+    public void resetTimeLine()
+    {
+        this.TimeLine = 0;
     }
     public IEnumerator movePerStep(List<Vector3> path)
     {
@@ -63,10 +66,9 @@ public class GameManager : MonoBehaviour
         // Debug.Log(path.Count);
         while (i < path.Count)
         {
-            timeLine++;
             Vector3 beforeCharacterPosition = character.transform.position;
             character.StartMove(map.changeCellPos(path[i++]));
-            calcStat();
+            calcStat(false);
             TrajectoryStep trajectoryStep = new TrajectoryStep(map.changeCellPos(path[i - 1]) - beforeCharacterPosition, character, this);
 
             trajectoryCollector.addStep(trajectoryStep);
@@ -75,16 +77,60 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Waiting;
         character.isMoving = false;
     }
-    public void calcStat()
+    public void calcStat(bool isIdle)
     {
         posPlayer = this.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
-        Debug.Log("Sao không chạy vào đây!!!!");
+        this.TimeLine++;
+        // Debug.Log("Thời gian hiện tại: " + timeLine);
         character.Food -= (1f / 18f);
         character.Drink -= (1f / 18f);
         character.Sleep -= (1f / 6f);
-        //Giới hạn giá trị tối đa
-        Debug.Log("Check!!" + posEat);
-        Debug.Log("Check!!" + posPlayer);
+
+        if (character.Food < 12 || character.Drink < 12)
+        {
+            character.Stress += 1.5f;
+        }
+        if (posPlayer == posEat && character.Money >= 15 && isIdle)
+        {
+            character.Food += 8;
+            character.Money -= 15;
+            this.TimeLine += 30;
+        }
+        if (posPlayer == posDrink && character.Money >= 5 && isIdle)
+        {
+            character.Drink += 4;
+            character.Money -= 5;
+            this.TimeLine += 1;
+
+        }
+        if (posPlayer == posSleep && isIdle)
+        {
+            character.Sleep += 24;
+            character.Stress -= 0.5f;
+            this.TimeLine += 480;
+        }
+        if (posPlayer == posWork && isIdle)
+        {
+            character.Money += 25;
+            character.Food -= ((1f / 18f) / 2f) * 8 * 60;
+            character.Drink -= ((1f / 18f) / 2f) * 8 * 60;
+            character.Stress += 10f;
+            this.TimeLine += 480;
+        }
+        if (posPlayer == posStress && isIdle)
+        {
+            character.Stress -= 9f;
+            this.TimeLine += 60;
+        }
+    }
+    public void calcStat_noSpace()
+    {
+        this.TimeLine++;
+        // Debug.Log("Thời gian hiện tại: " + this.TimeLine);
+        posPlayer = this.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
+        character.Food -= (1f / 18f);
+        character.Drink -= (1f / 18f);
+        character.Sleep -= (1f / 6f);
 
         if (character.Food < 12 || character.Drink < 12)
         {
@@ -94,17 +140,20 @@ public class GameManager : MonoBehaviour
         {
             character.Food += 8;
             character.Money -= 15;
+            this.TimeLine += 30;
         }
         if (posPlayer == posDrink && character.Money >= 5)
         {
             character.Drink += 4;
             character.Money -= 5;
+            this.TimeLine += 1;
+
         }
         if (posPlayer == posSleep)
         {
             character.Sleep += 3;
             character.Stress -= 0.5f;
-
+            this.TimeLine += 480;
         }
         if (posPlayer == posWork)
         {
@@ -112,18 +161,20 @@ public class GameManager : MonoBehaviour
             character.Food -= ((1f / 18f) / 2f);
             character.Drink -= ((1f / 18f) / 2f);
             character.Stress += 2;
+            this.TimeLine += 480;
         }
         if (posPlayer == posStress)
         {
             character.Stress -= 1f;
+            this.TimeLine += 60;
         }
     }
     void Update()
     {
-        map.onAwake();
+        // map.onAwake();
         if (!character.isMoving)
         {
-            map.onUpdate();
+            // map.onUpdate();
         }
         if (currentState == GameState.Waiting && Input.GetMouseButtonDown(0))
         {
@@ -140,6 +191,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log(trajectoryCollector.ToString());
+
         }
         // character.StartMove(new Vector3(-12.5f, 4.5f, 0));
     }
@@ -154,7 +206,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            calcStat();
+            calcStat(isIdle);
             TrajectoryStep trajectoryStep = new TrajectoryStep(Vector3.zero, character, this);
             trajectoryStep.stepIndex += 1;
             trajectoryCollector.addStep(trajectoryStep);

@@ -18,7 +18,7 @@ public class TrajectoryCollector : MonoBehaviour
     }
     /*
     Bắt đầu record
-*/
+    */
     private bool isDonePre;
     public void addStep(TrajectoryStep trajectoryStep)
     {
