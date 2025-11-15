@@ -12,7 +12,7 @@ public class TextSetter : MonoBehaviour
     {
         //Gán
         listInfo[0].value = character.Food.ToString("F1");
-        Debug.Log("Food: " + character.Food.ToString("F1"));
+        // Debug.Log("Food: " + character.Food.ToString("F1"));
         listInfo[1].value = character.Drink.ToString("F1");
         listInfo[2].value = character.Stress.ToString("F1");
         listInfo[3].value = character.Money.ToString("F1");

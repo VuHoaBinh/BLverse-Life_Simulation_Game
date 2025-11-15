@@ -411,6 +411,7 @@ public class GridBrain : Agent
                 }
                 else
                 {
+                    isInteracable = false;
                     target_ = new Node(gameManager.posStress);
                     // Debug.Log($"Đi giải trí lúc: {gameManager.TimeLine}");
                 }
@@ -423,7 +424,7 @@ public class GridBrain : Agent
             isFinish = false;
             Vector3 next = astar.FindPath()[0];
             Vector3 direction = next - currentPosition_gridBase;
-            Debug.Log(direction);
+            // Debug.Log(direction);
 
             if (direction == Vector3.up) d[0] = 0;             // Lên
             else if (direction == Vector3.down) d[0] = 1;      // Xuống
