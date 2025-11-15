@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public Vector3Int posSleep;
     public Vector3Int posPlayer;
     public TrajectoryCollector trajectoryCollector;
+    public TextSetter textSetter;
     private static int timeLine = -1;
     public int TimeLine
     {
@@ -49,7 +50,6 @@ public class GameManager : MonoBehaviour
         posStress = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[2].position);
         posWork = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[3].position);
         posSleep = this.map.GetComponentInChildren<Tilemap>().WorldToCell(this.listLocations[4].position);
-
         timeLine = 0;
         map.getListVertices();
         map.genMap();
@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
             Vector3 beforeCharacterPosition = character.transform.position;
             character.StartMove(map.changeCellPos(path[i++]));
             calcStat(false);
+            textSetter.setDatePerFrame(character);
             TrajectoryStep trajectoryStep = new TrajectoryStep(map.changeCellPos(path[i - 1]) - beforeCharacterPosition, character, this);
 
             trajectoryCollector.addStep(trajectoryStep);
