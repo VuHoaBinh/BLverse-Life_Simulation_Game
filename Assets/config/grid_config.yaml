@@ -18,7 +18,7 @@ behaviors:
         gamma: 0.99
         strength: 2.0
     behavioral_cloning:
-      demo_path: "C:/Users/M S I/Desktop/GamePartI/FinalProject/Assets/Arc/SCRIPT/Trajectories/BC01.demo"
+      demo_path: "C:/Users/Administrator/Downloads/BLverse-Life_Simulation_Game/Assets/Arc/SCRIPT/Trajectories/BC01.demo"
       strength: 0.5
       steps: 500000
       batch_size: 512          
