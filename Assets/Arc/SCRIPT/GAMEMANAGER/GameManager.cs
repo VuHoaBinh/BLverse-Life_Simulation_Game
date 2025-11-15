@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public Vector3Int posSleep;
     public Vector3Int posPlayer;
     public TrajectoryCollector trajectoryCollector;
+    public TextSetter textSetter;
     private static int timeLine = -1;
     public int TimeLine
     {
@@ -53,9 +54,7 @@ public class GameManager : MonoBehaviour
         map.getListVertices();
         map.genMap();
         map.onAwake();
-        Debug.Log(map.astar.startNode.position + "!!!!");
         // map.printTilePositions();
-        Debug.Log("Tọa độ của bếp: " + listLocations[0].position);
     }
     public void resetTimeLine()
     {
@@ -70,6 +69,7 @@ public class GameManager : MonoBehaviour
             Vector3 beforeCharacterPosition = character.transform.position;
             character.StartMove(map.changeCellPos(path[i++]));
             calcStat(false);
+            textSetter.setDatePerFrame(character);
             TrajectoryStep trajectoryStep = new TrajectoryStep(map.changeCellPos(path[i - 1]) - beforeCharacterPosition, character, this);
 
             trajectoryCollector.addStep(trajectoryStep);
@@ -80,9 +80,9 @@ public class GameManager : MonoBehaviour
     }
     public void calcStat(bool isIdle)
     {
-        timeLine++;
-        // Debug.Log("Thời gian hiện tại: " + timeLine);
         posPlayer = this.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
+        this.TimeLine++;
+        // Debug.Log("Thời gian hiện tại: " + timeLine);
         character.Food -= (1f / 18f);
         character.Drink -= (1f / 18f);
         character.Sleep -= (1f / 6f);
@@ -95,39 +95,39 @@ public class GameManager : MonoBehaviour
         {
             character.Food += 8;
             character.Money -= 15;
-            timeLine += 30;
+            this.TimeLine += 30;
         }
         if (posPlayer == posDrink && character.Money >= 5 && isIdle)
         {
             character.Drink += 4;
             character.Money -= 5;
-            timeLine += 1;
+            this.TimeLine += 1;
 
         }
         if (posPlayer == posSleep && isIdle)
         {
-            character.Sleep += 3;
+            character.Sleep += 24;
             character.Stress -= 0.5f;
-            timeLine += 480;
+            this.TimeLine += 480;
         }
         if (posPlayer == posWork && isIdle)
         {
             character.Money += 25;
-            character.Food -= ((1f / 18f) / 2f);
-            character.Drink -= ((1f / 18f) / 2f);
-            character.Stress += 2;
-            timeLine += 480;
+            character.Food -= ((1f / 18f) / 2f) * 8 * 60;
+            character.Drink -= ((1f / 18f) / 2f) * 8 * 60;
+            character.Stress += 10f;
+            this.TimeLine += 480;
         }
         if (posPlayer == posStress && isIdle)
         {
-            character.Stress -= 1f;
-            timeLine += 60;
+            character.Stress -= 9f;
+            this.TimeLine += 60;
         }
     }
     public void calcStat_noSpace()
     {
-        timeLine++;
-        // Debug.Log("Thời gian hiện tại: " + timeLine);
+        this.TimeLine++;
+        // Debug.Log("Thời gian hiện tại: " + this.TimeLine);
         posPlayer = this.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
         character.Food -= (1f / 18f);
         character.Drink -= (1f / 18f);
@@ -141,20 +141,20 @@ public class GameManager : MonoBehaviour
         {
             character.Food += 8;
             character.Money -= 15;
-            timeLine += 30;
+            this.TimeLine += 30;
         }
         if (posPlayer == posDrink && character.Money >= 5)
         {
             character.Drink += 4;
             character.Money -= 5;
-            timeLine += 1;
+            this.TimeLine += 1;
 
         }
         if (posPlayer == posSleep)
         {
             character.Sleep += 3;
             character.Stress -= 0.5f;
-            timeLine += 480;
+            this.TimeLine += 480;
         }
         if (posPlayer == posWork)
         {
@@ -162,12 +162,12 @@ public class GameManager : MonoBehaviour
             character.Food -= ((1f / 18f) / 2f);
             character.Drink -= ((1f / 18f) / 2f);
             character.Stress += 2;
-            timeLine += 480;
+            this.TimeLine += 480;
         }
         if (posPlayer == posStress)
         {
             character.Stress -= 1f;
-            timeLine += 60;
+            this.TimeLine += 60;
         }
     }
     void Update()
