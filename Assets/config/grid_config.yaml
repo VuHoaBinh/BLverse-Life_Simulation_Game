@@ -8,7 +8,7 @@ behaviors:
       batch_size: 1024
       buffer_size: 10240
       learning_rate: 1.0e-4
-      beta: 0.005
+      beta: 0.02
       epsilon: 0.2
     network_settings:
       num_layers: 2
@@ -18,8 +18,8 @@ behaviors:
         gamma: 0.99
         strength: 2.0
     behavioral_cloning:
-      demo_path: "C:/Users/Administrator/Downloads/BLverse-Life_Simulation_Game/Assets/Arc/SCRIPT/Trajectories/BC01.demo"
-      strength: 0.5
+      demo_path: "C:/Users/M S I/Desktop/GamePartI/FinalProject/Assets/Arc/SCRIPT/Trajectories/ComenPress.demo"
+      strength: 0.2
       steps: 500000
       batch_size: 512          
-      samples_per_update: 0    
+      samples_per_update: 0

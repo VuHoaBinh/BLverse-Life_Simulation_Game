@@ -10676,7 +10676,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 10000
+  MaxStep: 1000
   gameManager: {fileID: 700400647}
   character: {fileID: 1014445028}
   initSleep: 24
@@ -10729,7 +10729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Record: 1
   NumStepsToRecord: 100000
-  DemonstrationName: BC_01
+  DemonstrationName: Come_n_Press
   DemonstrationDirectory: Assets/Arc/SCRIPT/Trajectories
 --- !u!114 &1014445034
 MonoBehaviour:
