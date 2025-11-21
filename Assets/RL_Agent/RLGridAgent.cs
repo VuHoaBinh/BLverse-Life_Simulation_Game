@@ -86,6 +86,7 @@ public class GridBrain : Agent
             - [42]: thời gian trong ngày (1440=>60step mất 1 tiếng)    
         */
         Vector3 agentCell = character.transform.position;
+        Debug.Log("Toa do cua player la: " + agentCell);
         sensor.AddObservation(agentCell.x);
         sensor.AddObservation(agentCell.y);
         //Các chỉ số
@@ -95,25 +96,25 @@ public class GridBrain : Agent
         sensor.AddObservation(character.Stress / 72);
         sensor.AddObservation(character.Money);
 
-        //Vị trí của Bếp
-        sensor.AddObservation(gameManager.listLocations[0].position); //Tuyệt đối
-        sensor.AddObservation(gameManager.listLocations[0].position - agentCell); //Tương đối
+        // //Vị trí của Bếp
+        // sensor.AddObservation(gameManager.listLocations[0].position); //Tuyệt đối
+        // sensor.AddObservation(gameManager.listLocations[0].position - agentCell); //Tương đối
 
-        //Vị trí tủ lạnh
-        sensor.AddObservation(gameManager.listLocations[1].position); //Tuyệt đối
-        sensor.AddObservation(gameManager.listLocations[1].position - agentCell); //Tương đối
+        // //Vị trí tủ lạnh
+        // sensor.AddObservation(gameManager.listLocations[1].position); //Tuyệt đối
+        // sensor.AddObservation(gameManager.listLocations[1].position - agentCell); //Tương đối
 
-        //Vị trí của Sofa
-        sensor.AddObservation(gameManager.listLocations[2].position); //Tuyệt đối
-        sensor.AddObservation(gameManager.listLocations[2].position - agentCell); //Tương đối
+        // //Vị trí của Sofa
+        // sensor.AddObservation(gameManager.listLocations[2].position); //Tuyệt đối
+        // sensor.AddObservation(gameManager.listLocations[2].position - agentCell); //Tương đối
 
-        //Vị trí của Cửa
-        sensor.AddObservation(gameManager.listLocations[3].position); //Tuyệt đối
-        sensor.AddObservation(gameManager.listLocations[3].position - agentCell); //Tương đối
+        // //Vị trí của Cửa
+        // sensor.AddObservation(gameManager.listLocations[3].position); //Tuyệt đối
+        // sensor.AddObservation(gameManager.listLocations[3].position - agentCell); //Tương đối
 
-        //Vị trí của Giường
-        sensor.AddObservation(gameManager.listLocations[4].position); //Tuyệt đối
-        sensor.AddObservation(gameManager.listLocations[4].position - agentCell); //Tương đối
+        // //Vị trí của Giường
+        // sensor.AddObservation(gameManager.listLocations[4].position); //Tuyệt đối
+        // sensor.AddObservation(gameManager.listLocations[4].position - agentCell); //Tương đối
 
         //Khoảng cách đến Bếp
         sensor.AddObservation(Vector3.Distance(agentCell, gameManager.listLocations[0].position));
