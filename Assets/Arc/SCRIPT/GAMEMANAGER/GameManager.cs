@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
         }
         if (posPlayer == posWork && isIdle)
         {
-            character.Money += 25;
+            character.Money += 25 * 8;
             character.Food -= ((1f / 18f) / 2f) * 8 * 60;
             character.Drink -= ((1f / 18f) / 2f) * 8 * 60;
             character.Stress += 10f;
@@ -152,21 +152,21 @@ public class GameManager : MonoBehaviour
         }
         if (posPlayer == posSleep)
         {
-            character.Sleep += 3;
+            character.Sleep += 24;
             character.Stress -= 0.5f;
             this.TimeLine += 480;
         }
         if (posPlayer == posWork)
         {
-            character.Money += 25;
-            character.Food -= ((1f / 18f) / 2f);
-            character.Drink -= ((1f / 18f) / 2f);
-            character.Stress += 2;
+            character.Money += 25 * 8;
+            character.Food -= ((1f / 18f) / 2f) * 8 * 60;
+            character.Drink -= ((1f / 18f) / 2f) * 8 * 60;
+            character.Stress += 10f;
             this.TimeLine += 480;
         }
         if (posPlayer == posStress)
         {
-            character.Stress -= 1f;
+            character.Stress -= 9f;
             this.TimeLine += 60;
         }
     }
