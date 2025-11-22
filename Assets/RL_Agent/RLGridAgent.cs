@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
@@ -86,7 +86,7 @@ public class GridBrain : Agent
             - [42]: thời gian trong ngày (1440=>60step mất 1 tiếng)    
         */
         Vector3 agentCell = character.transform.position;
-        Debug.Log("Toa do cua player la: " + agentCell);
+        //Debug.Log("Toa do cua player la: " + agentCell);
         sensor.AddObservation(agentCell.x);
         sensor.AddObservation(agentCell.y);
         //Các chỉ số
