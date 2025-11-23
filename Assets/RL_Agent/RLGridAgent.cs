@@ -59,10 +59,11 @@ public class GridBrain : Agent
             Debug.Log($"Dùng tọa độ mặc định: {startCell}");
         }
         // Debug.Log($"Đặt nhân vật tại ô sau khi đã random thành công: {key}");
-        character.Sleep = initSleep;
-        character.Food = initFood;
-        character.Drink = initDrink;
-        character.Stress = initStress;
+        //Random intial stat
+        character.Sleep = rand.Next(12, 20);
+        character.Food = rand.Next(12, 20);
+        character.Drink = rand.Next(12, 20);
+        character.Stress = rand.Next(0, 37);
         character.Money = initMoney;
     }
     public override void CollectObservations(VectorSensor sensor)
@@ -95,26 +96,6 @@ public class GridBrain : Agent
         sensor.AddObservation(character.Drink / 24);
         sensor.AddObservation(character.Stress / 72);
         sensor.AddObservation(character.Money);
-
-        // //Vị trí của Bếp
-        // sensor.AddObservation(gameManager.listLocations[0].position); //Tuyệt đối
-        // sensor.AddObservation(gameManager.listLocations[0].position - agentCell); //Tương đối
-
-        // //Vị trí tủ lạnh
-        // sensor.AddObservation(gameManager.listLocations[1].position); //Tuyệt đối
-        // sensor.AddObservation(gameManager.listLocations[1].position - agentCell); //Tương đối
-
-        // //Vị trí của Sofa
-        // sensor.AddObservation(gameManager.listLocations[2].position); //Tuyệt đối
-        // sensor.AddObservation(gameManager.listLocations[2].position - agentCell); //Tương đối
-
-        // //Vị trí của Cửa
-        // sensor.AddObservation(gameManager.listLocations[3].position); //Tuyệt đối
-        // sensor.AddObservation(gameManager.listLocations[3].position - agentCell); //Tương đối
-
-        // //Vị trí của Giường
-        // sensor.AddObservation(gameManager.listLocations[4].position); //Tuyệt đối
-        // sensor.AddObservation(gameManager.listLocations[4].position - agentCell); //Tương đối
 
         //Khoảng cách đến Bếp
         sensor.AddObservation(Vector3.Distance(agentCell, gameManager.listLocations[0].position));
@@ -171,7 +152,7 @@ public class GridBrain : Agent
             {
                 if (action == 8)
                 {
-                    Debug.Log("Da nhan space o: " + key);
+                    // Debug.Log("Da nhan space o: " + key);
                 }
             }
 
@@ -505,7 +486,7 @@ public class GridBrain : Agent
         if (character.Food <= 0f || character.Drink <= 0f ||
             character.Sleep <= 0f || character.Stress >= 72f)
         {
-            Debug.Log($"Nhân vật đã chết: {character.Food}, {character.Drink}, {character.Sleep}, {character.Stress} với step là {count}");
+            // Debug.Log($"Nhân vật đã chết: {character.Food}, {character.Drink}, {character.Sleep}, {character.Stress} với step là {count}");
             gameManager.resetTimeLine();
             AddReward(-1f);
             EndEpisode();
@@ -518,36 +499,34 @@ public class GridBrain : Agent
         {
             if (action == 8)
             {
-                AddReward(0.2f);
+                AddReward(0.02f);
             }
             if (character.Food < 15f) AddReward(0.5f);   // ăn khi đói → tốt
-            else AddReward(-0.2f);                       // ăn khi no → lãng phí
+            else AddReward(-0.02f);                       // ăn khi no → lãng phí
         }
         else if (pos == gameManager.posDrink)
         {
             if (action == 8)
             {
-                AddReward(0.2f);
-
+                AddReward(0.02f);
             }
             if (character.Drink < 15f) AddReward(0.5f);
-            else AddReward(-0.2f);
+            else AddReward(-0.02f);
         }
         else if (pos == gameManager.posSleep)
         {
             if (action == 8)
             {
-                AddReward(0.2f);
-
+                AddReward(0.02f);
             }
             if (character.Sleep < 10f) AddReward(0.8f);  // ngủ khi mệt → tốt
-            else AddReward(-0.2f);
+            else AddReward(-0.02f);
         }
         else if (pos == gameManager.posWork)
         {
             if (action == 8)
             {
-                AddReward(0.2f);
+                AddReward(0.02f);
 
             }
             if (character.Sleep > 10f && character.Food > 10f && character.Drink > 10f)
@@ -559,7 +538,7 @@ public class GridBrain : Agent
         {
             if (action == 8)
             {
-                AddReward(0.2f);
+                AddReward(0.02f);
 
             }
             if (character.Stress > 30f) AddReward(0.6f); // đi xả stress khi stress cao

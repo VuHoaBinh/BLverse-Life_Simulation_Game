@@ -2,58 +2,58 @@
     "GridBrain": {
         "checkpoints": [
             {
-                "steps": 999997,
-                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-999997.onnx",
-                "reward": 17.25397025363546,
-                "creation_time": 1763772121.487059,
+                "steps": 2277138,
+                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-2277138.onnx",
+                "reward": -16.626836139422196,
+                "creation_time": 1763828348.447035,
                 "auxillary_file_paths": [
-                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-999997.pt"
+                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-2277138.pt"
                 ]
             },
             {
-                "steps": 1499966,
-                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-1499966.onnx",
-                "reward": 16.282262035038162,
-                "creation_time": 1763773901.2329133,
+                "steps": 2499977,
+                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-2499977.onnx",
+                "reward": -21.968795504707558,
+                "creation_time": 1763893654.059777,
                 "auxillary_file_paths": [
-                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-1499966.pt"
+                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-2499977.pt"
                 ]
             },
             {
-                "steps": 1861645,
-                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-1861645.onnx",
-                "reward": 16.548952318587393,
-                "creation_time": 1763775301.5883732,
+                "steps": 2999941,
+                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-2999941.onnx",
+                "reward": -15.345686782490123,
+                "creation_time": 1763895700.863046,
                 "auxillary_file_paths": [
-                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-1861645.pt"
+                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-2999941.pt"
                 ]
             },
             {
-                "steps": 1999990,
-                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-1999990.onnx",
-                "reward": 16.106708403556578,
-                "creation_time": 1763775947.1261702,
+                "steps": 3499972,
+                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-3499972.onnx",
+                "reward": -12.121967537062508,
+                "creation_time": 1763897796.4327915,
                 "auxillary_file_paths": [
-                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-1999990.pt"
+                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-3499972.pt"
                 ]
             },
             {
-                "steps": 2045756,
-                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-2045756.onnx",
-                "reward": 17.284956209587328,
-                "creation_time": 1763776230.922073,
+                "steps": 3721111,
+                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-3721111.onnx",
+                "reward": -14.808813671074292,
+                "creation_time": 1763898739.055708,
                 "auxillary_file_paths": [
-                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-2045756.pt"
+                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-3721111.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 2045756,
+            "steps": 3721111,
             "file_path": "results\\RL_01_StateFix\\GridBrain.onnx",
-            "reward": 17.284956209587328,
-            "creation_time": 1763776230.922073,
+            "reward": -14.808813671074292,
+            "creation_time": 1763898739.055708,
             "auxillary_file_paths": [
-                "results\\RL_01_StateFix\\GridBrain\\GridBrain-2045756.pt"
+                "results\\RL_01_StateFix\\GridBrain\\GridBrain-3721111.pt"
             ]
         }
     },
