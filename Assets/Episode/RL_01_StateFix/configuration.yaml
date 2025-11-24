@@ -3,11 +3,11 @@ behaviors:
   GridBrain:
     trainer_type: ppo
     hyperparameters:
-      batch_size: 1024
-      buffer_size: 10240
-      learning_rate: 0.0002
-      beta: 0.02
-      epsilon: 0.2
+      batch_size: 2048
+      buffer_size: 20480
+      learning_rate: 1.0e-05
+      beta: 0.05
+      epsilon: 0.05
       lambd: 0.95
       num_epoch: 3
       shared_critic: false
@@ -15,8 +15,8 @@ behaviors:
       beta_schedule: linear
       epsilon_schedule: linear
     network_settings:
-      normalize: false
-      hidden_units: 128
+      normalize: true
+      hidden_units: 256
       num_layers: 2
       vis_encode_type: simple
       memory: null
@@ -24,8 +24,8 @@ behaviors:
       deterministic: false
     reward_signals:
       extrinsic:
-        gamma: 0.99
-        strength: 2.0
+        gamma: 0.95
+        strength: 0.5
         network_settings:
           normalize: false
           hidden_units: 128
@@ -37,9 +37,9 @@ behaviors:
     init_path: null
     keep_checkpoints: 5
     checkpoint_interval: 500000
-    max_steps: 4000000
-    time_horizon: 64
-    summary_freq: 10000
+    max_steps: 5000000
+    time_horizon: 256
+    summary_freq: 5000
     threaded: false
     self_play: null
     behavioral_cloning: null
@@ -63,7 +63,7 @@ engine_settings:
   no_graphics: false
 environment_parameters: null
 checkpoint_settings:
-  run_id: RL_01_StateFix
+  run_id: D:\BLverse-Life_Simulation_Game\Assets\Episode\RL_01_StateFix
   initialize_from: null
   load_model: false
   resume: true

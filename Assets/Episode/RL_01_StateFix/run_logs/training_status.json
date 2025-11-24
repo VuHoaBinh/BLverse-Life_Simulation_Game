@@ -2,58 +2,58 @@
     "GridBrain": {
         "checkpoints": [
             {
-                "steps": 2277138,
-                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-2277138.onnx",
-                "reward": -16.626836139422196,
-                "creation_time": 1763828348.447035,
+                "steps": 3724213,
+                "file_path": "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-3724213.onnx",
+                "reward": -0.6844310760498047,
+                "creation_time": 1764000532.5968804,
                 "auxillary_file_paths": [
-                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-2277138.pt"
+                    "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-3724213.pt"
                 ]
             },
             {
-                "steps": 2499977,
-                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-2499977.onnx",
-                "reward": -21.968795504707558,
-                "creation_time": 1763893654.059777,
+                "steps": 3726720,
+                "file_path": "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-3726720.onnx",
+                "reward": 1.010402178063112,
+                "creation_time": 1764000709.892968,
                 "auxillary_file_paths": [
-                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-2499977.pt"
+                    "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-3726720.pt"
                 ]
             },
             {
-                "steps": 2999941,
-                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-2999941.onnx",
-                "reward": -15.345686782490123,
-                "creation_time": 1763895700.863046,
+                "steps": 3839024,
+                "file_path": "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-3839024.onnx",
+                "reward": -4.68590991786032,
+                "creation_time": 1764003194.6839254,
                 "auxillary_file_paths": [
-                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-2999941.pt"
+                    "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-3839024.pt"
                 ]
             },
             {
-                "steps": 3499972,
-                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-3499972.onnx",
-                "reward": -12.121967537062508,
-                "creation_time": 1763897796.4327915,
+                "steps": 3999999,
+                "file_path": "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-3999999.onnx",
+                "reward": -6.413143114231559,
+                "creation_time": 1764004838.894575,
                 "auxillary_file_paths": [
-                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-3499972.pt"
+                    "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-3999999.pt"
                 ]
             },
             {
-                "steps": 3721111,
-                "file_path": "results\\RL_01_StateFix\\GridBrain\\GridBrain-3721111.onnx",
-                "reward": -14.808813671074292,
-                "creation_time": 1763898739.055708,
+                "steps": 4006713,
+                "file_path": "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-4006713.onnx",
+                "reward": null,
+                "creation_time": 1764004908.944601,
                 "auxillary_file_paths": [
-                    "results\\RL_01_StateFix\\GridBrain\\GridBrain-3721111.pt"
+                    "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-4006713.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 3721111,
-            "file_path": "results\\RL_01_StateFix\\GridBrain.onnx",
-            "reward": -14.808813671074292,
-            "creation_time": 1763898739.055708,
+            "steps": 4006713,
+            "file_path": "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain.onnx",
+            "reward": null,
+            "creation_time": 1764004908.944601,
             "auxillary_file_paths": [
-                "results\\RL_01_StateFix\\GridBrain\\GridBrain-3721111.pt"
+                "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_01_StateFix\\GridBrain\\GridBrain-4006713.pt"
             ]
         }
     },
