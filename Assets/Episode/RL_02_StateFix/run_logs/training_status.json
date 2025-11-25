@@ -3,5 +3,27 @@
         "stats_format_version": "0.3.0",
         "mlagents_version": "0.30.0",
         "torch_version": "2.4.1+cpu"
+    },
+    "GridBrain": {
+        "checkpoints": [
+            {
+                "steps": 19821,
+                "file_path": "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_02_StateFix\\GridBrain\\GridBrain-19821.onnx",
+                "reward": 8.590078755710902,
+                "creation_time": 1764049068.8528872,
+                "auxillary_file_paths": [
+                    "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_02_StateFix\\GridBrain\\GridBrain-19821.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 19821,
+            "file_path": "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_02_StateFix\\GridBrain.onnx",
+            "reward": 8.590078755710902,
+            "creation_time": 1764049068.8528872,
+            "auxillary_file_paths": [
+                "D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\RL_02_StateFix\\GridBrain\\GridBrain-19821.pt"
+            ]
+        }
     }
 }
