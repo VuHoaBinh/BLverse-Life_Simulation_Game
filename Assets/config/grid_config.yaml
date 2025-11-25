@@ -2,23 +2,23 @@ behaviors:
   GridBrain:
     trainer_type: ppo
     max_steps: 5000000
-    time_horizon: 256
+    time_horizon: 512
     summary_freq: 5000
     hyperparameters:
-      batch_size: 2048
-      buffer_size: 20480
-      learning_rate: 1e-5
+      batch_size: 1024
+      buffer_size: 10240
+      learning_rate: 3e-4
       beta: 0.05
       epsilon: 0.05
     network_settings:
       num_layers: 2
       hidden_units: 256
-      normalize: true
+      normalize: false
       vis_encoder_type: simple
     reward_signals:
       extrinsic:
-        gamma: 0.95
-        strength: 0.5
+        gamma: 0.99
+        strength: 1.0
     # behavioral_cloning:
     #   demo_path: "C:/Users/M S I/Desktop/GamePartI/FinalProject/Assets/Arc/SCRIPT/Trajectories/ComenPress.demo"
     #   strength: 0.2

@@ -461,266 +461,263 @@ public class GridBrain : Agent
         }
     }
 
+    private void calcReward_tuDuyTriChiSoSong_phase2(int action){
 
+        // 👣 Nhẹ nhàng giảm trừ mỗi bước (nhỏ hơn để tập trung kéo dài tuổi thọ)
+        AddReward(-0.0002f);
 
+        //Chuẩn hóa chỉ số về [0,1]
+        float hunger = Mathf.Clamp01(1f - character.Food / 24f);   // hunger ∈ [0,1], lớn = cần ăn
+        float thirst = Mathf.Clamp01(1f - character.Drink / 24f);  // thirst ∈ [0,1]
+        float tired = Mathf.Clamp01(1f - character.Sleep / 24f);   // tired ∈ [0,1]
+        float stress = Mathf.Clamp01(character.Stress / 72f);      // stress ∈ [0,1]
 
-    // private void calcReward_tuDuyTriChiSoSong_phase2(int action){
+        // Phạt dần theo trạng thái xấu (nhẹ hơn)
+        AddReward(-0.002f * (hunger + thirst + tired + stress));
 
-    //     // 👣 Nhẹ nhàng giảm trừ mỗi bước (nhỏ hơn để tập trung kéo dài tuổi thọ)
-    //     AddReward(-0.0002f);
+        // Phạt lớn nếu chạm ngưỡng nguy hiểm
+        if (character.Food <= 1f) AddReward(-1f);
+        if (character.Drink <= 1f) AddReward(-1f);
+        if (character.Sleep <= 1f) AddReward(-1f);
+        if (character.Stress >= 70f) AddReward(-1f);
 
-    //     //Chuẩn hóa chỉ số về [0,1]
-    //     float hunger = Mathf.Clamp01(1f - character.Food / 24f);   // hunger ∈ [0,1], lớn = cần ăn
-    //     float thirst = Mathf.Clamp01(1f - character.Drink / 24f);  // thirst ∈ [0,1]
-    //     float tired = Mathf.Clamp01(1f - character.Sleep / 24f);   // tired ∈ [0,1]
-    //     float stress = Mathf.Clamp01(character.Stress / 72f);      // stress ∈ [0,1]
-
-    //     // Phạt dần theo trạng thái xấu (nhẹ hơn)
-    //     AddReward(-0.002f * (hunger + thirst + tired + stress));
-
-    //     // Phạt lớn nếu chạm ngưỡng nguy hiểm
-    //     if (character.Food <= 1f) AddReward(-1f);
-    //     if (character.Drink <= 1f) AddReward(-1f);
-    //     if (character.Sleep <= 1f) AddReward(-1f);
-    //     if (character.Stress >= 70f) AddReward(-1f);
-
-    //     // --- Reward shaping: khuyến khích đi về mục tiêu cần nhất ---
-    //     // Tìm need cao nhất
-    //     float[] needs = new float[] { hunger, thirst, tired, stress };
-    //     int needIdx = 0;
-    //     float needMax = needs[0];
-    //     for (int i = 1; i < needs.Length; i++)
-    //     {
-    //         if (needs[i] > needMax)
-    //         {
-    //             needMax = needs[i];
-    //             needIdx = i;
-    //         }
-    //     }
-
-    //     Vector3 needTarget = gameManager.posEat;
-    //     if (needIdx == 0) needTarget = gameManager.posEat;   // ăn
-    //     else if (needIdx == 1) needTarget = gameManager.posDrink; // uống
-    //     else if (needIdx == 2) needTarget = gameManager.posSleep; // ngủ
-    //     else if (needIdx == 3) needTarget = gameManager.posStress; // giải trí
-
-    //     float curNeedDist = Vector3.Distance(gameManager.posPlayer, needTarget);
-    //     if (float.IsInfinity(prevNeedDistance)) prevNeedDistance = curNeedDist;
-    //     // thưởng khi tiến gần, phạt nhẹ khi đi xa
-    //     if (curNeedDist < prevNeedDistance)
-    //     {
-    //         AddReward(0.02f * needMax); // reward tỉ lệ với mức cần thiết
-    //     }
-    //     else
-    //     {
-    //         AddReward(-0.01f * needMax);
-    //     }
-    //     prevNeedDistance = curNeedDist;
-
-    //     //Nếu nhân vật "chết" (kiệt sức, đói, khát, stress max)
-    //     if (character.Food <= 0f || character.Drink <= 0f ||
-    //         character.Sleep <= 0f || character.Stress >= 72f)
-    //     {
-    //         Debug.Log($"Nhân vật đã chết 2: {character.Food}, {character.Drink}, {character.Sleep}, {character.Stress} với step là {count}");
-    //         gameManager.resetTimeLine();
-    //         AddReward(-1f);
-    //         EndEpisode();
-    //     }
-
-    //     // Thưởng hợp lý theo vị trí hiện tại và trạng thái (scale nhỏ hơn, dựa trên mức need)
-    //     Vector3 pos = gameManager.posPlayer;
-
-    //     if (pos == gameManager.posEat)
-    //     {
-    //         if (action == 8)
-    //         {
-    //             AddReward(0.3f * hunger); // thưởng khi dùng đúng action, tỉ lệ với hunger
-    //         }
-    //         if (character.Food < 15f) AddReward(0.5f * hunger + 0.1f);   // ăn khi đói → tốt (càng đói càng thưởng nhiều)
-    //         else AddReward(-0.02f);                                       // ăn khi no → lãng phí
-    //     }
-    //     else if (pos == gameManager.posDrink)
-    //     {
-    //         if (action == 8)
-    //         {
-    //             AddReward(0.3f * thirst);
-    //         }
-    //         if (character.Drink < 15f) AddReward(0.45f * thirst + 0.08f);
-    //         else AddReward(-0.02f);
-    //     }
-    //     else if (pos == gameManager.posSleep)
-    //     {
-    //         if (action == 8)
-    //         {
-    //             AddReward(0.4f * tired);
-    //         }
-    //         if (character.Sleep < 10f) AddReward(0.6f * tired + 0.1f);  // ngủ khi mệt → tốt
-    //         else AddReward(-0.02f);
-    //     }
-    //     else if (pos == gameManager.posWork)
-    //     {
-    //         if (action == 8)
-    //         {
-    //             AddReward(0.15f);
-    //         }
-    //         if (character.Sleep > 10f && character.Food > 10f && character.Drink > 10f)
-    //             AddReward(0.6f);                        // đủ điều kiện làm việc → thưởng vừa phải
-    //         else
-    //             AddReward(-0.2f);                       // làm khi mệt → phạt nhẹ
-    //     }
-    //     else if (pos == gameManager.posStress)
-    //     {
-    //         if (action == 8)
-    //         {
-    //             AddReward(0.25f * stress);
-    //         }
-    //         if (character.Stress > 30f) AddReward(0.5f * stress + 0.05f); // đi xả stress khi stress cao
-    //         else AddReward(-0.05f);                                        // stress thấp mà vẫn đi → lãng phí
-    //     }
-
-    //     //Thưởng nhỏ khi duy trì trạng thái cân bằng tổng thể
-    //     if (character.Food > 12f && character.Drink > 12f &&
-    //         character.Sleep > 12f && character.Stress < 30f)
-    //     {
-    //         AddReward(0.002f);
-    //     }
-    // }
-
-    private int idleSteps = 0;  // Track stand still tại target
-    private float prevMoney = 100f;  // Track money delta
-    private float cycleBonusTimer = 0f;  // Để thưởng cycle hoàn thành
-
-    private void calcReward_tuDuyTriChiSoSong_phase2(int action)
-    {
-        // 👣 Penalty mỗi step: Tăng nhẹ để khuyến khích efficiency, scale với time
-        float timePenalty = -0.0005f * (gameManager.TimeLine / 1440f);
-        AddReward(timePenalty);
-
-        // Chuẩn hóa needs [0,1]
-        float hunger = Mathf.Clamp01(1f - character.Food / 24f);
-        float thirst = Mathf.Clamp01(1f - character.Drink / 24f);
-        float tired = Mathf.Clamp01(1f - character.Sleep / 24f);
-        float stress = Mathf.Clamp01(character.Stress / 72f);
-
-        // Phạt stat xấu: Giảm scale để focus vào shaping (thay vì -0.002 → -0.001)
-        AddReward(-0.001f * (hunger + thirst + tired + stress));
-
-        // Phạt nguy hiểm: Giữ nguyên, nhưng scale với severity
-        if (character.Food <= 1f) AddReward(-2f * hunger);  // Càng thấp càng phạt nặng
-        if (character.Drink <= 1f) AddReward(-2f * thirst);
-        if (character.Sleep <= 1f) AddReward(-2f * tired);
-        if (character.Stress >= 70f) AddReward(-2f * stress);
-
-        // --- Reward shaping cho need target (cải thiện: cap reward, thêm potential) ---
-        float[] needs = { hunger, thirst, tired, stress };
-        int needIdx = 0; float needMax = needs[0];
+        // --- Reward shaping: khuyến khích đi về mục tiêu cần nhất ---
+        // Tìm need cao nhất
+        float[] needs = new float[] { hunger, thirst, tired, stress };
+        int needIdx = 0;
+        float needMax = needs[0];
         for (int i = 1; i < needs.Length; i++)
         {
-            if (needs[i] > needMax) { needMax = needs[i]; needIdx = i; }
-        }
-
-        Vector3 needTarget;
-        switch (needIdx)
-        {
-            case 0: needTarget = gameManager.posEat; break;
-            case 1: needTarget = gameManager.posDrink; break;
-            case 2: needTarget = gameManager.posSleep; break;
-            default: needTarget = gameManager.posStress; break;  // stress
-        }
-
-        float curNeedDist = Vector3.Distance(gameManager.posPlayer, needTarget);
-        if (float.IsInfinity(prevNeedDistance)) prevNeedDistance = curNeedDist;
-
-        // Shaping: Thưởng progress, nhưng cap = needMax * 0.01 để tránh dominate
-        float distReward = (prevNeedDistance - curNeedDist) * 0.05f * needMax;  // Tăng scale nhẹ
-        distReward = Mathf.Clamp(distReward, -0.02f, 0.03f);  // Cap để smooth
-        AddReward(distReward);
-        prevNeedDistance = curNeedDist;
-
-        // Death check: Phạt nặng hơn nếu chết sớm (scale với steps)
-        if (character.Food <= 0f || character.Drink <= 0f || character.Sleep <= 0f || character.Stress >= 72f)
-        {
-            float deathPenalty = -5f - (count / 1000f);  // -5 đến -6, nặng hơn nếu chết sớm
-            Debug.Log($"Chết phase2: Stats {character.Food:F1},{character.Drink:F1},{character.Sleep:F1},{character.Stress:F1} at step {count}");
-            gameManager.resetTimeLine();
-            AddReward(deathPenalty);
-            EndEpisode();
-            return;
-        }
-
-        // Track idle và money
-        Vector3 pos = gameManager.posPlayer;
-        bool atTarget = (pos == needTarget);
-        if (action == 8 && atTarget) idleSteps++; else idleSteps = 0;  // Reset nếu move
-
-        float moneyDelta = character.Money - prevMoney;
-        prevMoney = character.Money;
-
-        // Phạt idle quá lâu: -0.01 per extra step sau 5 steps
-        if (idleSteps > 5) AddReward(-0.01f * (idleSteps - 5));
-
-        // --- Action & Position rewards (cải thiện: scale với need + money, thêm work bonus) ---
-        if (pos == gameManager.posEat)
-        {
-            float eatReward = (character.Food < 15f) ? 0.6f * hunger : -0.05f;
-            if (action == 8) eatReward += 0.4f * hunger;  // Bonus stand
-            AddReward(eatReward);
-            cycleBonusTimer = 0f;  // Reset nếu đang satisfy need
-        }
-        else if (pos == gameManager.posDrink)
-        {
-            float drinkReward = (character.Drink < 15f) ? 0.55f * thirst : -0.05f;
-            if (action == 8) drinkReward += 0.35f * thirst;
-            AddReward(drinkReward);
-        }
-        else if (pos == gameManager.posSleep)
-        {
-            float sleepReward = (character.Sleep < 10f) ? 0.7f * tired : -0.05f;
-            if (action == 8) sleepReward += 0.5f * tired;
-            AddReward(sleepReward);
-        }
-        else if (pos == gameManager.posWork)
-        {
-            // Cải thiện: Chỉ reward nếu đủ stats VÀ money low (ưu tiên earn khi cần)
-            float workCond = (character.Sleep > 10f && character.Food > 10f && character.Drink > 10f) ? 1f : 0f;
-            float moneyNeed = Mathf.Clamp01(1f - character.Money / 200f);  // Need money nếu <200
-            float workReward = 0.8f * workCond * moneyNeed + 0.1f * moneyDelta;  // + delta money
-            if (action == 8) workReward += 0.2f * moneyNeed;
-            if (workCond < 1f) workReward -= 0.3f;  // Phạt mạnh hơn nếu mệt
-            AddReward(workReward);
-        }
-        else if (pos == gameManager.posStress)
-        {
-            float stressReward = (character.Stress > 30f) ? 0.6f * stress : -0.08f;
-            if (action == 8) stressReward += 0.3f * stress;
-            AddReward(stressReward);
-        }
-        else
-        {
-            // Phạt nhẹ nếu không tại target (khuyến khích purposeful movement)
-            AddReward(-0.005f);
-        }
-
-        // Cycle bonus: Thưởng nếu satisfy need trong <10 steps (hiệu quả)
-        if (atTarget && needMax < 0.2f)
-        {  // Need đã thấp
-            cycleBonusTimer += 1f;
-            if (cycleBonusTimer >= 10f)
-            {  // Hoàn thành cycle
-                AddReward(1f);  // Bonus lớn cho full cycle
-                cycleBonusTimer = 0f;
+            if (needs[i] > needMax)
+            {
+                needMax = needs[i];
+                needIdx = i;
             }
         }
 
-        // Balance bonus: Tăng nhẹ nếu all good
-        if (character.Food > 12f && character.Drink > 12f && character.Sleep > 12f && character.Stress < 30f)
+        Vector3 needTarget = gameManager.posEat;
+        if (needIdx == 0) needTarget = gameManager.posEat;   // ăn
+        else if (needIdx == 1) needTarget = gameManager.posDrink; // uống
+        else if (needIdx == 2) needTarget = gameManager.posSleep; // ngủ
+        else if (needIdx == 3) needTarget = gameManager.posStress; // giải trí
+
+        float curNeedDist = Vector3.Distance(gameManager.posPlayer, needTarget);
+        if (float.IsInfinity(prevNeedDistance)) prevNeedDistance = curNeedDist;
+        // thưởng khi tiến gần, phạt nhẹ khi đi xa
+        if (curNeedDist < prevNeedDistance)
         {
-            AddReward(0.005f);  // Tăng nhẹ để encourage maintain
+            AddReward(0.02f * needMax); // reward tỉ lệ với mức cần thiết
+        }
+        else
+        {
+            AddReward(-0.01f * needMax);
+        }
+        prevNeedDistance = curNeedDist;
+
+        //Nếu nhân vật "chết" (kiệt sức, đói, khát, stress max)
+        if (character.Food <= 0f || character.Drink <= 0f ||
+            character.Sleep <= 0f || character.Stress >= 72f)
+        {
+            Debug.Log($"Nhân vật đã chết 2: {character.Food}, {character.Drink}, {character.Sleep}, {character.Stress} với step là {count}");
+            gameManager.resetTimeLine();
+            AddReward(-1f);
+            EndEpisode();
         }
 
-        // Money bonus/penalty: Thưởng nếu tăng, phạt nếu giảm (nếu có chi tiêu)
-        if (moneyDelta > 0) AddReward(0.2f * (moneyDelta / 10f));  // Scale với gain
-        else if (character.Money < 10f) AddReward(-0.5f);  // Phá sản
+        // Thưởng hợp lý theo vị trí hiện tại và trạng thái (scale nhỏ hơn, dựa trên mức need)
+        Vector3 pos = gameManager.posPlayer;
+
+        if (pos == gameManager.posEat)
+        {
+            if (action == 8)
+            {
+                AddReward(0.3f * hunger); // thưởng khi dùng đúng action, tỉ lệ với hunger
+            }
+            if (character.Food < 15f) AddReward(0.5f * hunger + 0.1f);   // ăn khi đói → tốt (càng đói càng thưởng nhiều)
+            else AddReward(-0.02f);                                       // ăn khi no → lãng phí
+        }
+        else if (pos == gameManager.posDrink)
+        {
+            if (action == 8)
+            {
+                AddReward(0.3f * thirst);
+            }
+            if (character.Drink < 15f) AddReward(0.45f * thirst + 0.08f);
+            else AddReward(-0.02f);
+        }
+        else if (pos == gameManager.posSleep)
+        {
+            if (action == 8)
+            {
+                AddReward(0.4f * tired);
+            }
+            if (character.Sleep < 10f) AddReward(0.6f * tired + 0.1f);  // ngủ khi mệt → tốt
+            else AddReward(-0.02f);
+        }
+        else if (pos == gameManager.posWork)
+        {
+            if (action == 8)
+            {
+                AddReward(0.15f);
+            }
+            if (character.Sleep > 10f && character.Food > 10f && character.Drink > 10f)
+                AddReward(0.6f);                        // đủ điều kiện làm việc → thưởng vừa phải
+            else
+                AddReward(-0.2f);                       // làm khi mệt → phạt nhẹ
+        }
+        else if (pos == gameManager.posStress)
+        {
+            if (action == 8)
+            {
+                AddReward(0.25f * stress);
+            }
+            if (character.Stress > 30f) AddReward(0.5f * stress + 0.05f); // đi xả stress khi stress cao
+            else AddReward(-0.05f);                                        // stress thấp mà vẫn đi → lãng phí
+        }
+
+        //Thưởng nhỏ khi duy trì trạng thái cân bằng tổng thể
+        if (character.Food > 12f && character.Drink > 12f &&
+            character.Sleep > 12f && character.Stress < 30f)
+        {
+            AddReward(0.002f);
+        }
     }
+
+    // private int idleSteps = 0;  // Track stand still tại target
+    // private float prevMoney = 100f;  // Track money delta
+    // private float cycleBonusTimer = 0f;  // Để thưởng cycle hoàn thành
+
+    // private void calcReward_tuDuyTriChiSoSong_phase2(int action)
+    // {
+    //     // 👣 Penalty mỗi step: Tăng nhẹ để khuyến khích efficiency, scale với time
+    //     float timePenalty = -0.0005f * (gameManager.TimeLine / 1440f);
+    //     AddReward(timePenalty);
+
+    //     // Chuẩn hóa needs [0,1]
+    //     float hunger = Mathf.Clamp01(1f - character.Food / 24f);
+    //     float thirst = Mathf.Clamp01(1f - character.Drink / 24f);
+    //     float tired = Mathf.Clamp01(1f - character.Sleep / 24f);
+    //     float stress = Mathf.Clamp01(character.Stress / 72f);
+
+    //     // Phạt stat xấu: Giảm scale để focus vào shaping (thay vì -0.002 → -0.001)
+    //     AddReward(-0.001f * (hunger + thirst + tired + stress));
+
+    //     // Phạt nguy hiểm: Giữ nguyên, nhưng scale với severity
+    //     if (character.Food <= 1f) AddReward(-2f * hunger);  // Càng thấp càng phạt nặng
+    //     if (character.Drink <= 1f) AddReward(-2f * thirst);
+    //     if (character.Sleep <= 1f) AddReward(-2f * tired);
+    //     if (character.Stress >= 70f) AddReward(-2f * stress);
+
+    //     // --- Reward shaping cho need target (cải thiện: cap reward, thêm potential) ---
+    //     float[] needs = { hunger, thirst, tired, stress };
+    //     int needIdx = 0; float needMax = needs[0];
+    //     for (int i = 1; i < needs.Length; i++)
+    //     {
+    //         if (needs[i] > needMax) { needMax = needs[i]; needIdx = i; }
+    //     }
+
+    //     Vector3 needTarget;
+    //     switch (needIdx)
+    //     {
+    //         case 0: needTarget = gameManager.posEat; break;
+    //         case 1: needTarget = gameManager.posDrink; break;
+    //         case 2: needTarget = gameManager.posSleep; break;
+    //         default: needTarget = gameManager.posStress; break;  // stress
+    //     }
+
+    //     float curNeedDist = Vector3.Distance(gameManager.posPlayer, needTarget);
+    //     if (float.IsInfinity(prevNeedDistance)) prevNeedDistance = curNeedDist;
+
+    //     // Shaping: Thưởng progress, nhưng cap = needMax * 0.01 để tránh dominate
+    //     float distReward = (prevNeedDistance - curNeedDist) * 0.05f * needMax;  // Tăng scale nhẹ
+    //     distReward = Mathf.Clamp(distReward, -0.02f, 0.03f);  // Cap để smooth
+    //     AddReward(distReward);
+    //     prevNeedDistance = curNeedDist;
+
+    //     // Death check: Phạt nặng hơn nếu chết sớm (scale với steps)
+    //     if (character.Food <= 0f || character.Drink <= 0f || character.Sleep <= 0f || character.Stress >= 72f)
+    //     {
+    //         float deathPenalty = -5f - (count / 1000f);  // -5 đến -6, nặng hơn nếu chết sớm
+    //         Debug.Log($"Chết phase2: Stats {character.Food:F1},{character.Drink:F1},{character.Sleep:F1},{character.Stress:F1} at step {count}");
+    //         gameManager.resetTimeLine();
+    //         AddReward(deathPenalty);
+    //         EndEpisode();
+    //         return;
+    //     }
+
+    //     // Track idle và money
+    //     Vector3 pos = gameManager.posPlayer;
+    //     bool atTarget = (pos == needTarget);
+    //     if (action == 8 && atTarget) idleSteps++; else idleSteps = 0;  // Reset nếu move
+
+    //     float moneyDelta = character.Money - prevMoney;
+    //     prevMoney = character.Money;
+
+    //     // Phạt idle quá lâu: -0.01 per extra step sau 5 steps
+    //     if (idleSteps > 5) AddReward(-0.01f * (idleSteps - 5));
+
+    //     // --- Action & Position rewards (cải thiện: scale với need + money, thêm work bonus) ---
+    //     if (pos == gameManager.posEat)
+    //     {
+    //         float eatReward = (character.Food < 15f) ? 0.6f * hunger : -0.05f;
+    //         if (action == 8) eatReward += 0.4f * hunger;  // Bonus stand
+    //         AddReward(eatReward);
+    //         cycleBonusTimer = 0f;  // Reset nếu đang satisfy need
+    //     }
+    //     else if (pos == gameManager.posDrink)
+    //     {
+    //         float drinkReward = (character.Drink < 15f) ? 0.55f * thirst : -0.05f;
+    //         if (action == 8) drinkReward += 0.35f * thirst;
+    //         AddReward(drinkReward);
+    //     }
+    //     else if (pos == gameManager.posSleep)
+    //     {
+    //         float sleepReward = (character.Sleep < 10f) ? 0.7f * tired : -0.05f;
+    //         if (action == 8) sleepReward += 0.5f * tired;
+    //         AddReward(sleepReward);
+    //     }
+    //     else if (pos == gameManager.posWork)
+    //     {
+    //         // Cải thiện: Chỉ reward nếu đủ stats VÀ money low (ưu tiên earn khi cần)
+    //         float workCond = (character.Sleep > 10f && character.Food > 10f && character.Drink > 10f) ? 1f : 0f;
+    //         float moneyNeed = Mathf.Clamp01(1f - character.Money / 200f);  // Need money nếu <200
+    //         float workReward = 0.8f * workCond * moneyNeed + 0.1f * moneyDelta;  // + delta money
+    //         if (action == 8) workReward += 0.2f * moneyNeed;
+    //         if (workCond < 1f) workReward -= 0.3f;  // Phạt mạnh hơn nếu mệt
+    //         AddReward(workReward);
+    //     }
+    //     else if (pos == gameManager.posStress)
+    //     {
+    //         float stressReward = (character.Stress > 30f) ? 0.6f * stress : -0.08f;
+    //         if (action == 8) stressReward += 0.3f * stress;
+    //         AddReward(stressReward);
+    //     }
+    //     else
+    //     {
+    //         // Phạt nhẹ nếu không tại target (khuyến khích purposeful movement)
+    //         AddReward(-0.005f);
+    //     }
+
+    //     // Cycle bonus: Thưởng nếu satisfy need trong <10 steps (hiệu quả)
+    //     if (atTarget && needMax < 0.2f)
+    //     {  // Need đã thấp
+    //         cycleBonusTimer += 1f;
+    //         if (cycleBonusTimer >= 10f)
+    //         {  // Hoàn thành cycle
+    //             AddReward(1f);  // Bonus lớn cho full cycle
+    //             cycleBonusTimer = 0f;
+    //         }
+    //     }
+
+    //     // Balance bonus: Tăng nhẹ nếu all good
+    //     if (character.Food > 12f && character.Drink > 12f && character.Sleep > 12f && character.Stress < 30f)
+    //     {
+    //         AddReward(0.005f);  // Tăng nhẹ để encourage maintain
+    //     }
+
+    //     // Money bonus/penalty: Thưởng nếu tăng, phạt nếu giảm (nếu có chi tiêu)
+    //     if (moneyDelta > 0) AddReward(0.2f * (moneyDelta / 10f));  // Scale với gain
+    //     else if (character.Money < 10f) AddReward(-0.5f);  // Phá sản
+    // }
 
 }

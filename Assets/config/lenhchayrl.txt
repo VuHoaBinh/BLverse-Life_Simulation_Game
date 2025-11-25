@@ -12,3 +12,7 @@ mlagents-learn "C:\Users\Administrator\Downloads\BLverse-Life_Simulation_Game\As
 
 
 C:\Users\M S I\Desktop\GamePartI\FinalProject\Assets\config\grid_config.yaml
+
+mlagents-learn "D:\BLverse-Life_Simulation_Game\Assets\config\grid_config.yaml" --run-id=D:\BLverse-Life_Simulation_Game\Assets\Episode\RL_01_StateFix --resume
+
+python test.py D:\BLverse-Life_Simulation_Game\Assets\Episode\RL_01_StateFix\GridBrain.onnx --box
