@@ -12,3 +12,6 @@ mlagents-learn "C:\Users\Administrator\Downloads\BLverse-Life_Simulation_Game\As
 
 
 C:\Users\M S I\Desktop\GamePartI\FinalProject\Assets\config\grid_config.yaml
+
+RL_02_StateFixAndStat
+mlagents-learn "C:\Users\M S I\Desktop\GamePartI\FinalProject\Assets\config\grid_config.yaml" --run-id=RL_01_StateFix --resume

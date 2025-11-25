@@ -7,11 +7,11 @@ public class Character : MonoBehaviour
     public Rigidbody2D rb;
     public float speed = 12f;
     public bool isMoving = false;
-    [SerializeField] private float food = 24;
-    [SerializeField] private float drink = 24;
-    [SerializeField] private float sleep = 24;
-    [SerializeField] private float stress = 0;
-    [SerializeField] private int money = 100;
+    [SerializeField] private float food;
+    [SerializeField] private float drink;
+    [SerializeField] private float sleep;
+    [SerializeField] private float stress;
+    [SerializeField] private int money;
 
     //Get and set
     public float Food
@@ -19,7 +19,7 @@ public class Character : MonoBehaviour
         get { return food; }
         set
         {
-            food = Mathf.Clamp(value, 0f, 24f);
+            food = Mathf.Clamp(value, 0f, 240f);
         }
     }
 
@@ -28,7 +28,7 @@ public class Character : MonoBehaviour
         get { return drink; }
         set
         {
-            drink = Mathf.Clamp(value, 0f, 24f);
+            drink = Mathf.Clamp(value, 0f, 80f);
         }
     }
 
@@ -37,7 +37,7 @@ public class Character : MonoBehaviour
         get { return sleep; }
         set
         {
-            sleep = Mathf.Clamp(value, 0f, 24f);
+            sleep = Mathf.Clamp(value, 0f, 160f);
         }
     }
 

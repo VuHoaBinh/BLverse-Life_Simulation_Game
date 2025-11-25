@@ -1,7 +1,7 @@
 behaviors:
   GridBrain:
     trainer_type: ppo
-    max_steps: 4000000
+    max_steps: 10000000
     time_horizon: 64
     summary_freq: 10000
     hyperparameters:
