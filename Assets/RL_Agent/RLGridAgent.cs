@@ -493,8 +493,8 @@ public class GridBrain : Agent
         }
 
         //Thưởng hợp lý theo vị trí hiện tại và trạng thái
+        //Nếu chỉ số phù hợp thì mới thưởng
         Vector3 pos = gameManager.posPlayer;
-
         if (pos == gameManager.posEat)
         {
             if (action == 8)
