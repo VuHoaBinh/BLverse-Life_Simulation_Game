@@ -473,7 +473,7 @@ public class GridBrain : Agent
         float stress = Mathf.Clamp01(character.Stress / 72f);      // stress ∈ [0,1]
 
         // Phạt dần theo trạng thái xấu (nhẹ hơn)
-        AddReward(-0.002f * (hunger + thirst + tired + stress));
+        AddReward(-0.0002f * (hunger + thirst + tired + stress));
 
         // Phạt lớn nếu chạm ngưỡng nguy hiểm
         if (character.Food <= 1f) AddReward(-1f);
@@ -492,6 +492,7 @@ public class GridBrain : Agent
             {
                 needMax = needs[i];
                 needIdx = i;
+                // break;
             }
         }
 
@@ -561,9 +562,9 @@ public class GridBrain : Agent
                 AddReward(0.15f);
             }
             if (character.Sleep > 10f && character.Food > 10f && character.Drink > 10f)
-                AddReward(0.6f);                        // đủ điều kiện làm việc → thưởng vừa phải
+                AddReward(0.5f);                        // đủ điều kiện làm việc → thưởng vừa phải
             else
-                AddReward(-0.2f);                       // làm khi mệt → phạt nhẹ
+                AddReward(-0.02f);                       // làm khi mệt → phạt nhẹ
         }
         else if (pos == gameManager.posStress)
         {
@@ -579,7 +580,7 @@ public class GridBrain : Agent
         if (character.Food > 12f && character.Drink > 12f &&
             character.Sleep > 12f && character.Stress < 30f)
         {
-            AddReward(0.002f);
+            AddReward(0.02f);
         }
     }
 

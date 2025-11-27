@@ -10627,11 +10627,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1014445025}
   rb: {fileID: 1014445029}
-  speed: 12
+  speed: 50
   isMoving: 0
-  food: 24
-  drink: 24
-  sleep: 24
+  food: 148
+  drink: 72
+  sleep: 48
   stress: 0
   money: 100
 --- !u!50 &1014445029

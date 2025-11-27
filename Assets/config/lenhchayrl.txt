@@ -16,3 +16,7 @@ C:\Users\M S I\Desktop\GamePartI\FinalProject\Assets\config\grid_config.yaml
 mlagents-learn "D:\BLverse-Life_Simulation_Game\Assets\config\grid_config.yaml" --run-id=D:\BLverse-Life_Simulation_Game\Assets\Episode\RL_01_StateFix --resume
 
 python test.py D:\BLverse-Life_Simulation_Game\Assets\Episode\RL_01_StateFix\GridBrain.onnx --box
+
+
+// đọc ghi file
+Set-Location 'D:\BLverse-Life_Simulation_Game\Assets\Episode\RL39_BC'; python .\test1.py; if (Test-Path .\rewards_steps.csv) { Write-Output 'CSV_EXISTS'; Get-ChildItem .\rewards_steps.csv | Format-List } else { Write-Output 'CSV_MISSING' }
