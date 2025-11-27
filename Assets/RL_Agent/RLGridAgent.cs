@@ -522,7 +522,7 @@ public class GridBrain : Agent
             if (action == 0)
             {
                 ThongKe.ThemLanThucHienDungAction(action);
-                AddReward(0.005f);
+                AddReward(0.0005f);
 
             }
         }
@@ -530,6 +530,10 @@ public class GridBrain : Agent
         //Thưởng nhỏ khi duy trì trạng thái cân bằng tổng thể
         if (character.Food > 120f && character.Drink > 40f &&
             character.Sleep > 80f && character.Stress < 30f)
+        {
+            AddReward(0.055f);
+        }
+        if (character.Money >= 50)
         {
             AddReward(0.055f);
         }
