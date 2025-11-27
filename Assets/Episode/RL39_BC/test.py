@@ -1,459 +1,219 @@
-# ...existing code...
+"""
+Simple CSV plotting tool.
+
+Reads a CSV/TSV and plots histogram (of `reward`) and scatter (`step` vs `reward`).
+Defaults to columns named `step` and `reward`.
+"""
+
 import argparse
-import onnx
+import csv
+import os
+import sys
+from typing import Tuple, List
+
 import numpy as np
 import matplotlib.pyplot as plt
+import onnx
 from onnx import numpy_helper
 
 
-def list_initializers(model):
-    for init in model.graph.initializer:
-        arr = numpy_helper.to_array(init)
-        print(f"{init.name}: shape={arr.shape}, dtype={arr.dtype}")
+def detect_delimiter(sample: str) -> str:
+    # try common delimiters
+    for d in [',', '\t', ';', '|']:
+        if d in sample:
+            return d
+    return ','
 
 
-def load_initializers(model):
-    return {init.name: numpy_helper.to_array(init) for init in model.graph.initializer}
+def read_two_columns(path: str, xcol: str = 'step', ycol: str = 'reward', delimiter: str = None) -> Tuple[np.ndarray, np.ndarray]:
+    if not os.path.exists(path):
+        raise FileNotFoundError(path)
+
+    with open(path, 'r', newline='', encoding='utf-8') as f:
+        # peek to detect delimiter if not provided
+        sample = f.read(4096)
+        f.seek(0)
+        if not delimiter:
+            delimiter = detect_delimiter(sample)
+        reader = csv.DictReader(f, delimiter=delimiter)
+        if reader.fieldnames is None:
+            raise ValueError('No header found in CSV file')
+
+        if xcol not in reader.fieldnames or ycol not in reader.fieldnames:
+            raise ValueError(f"Required columns not found. Available: {reader.fieldnames}")
+
+        xs: List[float] = []
+        ys: List[float] = []
+        for i, row in enumerate(reader):
+            try:
+                xv = row.get(xcol, None)
+                yv = row.get(ycol, None)
+                if xv is None or yv is None:
+                    continue
+                xv_f = float(xv)
+                yv_f = float(yv)
+                xs.append(xv_f)
+                ys.append(yv_f)
+            except Exception:
+                # skip rows with conversion issues
+                continue
+
+    if not xs or not ys:
+        raise ValueError('No numeric data found for the requested columns')
+
+    return np.array(xs), np.array(ys)
 
 
-def plot_hist(all_weights, save=None):
-    vals = np.concatenate([w.ravel() for w in all_weights if w.size > 0]) if all_weights else np.array([])
-    if vals.size == 0:
-        print("No weights to plot histogram.")
-        return
-    plt.figure(figsize=(6, 4))
-    plt.hist(vals, bins=100, color='C0', alpha=0.7)
-    # add mean and median lines
-    mean_val = float(np.mean(vals))
-    median_val = float(np.median(vals))
+def read_from_onnx(path: str, init_name: str = None) -> Tuple[np.ndarray, np.ndarray]:
+    if not os.path.exists(path):
+        raise FileNotFoundError(path)
+    try:
+        model = onnx.load(path)
+    except Exception as e:
+        raise RuntimeError(f'Failed to load ONNX: {e}')
+
+    inits = {init.name: numpy_helper.to_array(init) for init in model.graph.initializer}
+    if not inits:
+        raise ValueError('No initializers found in ONNX model')
+
+    if init_name:
+        if init_name not in inits:
+            raise ValueError(f"Initializer '{init_name}' not found. Available: {list(inits.keys())[:10]}")
+        arr = inits[init_name].ravel()
+    else:
+        # concatenate all initializers into one long 1D array
+        arr = np.concatenate([v.ravel() for v in inits.values()])
+
+    if arr.size == 0:
+        raise ValueError('No numeric data in selected initializers')
+
+    x = np.arange(arr.size)
+    y = arr.astype(float)
+    return x, y
+
+
+def plot_hist_reward(y: np.ndarray, bins: int = 50, save: str = None):
+    plt.figure(figsize=(8, 4))
+    plt.hist(y, bins=bins, color='C0', alpha=0.8)
+    mean_val = float(np.mean(y))
+    median_val = float(np.median(y))
     plt.axvline(mean_val, color='k', linestyle='--', linewidth=1, label=f'mean={mean_val:.4g}')
     plt.axvline(median_val, color='orange', linestyle=':', linewidth=1, label=f'median={median_val:.4g}')
-    plt.title('Weight distribution')
-    plt.xlabel('Value')
-    plt.ylabel('Count')
-    plt.grid(True)
-    plt.legend()
-    if save:
-        plt.savefig(save, dpi=150)
-    plt.show()
-
-
-def plot_kernel(kernel, cmap='viridis', save=None):
-    if kernel.ndim == 4:
-        k = kernel[0, 0]
-    elif kernel.ndim == 3:
-        k = kernel[0]
-    elif kernel.ndim == 2:
-        k = kernel
-    else:
-        raise ValueError("Unsupported kernel ndim")
-
-    plt.figure(figsize=(4, 4))
-    plt.imshow(k, cmap=cmap, aspect='equal')
-    plt.colorbar()
-    plt.title('Kernel visualization')
-    if save:
-        plt.savefig(save, dpi=150)
-    plt.show()
-
-
-def plot_line(arr, save=None):
-    y = arr.ravel()
-    if y.size == 0:
-        print("No data to plot line.")
-        return
-    x = np.arange(y.size)
-    plt.figure(figsize=(8, 4))
-    plt.plot(x, y, '-', color='C1', linewidth=0.8)
-    plt.xlabel('Index')
-    plt.ylabel('Value')
-    plt.title('Line plot of weights')
-    plt.grid(True)
-    if save:
-        plt.savefig(save, dpi=150)
-    plt.show()
-
-
-def plot_scatter(arr, save=None):
-    y = arr.ravel()
-    if y.size == 0:
-        print("No data to plot scatter.")
-        return
-    x = np.arange(y.size)
-    plt.figure(figsize=(8, 4))
-    plt.scatter(x, y, s=6, color='C2', alpha=0.6)
-    plt.xlabel('Index')
-    plt.ylabel('Value')
-    plt.title('Scatter plot')
-    plt.grid(True)
-    if save:
-        plt.savefig(save, dpi=150)
-    plt.show()
-
-
-# ----------------------------- COMPARE FUNCTIONS -----------------------------
-
-def compare_hist(init_name, inits1, inits2, save=None):
-    if init_name:
-        if init_name not in inits1 or init_name not in inits2:
-            print("Initializer not found in one of the models. Use --list on each model to check names.")
-            return
-        vals1 = inits1[init_name].ravel()
-        vals2 = inits2[init_name].ravel()
-    else:
-        vals1 = np.concatenate([w.ravel() for w in inits1.values()]) if inits1 else np.array([])
-        vals2 = np.concatenate([w.ravel() for w in inits2.values()]) if inits2 else np.array([])
-
-    if vals1.size == 0 and vals2.size == 0:
-        print("No weights to compare.")
-        return
-
-    plt.figure(figsize=(8, 5))
-    plt.hist(vals1, bins=100, alpha=0.7, label='PPO', color='red')
-    plt.hist(vals2, bins=100, alpha=0.7, label='PPO+BC', color='blue')
-    # add mean/median lines for each distribution when possible
-    try:
-        if vals1.size:
-            m1 = float(np.mean(vals1))
-            med1 = float(np.median(vals1))
-            plt.axvline(m1, color='darkred', linestyle='--', linewidth=1, label=f'PPO mean={m1:.4g}')
-            plt.axvline(med1, color='orangered', linestyle=':', linewidth=1, label=f'PPO median={med1:.4g}')
-    except Exception:
-        pass
-    try:
-        if vals2.size:
-            m2 = float(np.mean(vals2))
-            med2 = float(np.median(vals2))
-            plt.axvline(m2, color='darkblue', linestyle='--', linewidth=1, label=f'PPO+BC mean={m2:.4g}')
-            plt.axvline(med2, color='deepskyblue', linestyle=':', linewidth=1, label=f'PPO+BC median={med2:.4g}')
-    except Exception:
-        pass
-    plt.title(f'Weight Distribution Comparison ({init_name or "All"})')
-    plt.xlabel('Value')
+    plt.title('Reward Distribution')
+    plt.xlabel('Reward')
     plt.ylabel('Count')
     plt.legend()
     plt.grid(True)
     if save:
-        plt.savefig(save, dpi=150)
+        plt.savefig(save, dpi=150, bbox_inches='tight')
+        print(f'Saved histogram to {save}')
     plt.show()
 
 
-def compute_metrics(inits, name='Model'):
-    all_w = [w for w in inits.values() if w.size > 0]
-    if not all_w:
-        print(f"{name} Metrics: no parameters found.")
-        return {'norm': 0.0, 'var': 0.0}
-    norms = [np.linalg.norm(w) for w in all_w]
-    vars_ = [np.var(w) for w in all_w]
-
-    print(f"{name} Metrics:")
-    print(f"  Avg L2-Norm: {np.mean(norms):.4f}")
-    print(f"  Avg Variance: {np.mean(vars_):.4f}")
-    print(f"  Total Params: {sum(w.size for w in all_w)}")
-
-    return {'norm': float(np.mean(norms)), 'var': float(np.mean(vars_))}
-
-
-# ----------------------------- MAIN PROGRAM ----------------------------------
+def plot_scatter_step_reward(x: np.ndarray, y: np.ndarray, save: str = None):
+    plt.figure(figsize=(8, 4))
+    plt.scatter(x, y, s=10, alpha=0.6, color='C2')
+    plt.xlabel('Step')
+    plt.ylabel('Reward')
+    plt.title('Step vs Reward')
+    plt.grid(True)
+    if save:
+        plt.savefig(save, dpi=150, bbox_inches='tight')
+        print(f'Saved scatter to {save}')
+    plt.show()
 
 
 def main():
-    p = argparse.ArgumentParser()
-    p.add_argument('onnx', nargs='?', help='path to .onnx (required unless --compare)')
-    p.add_argument('--list', action='store_true', help='list initializers')
-    p.add_argument('--hist', action='store_true', help='plot histogram')
-    p.add_argument('--plot', metavar='NAME', help='plot kernel by initializer name')
-    p.add_argument('--colhist', action='store_true', help='column-wise histogram for 2D kernels')
-    p.add_argument('--box', action='store_true', help='boxplot across columns for 2D kernels')
-    p.add_argument('--heatmap', action='store_true', help='heatmap for 2D kernel')
-    p.add_argument('--show-fliers', action='store_true', help='show outliers in boxplot')
-    p.add_argument('--cols', metavar='LIST', help='comma-separated column indices to plot (e.g. 0,3,5)')
-    p.add_argument('--max-cols', type=int, default=8, help='max columns for column-wise hist')
-    p.add_argument('--save', metavar='FILE', help='save plot')
-
-
-    def plot_column_histograms(kernel, cols=None, max_cols=8, save=None):
-        if kernel.ndim != 2:
-            raise ValueError("Column histograms require a 2D kernel")
-        nrows, ncols = kernel.shape
-        if ncols == 0:
-            print("Empty kernel: no columns to plot.")
-            return
-        if cols:
-            cols_to_plot = [c for c in cols if 0 <= c < ncols]
-            if not cols_to_plot:
-                print("No valid columns selected.")
-                return
-        else:
-            cols_to_plot = list(range(min(ncols, max_cols)))
-            if ncols > max_cols:
-                print(f"Kernel has {ncols} columns; plotting first {max_cols} columns.")
-
-        n = len(cols_to_plot)
-        cols = 2
-        rows = (n + cols - 1) // cols
-        fig, axes = plt.subplots(rows, cols, figsize=(cols * 4, rows * 3))
-        axes = axes.flatten() if hasattr(axes, 'flatten') else [axes]
-        for i, c in enumerate(cols_to_plot):
-            ax = axes[i]
-            col_vals = kernel[:, c].ravel()
-            ax.hist(col_vals, bins=60, color='C3', alpha=0.7)
-            # draw mean line and annotate
-            try:
-                col_mean = float(np.mean(col_vals))
-                ax.axvline(col_mean, color='k', linestyle='--', linewidth=0.9)
-                ax.text(0.97, 0.85, f"μ={col_mean:.4g}", transform=ax.transAxes,
-                        horizontalalignment='right', fontsize=8, bbox=dict(facecolor='white', alpha=0.6, edgecolor='none'))
-            except Exception:
-                pass
-            ax.set_title(f'Column {c}')
-            ax.set_xlabel('Value')
-            ax.set_ylabel('Count')
-            ax.grid(True)
-
-        # hide any extra axes
-        for j in range(i + 1, len(axes)):
-            fig.delaxes(axes[j])
-
-        fig.suptitle('Column-wise Histograms')
-        fig.tight_layout(rect=[0, 0, 1, 0.96])
-        if save:
-            plt.savefig(save, dpi=150)
-        plt.show()
-
-
-    def plot_boxplot(kernel, cols=None, showfliers=False, save=None):
-        if kernel.ndim != 2:
-            raise ValueError("Boxplot requires a 2D kernel")
-        nrows, ncols = kernel.shape
-        if cols:
-            cols = [c for c in cols if 0 <= c < ncols]
-            if not cols:
-                print("No valid columns selected for boxplot.")
-                return
-            data = [kernel[:, c].ravel() for c in cols]
-            labels = [str(i) for i in cols]
-        else:
-            data = [kernel[:, c].ravel() for c in range(ncols)]
-            labels = [str(i) for i in range(ncols)]
-
-        n = len(data)
-        width = max(6, n * 0.25)
-        plt.figure(figsize=(width, 5))
-        bxp = plt.boxplot(data, labels=labels, showfliers=showfliers, patch_artist=False)
-        # show mean as a diamond marker
-        means = [np.mean(d) if len(d) else 0 for d in data]
-        x = np.arange(1, n + 1)
-        # plt.plot(x, means, 'D', color='orange', markersize=4, label='Mean')
-        plt.xlabel('Column')
-        plt.ylabel('Value')
-        plt.title('Boxplot per Column')
-        plt.grid(True, axis='y')
-        # adjust x labels for readability
-        if n > 20:
-            plt.xticks(rotation=45, fontsize=6)
-        elif n > 10:
-            plt.xticks(rotation=30, fontsize=8)
-
-        if showfliers:
-            plt.legend()
-
-        if save:
-            plt.savefig(save, dpi=150, bbox_inches='tight')
-        plt.show()
-
-
-    def plot_heatmap(kernel, cmap='viridis', save=None):
-        if kernel.ndim != 2:
-            raise ValueError("Heatmap requires a 2D kernel")
-        plt.figure(figsize=(8, 6))
-        plt.imshow(kernel, cmap=cmap, aspect='auto')
-        plt.colorbar()
-        plt.xlabel('Column')
-        plt.ylabel('Row')
-        plt.title('Kernel Heatmap')
-        if save:
-            plt.savefig(save, dpi=150)
-        plt.show()
-    p.add_argument('--line', action='store_true', help='line plot')
-    p.add_argument('--scatter', action='store_true', help='scatter plot')
-
-    # compare mode
-    p.add_argument('--compare', nargs=2, metavar=('ONNX1', 'ONNX2'),
-                   help='Compare two ONNX models: PPO vs PPO+BC')
-    p.add_argument('--layer', metavar='NAME', help='Initializer for compare (optional)')
+    p = argparse.ArgumentParser(description='Plot step vs reward from a CSV/TSV')
+    p.add_argument('csv', help='Path to CSV/TSV file (must contain header)')
+    p.add_argument('--xcol', default='step', help='Column name for x (default: step)')
+    p.add_argument('--ycol', default='reward', help='Column name for y (default: reward)')
+    p.add_argument('--delimiter', help='Delimiter to use (auto-detected if omitted)')
+    p.add_argument('--hist', action='store_true', help='Plot histogram of y (reward)')
+    p.add_argument('--scatter', action='store_true', help='Plot scatter x vs y (step vs reward)')
+    p.add_argument('--bins', type=int, default=50, help='Number of bins for histogram')
+    p.add_argument('--save', help='Save plot to file (PNG/JPEG/etc)')
+    p.add_argument('--init', help='(ONNX) initializer name to use (optional)')
+    p.add_argument('--bar', action='store_true', help='Bar (column) plot: step vs reward')
+    p.add_argument('--max-bars', type=int, default=1000, help='Maximum number of bars to plot (downsamples if larger)')
 
     args = p.parse_args()
-    # parse cols list if provided
-    args.cols_list = None
-    if args.cols:
-        try:
-            args.cols_list = [int(x) for x in args.cols.split(',') if x.strip() != '']
-        except Exception:
-            print("Invalid --cols format. Use comma-separated integers like 0,3,5")
-            return
 
-    # --------------------- COMPARE MODE ---------------------
-    if args.compare:
-        try:
-            model1 = onnx.load(args.compare[0])
-            model2 = onnx.load(args.compare[1])
-        except Exception as e:
-            print("Failed to load one of the ONNX files:", e)
-            return
-
-        inits1 = load_initializers(model1)
-        inits2 = load_initializers(model2)
-
-        m1 = compute_metrics(inits1, 'PPO')
-        m2 = compute_metrics(inits2, 'PPO+BC')
-
-        if args.hist:
-            compare_hist(args.layer, inits1, inits2, save=args.save)
-
-        if args.line:
-            arr1 = np.concatenate([w.ravel() for w in inits1.values()]) if inits1 else np.array([])
-            arr2 = np.concatenate([w.ravel() for w in inits2.values()]) if inits2 else np.array([])
-            x1 = np.arange(arr1.size)
-            x2 = np.arange(arr2.size)
-            plt.figure(figsize=(10, 5))
-            if arr1.size:
-                plt.plot(x1, arr1, 'r-', label='PPO', alpha=0.6)
-            if arr2.size:
-                plt.plot(x2, arr2, 'b-', label='PPO+BC', alpha=0.6)
-            plt.title('Line Compare')
-            plt.legend()
-            plt.grid(True)
-            if args.save:
-                plt.savefig(args.save, dpi=150)
-            plt.show()
-
-        if args.scatter:
-            arr1 = np.concatenate([w.ravel() for w in inits1.values()]) if inits1 else np.array([])
-            arr2 = np.concatenate([w.ravel() for w in inits2.values()]) if inits2 else np.array([])
-            x1 = np.arange(arr1.size)
-            x2 = np.arange(arr2.size)
-            plt.figure(figsize=(10, 5))
-            if arr1.size:
-                plt.scatter(x1, arr1, s=3, color='red', alpha=0.5, label='PPO')
-            if arr2.size:
-                plt.scatter(x2, arr2, s=3, color='blue', alpha=0.5, label='PPO+BC')
-            plt.title('Scatter Compare')
-            plt.legend()
-            plt.grid(True)
-            if args.save:
-                plt.savefig(args.save, dpi=150)
-            plt.show()
-
-        print("\nDelta (PPO+BC - PPO):")
-        print(f"  Norm Δ = {m2['norm'] - m1['norm']:.4f}")
-        print(f"  Var  Δ = {m2['var'] - m1['var']:.4f}")
-        return
-
-    # --------------------- SINGLE MODEL MODE ---------------------
-    if not args.onnx:
-        print("Error: no ONNX provided. Use: script.py model.onnx or --compare a b")
-        return
-
+    # choose reader based on file extension
     try:
-        model = onnx.load(args.onnx)
+        if args.csv.lower().endswith('.onnx'):
+            x, y = read_from_onnx(args.csv, init_name=getattr(args, 'init', None))
+        else:
+            x, y = read_two_columns(args.csv, xcol=args.xcol, ycol=args.ycol, delimiter=args.delimiter)
     except Exception as e:
-        print("Failed to load ONNX file:", e)
-        return
+        print('Error reading input:', e)
+        sys.exit(1)
 
-    if args.list:
-        list_initializers(model)
-        return
+    if not args.hist and not args.scatter:
+        # default behavior: both
+        args.hist = True
+        args.scatter = True
 
-    inits = load_initializers(model)
+    # If saving and both plots requested, create filenames for each unless save ends with an image extension and single requested
+    save_hist = None
+    save_scatter = None
+    if args.save:
+        base = args.save
+        if args.hist and not args.scatter:
+            save_hist = base
+        elif args.scatter and not args.hist:
+            save_scatter = base
+        else:
+            # both: append suffixes
+            root, ext = os.path.splitext(base)
+            if ext == '':
+                ext = '.png'
+            save_hist = f"{root}_hist{ext}"
+            save_scatter = f"{root}_scatter{ext}"
 
-    if not inits:
-        print("No initializers found in model.")
-        return
-
-    # --- New: allow heatmap/box/colhist without --plot: apply to all 2D initializers ---
-    def _apply_to_all_2d(func):
-        names_2d = [n for n, k in inits.items() if getattr(k, 'ndim', 0) == 2]
-        if not names_2d:
-            print("No 2D initializers found for this model.")
-            return
-        for i, name in enumerate(names_2d):
-            kernel = inits[name]
-            # build save filename if requested and multiple outputs
-            save = None
-            if args.save:
-                if len(names_2d) == 1:
-                    save = args.save
-                else:
-                    base = args.save
-                    if '.' in base:
-                        pref, ext = base.rsplit('.', 1)
-                        save = f"{pref}_{name}.{ext}"
-                    else:
-                        save = f"{base}_{name}"
-            print(f"Plotting '{name}' ({i+1}/{len(names_2d)})")
-            try:
-                func(kernel, save=save)
-            except Exception as e:
-                print(f"Plot error for '{name}':", e)
-
-    if args.heatmap and not args.plot:
-        _apply_to_all_2d(plot_heatmap)
-        return
-    if args.box and not args.plot:
-        # pass global cols and show-fliers into each call
-        def _boxwrap(k, save=None):
-            plot_boxplot(k, cols=getattr(args, 'cols_list', None), showfliers=args.show_fliers, save=save)
-        _apply_to_all_2d(_boxwrap)
-        return
-    if args.colhist and not args.plot:
-        def _colwrap(k, save=None):
-            plot_column_histograms(k, cols=getattr(args, 'cols_list', None), max_cols=args.max_cols, save=save)
-        _apply_to_all_2d(_colwrap)
-        return
-
-    # histogram
     if args.hist:
-        plot_hist(list(inits.values()), save=args.save)
-        return
+        plot_hist_reward(y, bins=args.bins, save=save_hist)
 
-    # kernel plot
-    if args.plot:
-        if args.plot not in inits:
-            print("Initializer not found. Use --list.")
-            return
-        kernel = inits[args.plot]
-        # prefer specific 2D visuals when requested
-        try:
-            if args.colhist:
-                plot_column_histograms(kernel, save=args.save)
-                return
-            if args.box:
-                plot_boxplot(kernel, save=args.save)
-                return
-            if args.heatmap:
-                plot_heatmap(kernel, save=args.save)
-                return
-        except ValueError as e:
-            print("Plot error:", e)
-            return
+    if args.scatter:
+        plot_scatter_step_reward(x, y, save=save_scatter)
 
-        # default: visualise kernel (single 2D slice for conv/kernel weights)
-        plot_kernel(kernel, save=args.save)
-        return
+    if args.bar:
+        # downsample if too many bars
+        def _get_sampled(xarr, yarr, max_bars):
+            n = xarr.size
+            if n <= max_bars:
+                return xarr, yarr
+            # choose roughly evenly spaced indices
+            idx = np.linspace(0, n - 1, max_bars).astype(int)
+            return xarr[idx], yarr[idx]
 
-    # line & scatter
-    if args.line or args.scatter:
-        arr = np.concatenate([w.ravel() for w in inits.values()]) if inits else np.array([])
-        if args.line:
-            plot_line(arr, save=args.save)
-        if args.scatter:
-            plot_scatter(arr, save=args.save)
-        return
+        xs, ys = _get_sampled(x, y, args.max_bars)
+        def plot_bar_step_reward(xa: np.ndarray, ya: np.ndarray, save: str = None):
+            plt.figure(figsize=(12, 4))
+            plt.bar(xa, ya, width=1.0, color='C4', alpha=0.8)
+            plt.xlabel('Step')
+            plt.ylabel('Reward')
+            plt.title('Bar plot: Step vs Reward')
+            plt.grid(True, axis='y')
+            if save:
+                plt.savefig(save, dpi=150, bbox_inches='tight')
+                print(f'Saved bar plot to {save}')
+            plt.show()
 
-    print("No option selected. Use --list, --hist, --plot NAME, --line, --scatter or --compare.")
+        # build save filename for bar plot if saving requested
+        save_bar = None
+        if args.save:
+            if save_hist is None and save_scatter is None:
+                # only bar requested
+                save_bar = args.save
+            else:
+                root, ext = os.path.splitext(args.save)
+                if ext == '':
+                    ext = '.png'
+                save_bar = f"{root}_bar{ext}"
+
+        plot_bar_step_reward(xs, ys, save=save_bar)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
-# ...existing code...
