@@ -102,14 +102,14 @@ public class GameManager : MonoBehaviour
         }
         if (posPlayer == posDrink && character.Money >= 5 && character.isDrinking)
         {
-            character.Drink += 4 * (80 / 24);
+            character.Drink += 40;
             character.Money -= 5;
             this.TimeLine += 1;
         }
         if (posPlayer == posSleep && character.isSleeping)
         {
             character.Sleep += 24 * (160 / 24);
-            character.Stress -= 0.5f;
+            character.Stress -= 5;
             this.TimeLine += 480;
         }
         if (posPlayer == posWork && character.isWorking)
@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
         }
         if (posPlayer == posStress && character.isRelaxing)
         {
-            character.Stress -= 9f;
+            character.Stress -= 10f;
             this.TimeLine += 60;
         }
     }

@@ -64,8 +64,9 @@ public class GridBrain : Agent
         character.Sleep = rand.Next(20, (int)initSleep);
         character.Food = rand.Next(20, (int)initFood);
         character.Drink = rand.Next(20, (int)initDrink);
-        character.Stress = rand.Next(0, 37);
-        character.Money = initMoney;
+        // character.Stress = rand.Next(0, 37);
+        character.Stress = rand.Next(37, 60);
+        character.Money = rand.Next(0, initMoney);
         // Debug.Log(character.Sleep);
     }
     public override void CollectObservations(VectorSensor sensor)
@@ -183,25 +184,25 @@ public class GridBrain : Agent
         astar.startNode = new Node(currentPosition_gridBase);
         if (isFinish)
         {
-            if (character.Food <= 12)
+            if (character.Food <= 120)
             {
                 isInteracable = true;
                 target_ = new Node(gameManager.posEat);
                 // Debug.Log($"Đi ăn lúc: {gameManager.TimeLine}");
             }
-            else if (character.Drink <= 12)
+            else if (character.Drink <= 40)
             {
                 isInteracable = true;
                 target_ = new Node(gameManager.posDrink);
                 // Debug.Log($"Đi uông lúc: {gameManager.TimeLine}");
             }
-            else if (character.Sleep <= 6)
+            else if (character.Sleep <= 80)
             {
                 isInteracable = true;
                 target_ = new Node(gameManager.posSleep);
                 // Debug.Log($"Đi ngủ lúc: {gameManager.TimeLine}");
             }
-            else if (character.Stress >= 10)
+            else if (character.Stress >= 30)
             {
                 isInteracable = true;
                 target_ = new Node(gameManager.posStress);
@@ -224,71 +225,17 @@ public class GridBrain : Agent
                 {
                     attempts++;
                     // Reset nhân vật về ô random
-                    int x = rand.Next(-5, -1);  // Random ngẫu nhiên theo kích thước map chiều ngang
-                    int y = rand.Next(-11, -9); //Random ngẫu nhiên theo kích thước map chiều dọc
+                    int x = rand.Next(-5, -1);
+                    int y = rand.Next(-11, -9);
                     Vector2Int key = new Vector2Int(x, y);
                     bool inMap = gameManager.map.TilePositions.ContainsKey(key);
                     gameManager.map.TilePositions.TryGetValue(key, out bool isValid);
                     if (inMap && !isValid)
                     {
                         target_ = new Node(new Vector3(x, y, 0));
-                        // Debug.Log($"Đặt nhân vật tại ô sau khi đã random thành công: {key}");
                         Debug.Log($"Đi quanh lúc: {gameManager.TimeLine}");
                     }
                 }
-                // isRandom = true;
-                // isInteracable = true;
-                // if (gameManager.TimeLine == 21 * 60)
-                // {
-                //     target_ = new Node(gameManager.posSleep);
-                //     // Debug.Log($"Đi ngủ lúc: {gameManager.TimeLine}");
-                // }
-                // else if (gameManager.TimeLine == 5 * 60)
-                // {
-                //     target_ = new Node(gameManager.posEat);
-                //     // Debug.Log($"Đi ăn lúc: {gameManager.TimeLine}");
-                // }
-                // else if (gameManager.TimeLine == 7 * 60)
-                // {
-                //     target_ = new Node(gameManager.posDrink);
-                //     // Debug.Log($"Đi uống lúc: {gameManager.TimeLine}");
-                // }
-                // else if (gameManager.TimeLine == 8 * 60)
-                // {
-                //     target_ = new Node(gameManager.posWork);
-                //     // Debug.Log($"Đi làm lúc: {gameManager.TimeLine}");
-                // }
-                // else if (gameManager.TimeLine >= 16 * 60)
-                // {
-                //     target_ = new Node(gameManager.posStress);
-                //     // Debug.Log($"Đi giải trí lúc: {gameManager.TimeLine}");
-                // }
-                // else
-                // {
-                //     isInteracable = false;
-                //     bool isRandom = false;
-                //     int maxAttempts = 100; // tránh loop vô hạn
-                //     int attempts = 0;
-                //     //Random 1 toa do ngau nhien hop le
-                //     while (!isRandom && attempts < maxAttempts)
-                //     {
-                //         attempts++;
-                //         // Reset nhân vật về ô random
-                //         int x = rand.Next(-5, -1);  // Random ngẫu nhiên theo kích thước map chiều ngang
-                //         int y = rand.Next(-11, -9); //Random ngẫu nhiên theo kích thước map chiều dọc
-                //         Vector2Int key = new Vector2Int(x, y);
-                //         bool inMap = gameManager.map.TilePositions.ContainsKey(key);
-                //         gameManager.map.TilePositions.TryGetValue(key, out bool isValid);
-                //         if (inMap && !isValid)
-                //         {
-                //             target_ = new Node(new Vector3(x, y, 0));
-                //             // Debug.Log($"Đặt nhân vật tại ô sau khi đã random thành công: {key}");
-                //             Debug.Log($"Đi quanh lúc: {gameManager.TimeLine}");
-
-                //             isRandom = true;
-                //         }
-                //     }
-                // }
             }
         }
         astar.goalNode = target_;
@@ -309,6 +256,7 @@ public class GridBrain : Agent
             else if (direction == Vector3.down + Vector3.left) d[0] = 6; // Xuống - Trái
             else if (direction == Vector3.down + Vector3.right) d[0] = 7;  // Xuống - Phải
             gameManager.textSetter.setDatePerFrame(character);
+            // d[1] = 0;
         }
         else
         {
@@ -317,8 +265,29 @@ public class GridBrain : Agent
             {
                 isInteracable = false;
                 d[0] = 8;
-                gameManager.textSetter.setDatePerFrame(character);
+                // --- Thực hiện hành động tương ứng với mục tiêu ---
+                if (target_.position == gameManager.posEat)
+                {
+                    d[1] = 1;
+                }
+                else if (target_.position == gameManager.posDrink)
+                {
+                    d[1] = 2;
+                }
+                else if (target_.position == gameManager.posSleep)
+                {
+                    d[1] = 3;
+                }
+                else if (target_.position == gameManager.posWork)
+                {
+                    d[1] = 4;
+                }
+                else if (target_.position == gameManager.posStress)
+                {
+                    d[1] = 5;
+                }
             }
+            gameManager.textSetter.setDatePerFrame(character);
         }
     }
     private void calcReward_phase1(int action)
@@ -554,6 +523,7 @@ public class GridBrain : Agent
             {
                 ThongKe.ThemLanThucHienDungAction(action);
                 //AddReward(0.005f);
+                AddReward(0.0005f);
 
             }
         }
@@ -564,8 +534,9 @@ public class GridBrain : Agent
         {
             AddReward(0.055f);
         }
-	if (character.Money >= 100){
-	    AddReward(0.0055f);
-	}
+        if (character.Money >= 50)
+        {
+            AddReward(0.055f);
+        }
     }
 }

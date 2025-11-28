@@ -10639,6 +10639,7 @@ MonoBehaviour:
   isSleeping: 0
   isWorking: 0
   isRelaxing: 0
+  isIdle: 0
 --- !u!50 &1014445029
 Rigidbody2D:
   serializedVersion: 4
@@ -10711,7 +10712,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 1
   m_BehaviorName: GridBrain
   TeamId: 0
   m_UseChildSensors: 1
@@ -10724,14 +10725,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1014445025}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Record: 1
   NumStepsToRecord: 100000
-  DemonstrationName: Come_n_Press
+  DemonstrationName: BC01
   DemonstrationDirectory: Assets/Arc/SCRIPT/Trajectories
 --- !u!114 &1014445034
 MonoBehaviour:
@@ -20432,8 +20433,10 @@ MonoBehaviour:
   soLanNguDung: 0
   soLanLamViecDung: 0
   soLanGiaiTriDung: 0
+  soLanChet: 0
   countStepTruocKhiChetToiDa: 0
   countStepTruocKhiChetToiThieu: 9999
+  countStepChetTrungBinh: 0
   gridBrain: {fileID: 1014445030}
 --- !u!4 &1836437735
 Transform:
