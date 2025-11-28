@@ -64,9 +64,10 @@ public class GridBrain : Agent
         character.Sleep = rand.Next(20, (int)initSleep);
         character.Food = rand.Next(20, (int)initFood);
         character.Drink = rand.Next(20, (int)initDrink);
-        // character.Stress = rand.Next(0, 37);
-        character.Stress = rand.Next(37, 60);
-        character.Money = rand.Next(0, initMoney);
+        character.Stress = initStress;
+        // character.Stress = rand.Next(37, 60);
+        // character.Money = rand.Next(0, initMoney);
+        character.Money = 0;
         // Debug.Log(character.Sleep);
     }
     public override void CollectObservations(VectorSensor sensor)
@@ -94,12 +95,12 @@ public class GridBrain : Agent
         sensor.AddObservation(agentCell.x);
         sensor.AddObservation(agentCell.y);
         //Các chỉ số
-        sensor.AddObservation(character.Sleep / 24);
-        sensor.AddObservation(character.Food / 24);
-        sensor.AddObservation(character.Drink / 24);
+        sensor.AddObservation(character.Sleep / 160);
+        // Debug.Log(character.Sleep);
+        sensor.AddObservation(character.Food / 240);
+        sensor.AddObservation(character.Drink / 80);
         sensor.AddObservation(character.Stress / 72);
         sensor.AddObservation(character.Money);
-
         //Khoảng cách đến Bếp
         sensor.AddObservation(Vector3.Distance(agentCell, gameManager.listLocations[0].position));
         //Khoảng cách đến Tủ lạnh
@@ -110,7 +111,6 @@ public class GridBrain : Agent
         sensor.AddObservation(Vector3.Distance(agentCell, gameManager.listLocations[3].position));
         //Khoảng cách đến giường
         sensor.AddObservation(Vector3.Distance(agentCell, gameManager.listLocations[4].position));
-
         //Timeline
         sensor.AddObservation(gameManager.TimeLine / 1440);
     }
@@ -119,10 +119,6 @@ public class GridBrain : Agent
         int moveAction = actions.DiscreteActions[0];
         int interactAction = actions.DiscreteActions[1];
         count++;
-        if (count >= 3000)
-        {
-            EndEpisode();
-        }
         // Lấy vị trí hiện tại
         Vector3 currentCell = character.transform.position;
         prePosition = gameManager.posPlayer;
@@ -460,7 +456,7 @@ public class GridBrain : Agent
         Vector3 pos = gameManager.posPlayer;
         if (pos == gameManager.posEat)
         {
-            if (action == 1)
+            if (action == 1 && character.Money >= 15)
             {
                 ThongKe.ThemLanThucHienDungAction(action);
 
@@ -471,7 +467,7 @@ public class GridBrain : Agent
         }
         else if (pos == gameManager.posDrink)
         {
-            if (action == 2)
+            if (action == 2 && character.Money >= 5)
             {
                 ThongKe.ThemLanThucHienDungAction(action);
 
@@ -497,7 +493,8 @@ public class GridBrain : Agent
             {
                 ThongKe.ThemLanThucHienDungAction(action);
 
-                AddReward(0.02f);
+                // AddReward(0.02f);
+                AddReward(2f);
 
             }
             if (character.Sleep > 80f && character.Food > 120f && character.Drink > 40f)
@@ -530,13 +527,9 @@ public class GridBrain : Agent
 
         //Thưởng nhỏ khi duy trì trạng thái cân bằng tổng thể
         if (character.Food > 120f && character.Drink > 40f &&
-            character.Sleep > 80f && character.Stress < 30f)
+            character.Sleep > 80f && character.Stress < 30f && character.Money >= 50)
         {
-            AddReward(0.055f);
-        }
-        if (character.Money >= 50)
-        {
-            AddReward(0.055f);
+            AddReward(0.2f);
         }
     }
 }

@@ -10682,7 +10682,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 1000
+  MaxStep: 4000
   ThongKe: {fileID: 1836437734}
   gameManager: {fileID: 700400647}
   character: {fileID: 1014445028}
@@ -20438,6 +20438,7 @@ MonoBehaviour:
   countStepTruocKhiChetToiThieu: 9999
   countStepChetTrungBinh: 0
   gridBrain: {fileID: 1014445030}
+  soLanDungImDung: 0
 --- !u!4 &1836437735
 Transform:
   m_ObjectHideFlags: 0

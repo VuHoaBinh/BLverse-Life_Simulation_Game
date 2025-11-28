@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
 
         if (character.Food < 12 || character.Drink < 12)
         {
-            character.Stress += 1.5f;
+            character.Stress += 0.2f;
         }
         if (posPlayer == posEat && character.Money >= 15 && character.isEating)
         {
