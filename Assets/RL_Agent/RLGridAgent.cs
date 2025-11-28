@@ -157,7 +157,7 @@ public class GridBrain : Agent
 
         if (isInMap && !isInValidToMoving)
         {
-            AddReward(0.2f);
+            AddReward(0.01f);
             character.transform.position = nextCell;
             gameManager.calcStat(character);
             calcReward_tuDuyTriChiSoSong_phase2(interactAction);
@@ -167,7 +167,7 @@ public class GridBrain : Agent
             ThongKe.ThemLanVaTuong();
             gameManager.calcStat(character);
             calcReward_tuDuyTriChiSoSong_phase2(interactAction);
-            AddReward(-0.2f);
+            AddReward(-0.01f);
         }
     }
 
@@ -450,7 +450,7 @@ public class GridBrain : Agent
             ThongKe.ThemLanChet();
             // Debug.Log($"Nhân vật đã chết: {character.Food}, {character.Drink}, {character.Sleep}, {character.Stress} với step là {count}");
             gameManager.resetTimeLine();
-            AddReward(-1f);
+            AddReward(-100f);
             EndEpisode();
             return;
         }
@@ -522,6 +522,7 @@ public class GridBrain : Agent
             if (action == 0)
             {
                 ThongKe.ThemLanThucHienDungAction(action);
+                //AddReward(0.005f);
                 AddReward(0.0005f);
 
             }

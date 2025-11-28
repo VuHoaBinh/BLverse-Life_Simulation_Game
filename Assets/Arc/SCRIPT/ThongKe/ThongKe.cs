@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +25,7 @@ public class ThongKe : MonoBehaviour
     public float countStepChetTrungBinh;
     private float tongChet;
     public GridBrain gridBrain;
-    private int soLanDungImDung;
+    public int soLanDungImDung;
 
     // Gọi khi agent va vào tường hoặc đi sai ô
     public void ThemLanVaTuong()
