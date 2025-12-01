@@ -1,182 +1,73 @@
-# import argparse
-# import onnx
-# import numpy as np
-# import matplotlib.pyplot as plt
-# from onnx import numpy_helper
-
-# def list_initializers(model):
-#     for init in model.graph.initializer:
-#         arr = numpy_helper.to_array(init)
-#         print(f"{init.name}: shape={arr.shape}, dtype={arr.dtype}")
-
-# def load_initializers(model):
-#     return {init.name: numpy_helper.to_array(init) for init in model.graph.initializer}
-
-# def plot_hist(all_weights, save=None):
-#     vals = np.concatenate([w.ravel() for w in all_weights if w.size>0])
-#     plt.figure(figsize=(6,4))
-#     plt.hist(vals, bins=100, color='C0', alpha=0.7)
-#     plt.title('Weight distribution'); plt.xlabel('Value'); plt.ylabel('Count'); plt.grid(True)
-#     if save: plt.savefig(save, dpi=150)
-#     plt.show()
-
-# def plot_kernel(kernel, cmap='viridis', save=None):
-#     # kernel: e.g. conv kernel shape (out_ch, in_ch, kh, kw) or (kh, kw) etc.
-#     if kernel.ndim == 4:
-#         k = kernel[0,0]  # show first out,first in
-#     elif kernel.ndim == 3:
-#         k = kernel[0]
-#     elif kernel.ndim == 2:
-#         k = kernel
-#     else:
-#         raise ValueError("Unsupported kernel ndim")
-#     plt.figure(figsize=(4,4))
-#     plt.imshow(k, cmap=cmap, aspect='equal')
-#     plt.colorbar()
-#     plt.title('Kernel visualization')
-#     if save: plt.savefig(save, dpi=150)
-#     plt.show()
-
-# def main():
-#     p = argparse.ArgumentParser()
-#     p.add_argument('onnx', help='path to .onnx')
-#     p.add_argument('--list', action='store_true', help='list initializers')
-#     p.add_argument('--hist', action='store_true', help='plot histogram of all weights')
-#     p.add_argument('--plot', metavar='NAME', help='plot kernel by initializer name')
-#     p.add_argument('--save', metavar='FILE', help='save plot to file')
-#     args = p.parse_args()
-
-#     model = onnx.load(args.onnx)
-#     if args.list:
-#         list_initializers(model)
-#         return
-
-#     inits = load_initializers(model)
-#     if args.hist:
-#         plot_hist(list(inits.values()), save=args.save)
-#         return
-
-#     if args.plot:
-#         name = args.plot
-#         if name not in inits:
-#             print("Initializer not found. Use --list to see names.")
-#             return
-#         plot_kernel(inits[name], save=args.save)
-
-# if __name__ == "__main__":
-#     main()
-
-# ...existing code...
-import argparse
-import onnx
-import numpy as np
+import os
 import matplotlib.pyplot as plt
-from onnx import numpy_helper
+from tensorboard.backend.event_processing import event_accumulator
 
-def list_initializers(model):
-    for init in model.graph.initializer:
-        arr = numpy_helper.to_array(init)
-        print(f"{init.name}: shape={arr.shape}, dtype={arr.dtype}")
+# File events
+LOG_FILE = r"D:\BLverse-Life_Simulation_Game\Assets\Episode\RLBC_07\RLBC_07\GridBrain\events.out.tfevents.1764451312.LongWings.15476.0"
 
-def load_initializers(model):
-    return {init.name: numpy_helper.to_array(init) for init in model.graph.initializer}
 
-def plot_hist(all_weights, save=None):
-    vals = np.concatenate([w.ravel() for w in all_weights if w.size>0])
-    plt.figure(figsize=(6,4))
-    plt.hist(vals, bins=100, color='C0', alpha=0.7)
-    plt.title('Weight distribution'); plt.xlabel('Value'); plt.ylabel('Count'); plt.grid(True)
-    if save: plt.savefig(save, dpi=150)
-    plt.show()
+def load_step_reward(filepath):
+    ea = event_accumulator.EventAccumulator(filepath)
+    ea.Reload()
 
-def plot_kernel(kernel, cmap='viridis', save=None):
-    # kernel: e.g. conv kernel shape (out_ch, in_ch, kh, kw) or (kh, kw) etc.
-    if kernel.ndim == 4:
-        k = kernel[0,0]  # show first out,first in
-    elif kernel.ndim == 3:
-        k = kernel[0]
-    elif kernel.ndim == 2:
-        k = kernel
-    else:
-        raise ValueError("Unsupported kernel ndim")
-    plt.figure(figsize=(4,4))
-    plt.imshow(k, cmap=cmap, aspect='equal')
-    plt.colorbar()
-    plt.title('Kernel visualization')
-    if save: plt.savefig(save, dpi=150)
-    plt.show()
+    tag = "Environment/Cumulative Reward"
 
-# new: line & scatter plot helpers
-def plot_line(arr, save=None):
-    y = arr.ravel()
-    x = np.arange(y.size)
-    plt.figure(figsize=(8,4))
-    plt.plot(x, y, '-', color='C1', linewidth=0.8)
-    plt.xlabel('Index'); plt.ylabel('Value'); plt.title('Line plot of weights'); plt.grid(True)
-    if save: plt.savefig(save, dpi=150)
-    plt.show()
+    if tag not in ea.scalars.Keys():
+        raise ValueError(f"Tag '{tag}' not found")
 
-def plot_scatter(arr, save=None):
-    y = arr.ravel()
-    x = np.arange(y.size)
-    plt.figure(figsize=(8,4))
-    plt.scatter(x, y, s=6, color='C2', alpha=0.6)
-    plt.xlabel('Index'); plt.ylabel('Value'); plt.title('Scatter (decay) plot of weights'); plt.grid(True)
-    if save: plt.savefig(save, dpi=150)
-    plt.show()
+    scalars = ea.scalars.Items(tag)
 
-def main():
-    p = argparse.ArgumentParser()
-    p.add_argument('onnx', help='path to .onnx')
-    p.add_argument('--list', action='store_true', help='list initializers')
-    p.add_argument('--hist', action='store_true', help='plot histogram of all weights')
-    p.add_argument('--plot', metavar='NAME', help='plot kernel by initializer name')
-    p.add_argument('--save', metavar='FILE', help='save plot to file')
-    p.add_argument('--line', action='store_true', help='plot line chart of weights (flattened)')
-    p.add_argument('--scatter', action='store_true', help='plot scatter chart of weights (flattened)')
-    args = p.parse_args()
+    steps = []
+    rewards = []
 
-    model = onnx.load(args.onnx)
-    if args.list:
-        list_initializers(model)
-        return
+    for s in scalars:
+        steps.append(int(s.step))     # step
+        rewards.append(float(s.value))  # reward
 
-    inits = load_initializers(model)
+    return steps, rewards
 
-    # choose source array: named initializer if --plot used, otherwise concat all
-    source_arr = None
-    if args.plot:
-        name = args.plot
-        if name not in inits:
-            print("Initializer not found. Use --list to see names.")
-            return
-        source_arr = inits[name]
 
-    if args.hist:
-        # histogram uses all weights by default
-        plot_hist(list(inits.values()), save=args.save)
-        return
+# --- Load data ---
+steps, rewards = load_step_reward(LOG_FILE)
 
-    if args.line or args.scatter:
-        if source_arr is None:
-            # flatten all initializers into one vector
-            source_arr = np.concatenate([w.ravel() for w in inits.values()]) if inits else np.array([])
-            if source_arr.size == 0:
-                print("No weights found to plot.")
-                return
-        if args.line:
-            plot_line(source_arr, save=args.save)
-        if args.scatter:
-            plot_scatter(source_arr, save=args.save)
-        return
 
-    # fallback: if user asked --plot (kernel image) show kernel visualization
-    if args.plot:
-        plot_kernel(inits[args.plot], save=args.save)
-        return
+# =====================================================
+# 1️⃣ LINE CHART — Step vs Reward
+# =====================================================
+plt.figure(figsize=(10, 5))
+plt.plot(steps, rewards,color='blue')
+plt.xlabel("Step")
+plt.ylabel("Cumulative Reward")
+plt.title("PPO Training — Line Chart (Step vs Reward)")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
 
-    print("No plot option selected. Use --list, --hist, --line, --scatter or --plot NAME.")
-    # ...existing code...
-if __name__ == "__main__":
-    main()
-# ...existing code...
+
+
+# =====================================================
+# 2️⃣ SCATTER PLOT — Step vs Reward
+# =====================================================
+plt.figure(figsize=(10, 5))
+plt.scatter(steps, rewards, s=6 ,color='blue')
+plt.xlabel("Step")
+plt.ylabel("Cumulative Reward")
+plt.title("PPO Training — Scatter Plot")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
+# =====================================================
+# 3️⃣ HISTOGRAM — Reward Distribution
+# =====================================================
+plt.figure(figsize=(10, 5))
+plt.hist(rewards, bins=40, color='blue')
+plt.xlabel("Reward Value")
+plt.ylabel("Frequency")
+plt.title("Reward Distribution — Histogram")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
