@@ -12,7 +12,59 @@ public class Character : MonoBehaviour
     [SerializeField] private float sleep;
     [SerializeField] private float stress;
     [SerializeField] private int money;
+    // Đang ăn?
+    public bool isEating = false;
+    // Đang uống?
+    public bool isDrinking = false;
+    // Đang ngủ?
+    public bool isSleeping = false;
+    // Đang làm việc?
+    public bool isWorking = false;
+    // Đang giảm stress?
+    public bool isRelaxing = false;
+    public bool isIdle = false;
+    public void ResetFlags()
+    {
+        isEating = false;
+        isDrinking = false;
+        isSleeping = false;
+        isWorking = false;
+        isRelaxing = false;
+        isIdle = false;
+    }
+    public void Eating()
+    {
+        ResetFlags();
+        isEating = true;
+    }
+    public void Drinking()
+    {
+        ResetFlags();
+        isDrinking = true;
+    }
 
+    public void Sleeping()
+    {
+        ResetFlags();
+        isSleeping = true;
+    }
+
+    public void Working()
+    {
+        ResetFlags();
+        isWorking = true;
+    }
+
+    public void Relaxing()
+    {
+        ResetFlags();
+        isRelaxing = true;
+    }
+    public void Standing()
+    {
+        ResetFlags();
+        isIdle = true;
+    }
     //Get and set
     public float Food
     {

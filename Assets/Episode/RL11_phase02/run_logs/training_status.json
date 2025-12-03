@@ -1,0 +1,65 @@
+{
+    "GridBrain": {
+        "checkpoints": [
+            {
+                "steps": 489927,
+                "file_path": "results\\RL11_phase02\\GridBrain\\GridBrain-489927.onnx",
+                "reward": 90.78859384730458,
+                "creation_time": 1764264414.025404,
+                "auxillary_file_paths": [
+                    "results\\RL11_phase02\\GridBrain\\GridBrain-489927.pt"
+                ]
+            },
+            {
+                "steps": 499942,
+                "file_path": "results\\RL11_phase02\\GridBrain\\GridBrain-499942.onnx",
+                "reward": 88.80076586849549,
+                "creation_time": 1764264533.531516,
+                "auxillary_file_paths": [
+                    "results\\RL11_phase02\\GridBrain\\GridBrain-499942.pt"
+                ]
+            },
+            {
+                "steps": 567682,
+                "file_path": "results\\RL11_phase02\\GridBrain\\GridBrain-567682.onnx",
+                "reward": 97.84501756727695,
+                "creation_time": 1764264903.1282125,
+                "auxillary_file_paths": [
+                    "results\\RL11_phase02\\GridBrain\\GridBrain-567682.pt"
+                ]
+            },
+            {
+                "steps": 622006,
+                "file_path": "results\\RL11_phase02\\GridBrain\\GridBrain-622006.onnx",
+                "reward": -11.804136395454407,
+                "creation_time": 1764265143.4472725,
+                "auxillary_file_paths": [
+                    "results\\RL11_phase02\\GridBrain\\GridBrain-622006.pt"
+                ]
+            },
+            {
+                "steps": 623650,
+                "file_path": "results\\RL11_phase02\\GridBrain\\GridBrain-623650.onnx",
+                "reward": -105.20993528266747,
+                "creation_time": 1764265505.2075233,
+                "auxillary_file_paths": [
+                    "results\\RL11_phase02\\GridBrain\\GridBrain-623650.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 623650,
+            "file_path": "results\\RL11_phase02\\GridBrain.onnx",
+            "reward": -105.20993528266747,
+            "creation_time": 1764265505.2075233,
+            "auxillary_file_paths": [
+                "results\\RL11_phase02\\GridBrain\\GridBrain-623650.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.4.1+cpu"
+    }
+}

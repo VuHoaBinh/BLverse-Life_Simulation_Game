@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         {
             Vector3 beforeCharacterPosition = character.transform.position;
             character.StartMove(map.changeCellPos(path[i++]));
-            calcStat(false);
+            calcStat(character);
             textSetter.setDatePerFrame(character);
             TrajectoryStep trajectoryStep = new TrajectoryStep(map.changeCellPos(path[i - 1]) - beforeCharacterPosition, character, this);
 
@@ -78,38 +78,41 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Waiting;
         character.isMoving = false;
     }
-    public void calcStat(bool isIdle)
+    public void calcStat(Character character)
     {
         posPlayer = this.map.GetComponentInChildren<Tilemap>().WorldToCell(character.transform.position);
         this.TimeLine++;
         // Debug.Log("Thời gian hiện tại: " + timeLine);
+
+
         character.Food -= (1f / 18f);
         character.Drink -= (1f / 18f);
-        character.Sleep -= (1f / 6f);
+        character.Sleep -= (1f / 18f);
+
 
         if (character.Food < 12 || character.Drink < 12)
         {
-            character.Stress += 1.5f;
+            character.Stress += 0.2f;
         }
-        if (posPlayer == posEat && character.Money >= 15 && isIdle)
+        if (posPlayer == posEat && character.Money >= 15 && character.isEating)
         {
             character.Food += 80;
             character.Money -= 15;
             this.TimeLine += 30;
         }
-        if (posPlayer == posDrink && character.Money >= 5 && isIdle)
+        if (posPlayer == posDrink && character.Money >= 5 && character.isDrinking)
         {
-            character.Drink += 4 * (80 / 24);
+            character.Drink += 40;
             character.Money -= 5;
             this.TimeLine += 1;
         }
-        if (posPlayer == posSleep && isIdle)
+        if (posPlayer == posSleep && character.isSleeping)
         {
             character.Sleep += 24 * (160 / 24);
-            character.Stress -= 0.5f;
+            character.Stress -= 5;
             this.TimeLine += 480;
         }
-        if (posPlayer == posWork && isIdle)
+        if (posPlayer == posWork && character.isWorking)
         {
             character.Money += 25 * 8;
             character.Food -= ((1f / 18f) / 2f) * 8 * 60;
@@ -117,9 +120,9 @@ public class GameManager : MonoBehaviour
             character.Stress += 10f;
             this.TimeLine += 480;
         }
-        if (posPlayer == posStress && isIdle)
+        if (posPlayer == posStress && character.isRelaxing)
         {
-            character.Stress -= 9f;
+            character.Stress -= 10f;
             this.TimeLine += 60;
         }
     }
@@ -206,7 +209,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            calcStat(isIdle);
+            calcStat(character);
             TrajectoryStep trajectoryStep = new TrajectoryStep(Vector3.zero, character, this);
             trajectoryStep.stepIndex += 1;
             trajectoryCollector.addStep(trajectoryStep);

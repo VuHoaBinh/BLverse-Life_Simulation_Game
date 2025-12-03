@@ -16,10 +16,10 @@ behaviors:
     reward_signals:
       extrinsic:
         gamma: 0.99
-        strength: 2.0
+        strength: 1.0
     # behavioral_cloning:
-    #   demo_path: "C:/Users/M S I/Desktop/GamePartI/FinalProject/Assets/Arc/SCRIPT/Trajectories/ComenPress.demo"
+    #   demo_path: "C:/Users/M S I/Desktop/GamePartI/FinalProject/Assets/Arc/SCRIPT/Trajectories/BC01.demo"
     #   strength: 0.2
-    #   steps: 500000
+    #   steps: 1000000
     #   batch_size: 512          
     #   samples_per_update: 0
