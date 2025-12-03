@@ -1,62 +1,84 @@
-# from tbparse import SummaryReader
-# import csv
-# import matplotlib.pyplot as plt
-
-# # event_file = r"D:\BLverse-Life_Simulation_Game\Assets\Episode\RL39_BC\GridBrain\events.out.tfevents.1764164944.LongWings.3656.0"
-
-# # reader = SummaryReader(event_file, extra_columns={'wall_time'})
-
-# # df = reader.scalars  # toàn bộ scalar trong file
-
-# # # ML-Agents thường log tại tag:
-# # tag = "Environment/Cumulative Reward"
-
-# # reward_df = df[df["tag"] == tag]
-
-# # steps = reward_df["step"].tolist()
-# # rewards = reward_df["value"].tolist()
-# # wall_times = reward_df["wall_time"].tolist()
-
-# # Xuất CSV
-# csv_path = r"D:\BLverse-Life_Simulation_Game\Assets\Episode\RL39_BC\rewards_steps.csv"
-# with open(csv_path, "w", newline="", encoding="utf-8") as f:
-#     writer = csv.writer(f)
-#     writer.writerow(["step", "reward", "wall_time"])
-#     for s, r, t in zip(steps, rewards, wall_times):
-#         writer.writerow([s, r, t])
-
-# print(f"✔ Wrote {len(steps)} rows to {csv_path}")
-# print("First 10:", list(zip(steps, rewards))[:10])
-# print("Last 10:", list(zip(steps, rewards))[-10:])
-
-# # Histogram
-# plt.hist(rewards, bins=50)
-# plt.xlabel("Reward")
-# plt.ylabel("Count")
-# plt.title("Histogram of Rewards")
-# plt.show()
-
-
-import csv
+import sys
+import onnx
+from onnx import numpy_helper
+import numpy as np
 import matplotlib.pyplot as plt
 
-csv_path = r"D:\BLverse-Life_Simulation_Game\Assets\Episode\RL39_BC\rewards_steps.csv"
 
-# Ghi file CSV
-with open(csv_path, "w", newline="", encoding="utf-8") as f:
-    writer = csv.writer(f)
-    writer.writerow(["step", "reward", "wall_time"])
-    for s, r, t in zip(steps, rewards, wall_times):
-        writer.writerow([s, r, t])
+def list_initializers(model):
+    """Return list of (name, shape) for initializers in model."""
+    out = []
+    for init in model.graph.initializer:
+        arr = numpy_helper.to_array(init)
+        out.append((init.name, arr.shape))
+    return out
 
-# In thống kê
-print(f"✔ Wrote {len(steps)} rows to {csv_path}")
-print("First 10:", list(zip(steps, rewards))[:10])
-print("Last 10:", list(zip(steps, rewards))[-10:])
 
-# Vẽ histogram reward
-plt.hist(rewards, bins=50)
-plt.xlabel("Reward")
-plt.ylabel("Count")
-plt.title("Histogram of Rewards")
-plt.show()
+def get_actor_weights(onnx_path, verbose=True):
+    """Load ONNX and try to collect actor-related weights.
+
+    Heuristics:
+    - First look for initializer names containing 'actor' or 'policy'
+    - Next, fall back to any initializer name containing 'weight', 'bias', 'fc', 'linear', 'action', 'pi'
+    - If still nothing, raise ValueError but include available initializers in message
+    """
+    model = onnx.load(onnx_path)
+
+    candidates = []
+    for initializer in model.graph.initializer:
+        name = initializer.name.lower()
+        candidates.append((name, initializer))
+
+    found = []
+
+    # Primary heuristics
+    for name, initializer in candidates:
+        if any(tok in name for tok in ("actor", "policy", "pi")):
+            arr = numpy_helper.to_array(initializer)
+            found.append(arr.flatten())
+
+    # Secondary heuristics
+    if not found:
+        for name, initializer in candidates:
+            if any(tok in name for tok in ("weight", "bias", "fc", "linear", "action")):
+                arr = numpy_helper.to_array(initializer)
+                found.append(arr.flatten())
+
+    if not found:
+        # build informative message
+        init_list = list_initializers(model)
+        msg_lines = ["No Actor weights found in ONNX file using heuristics."]
+        msg_lines.append("Available initializers (name, shape):")
+        for n, s in init_list:
+            msg_lines.append(f"  - {n} : {s}")
+        raise ValueError("\n".join(msg_lines))
+
+    return np.concatenate(found)
+
+
+def plot_weights_hist(weights, bins=80, title="Histogram of Actor Weights Distribution"):
+    plt.figure(figsize=(10, 5))
+    plt.hist(weights, bins=bins, color='red')
+    plt.title(title)
+    plt.xlabel("Weight Value")
+    plt.ylabel("Frequency")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+
+if __name__ == '__main__':
+    # allow passing ONNX path as CLI arg
+    if len(sys.argv) > 1:
+        onnx_file = sys.argv[1]
+    else:
+        onnx_file = r"D:\BLverse-Life_Simulation_Game\Assets\Episode\RLnotBC_01\RLnotBC_01\GridBrain.onnx"
+
+    try:
+        weights = get_actor_weights(onnx_file)
+    except Exception as e:
+        print("Error while extracting weights:")
+        print(e)
+        sys.exit(1)
+
+    plot_weights_hist(weights)
