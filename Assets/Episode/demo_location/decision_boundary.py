@@ -1,124 +1,91 @@
-import argparse
-from pathlib import Path
-import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
-
-def heuristic_policy(obs):
-    # obs: [pos_x, pos_y, vel_x, vel_y, angle, ang_vel, leg_right, leg_left]
-    x, y = obs[0], obs[1]
-    # Simple decision rules to produce a demo decision boundary similar to common examples
-    if x > 0.2:
-        return 1  # right engine
-    if x < -0.2:
-        return 3  # left engine
-    if y < -0.2:
-        return 2  # main (down) engine
-    return 0  # no engine
+import numpy as np
+from scipy.interpolate import interp1d
+import os
 
 
-def generate_grid_actions(policy_fn, xlim, ylim, nx, ny, fixed_obs):
-    xs = np.linspace(xlim[0], xlim[1], nx)
-    ys = np.linspace(ylim[0], ylim[1], ny)
-    actions = np.zeros((ny, nx), dtype=int)
-    for i, yy in enumerate(ys[::-1]):
-        for j, xx in enumerate(xs):
-            obs = np.array([xx, yy, *fixed_obs], dtype=float)
-            # policy_fn returns an integer action
-            a = policy_fn(obs)
-            actions[i, j] = int(a)
-    return xs, ys, actions
+def make_stacked_plot(csv_path=None, num_points=200, save_path=None):
+    if csv_path is None:
+        csv_path = os.path.join('D:', os.sep, 'BLverse-Life_Simulation_Game', 'Assets', 'Episode', 'stats_log.csv')
 
+    df = pd.read_csv(csv_path)
 
-def plot_decision_map(xs, ys, actions, out_file=None, title='Decision Boundary'):
-    # actions: shape (ny, nx)
-    cmap_colors = {
-        0: '#1f77b4',  # blue - no engine
-        1: '#d62728',  # red - right engine
-        2: '#e377c2',  # pink - down/main engine
-        3: '#17becf',  # cyan - left engine
-    }
-    # build discrete colormap
-    from matplotlib.colors import ListedColormap
-    cmap = ListedColormap([cmap_colors[i] for i in sorted(cmap_colors.keys())])
+    # Expect columns: time,char1_food,char1_drink,char1_sleep,char1_stress
+    required = ['char1_food', 'char1_drink', 'char1_sleep', 'char1_stress']
+    for c in required:
+        if c not in df.columns:
+            raise ValueError(f'Missing column in CSV: {c}')
 
-    fig, ax = plt.subplots(figsize=(6, 5))
-    extent = [xs[0], xs[-1], ys[0], ys[-1]]
-    ax.imshow(actions, origin='lower', extent=extent, cmap=cmap, interpolation='nearest', aspect='auto')
+    # Use 'time' column if present, else use index
+    if 'time' in df.columns:
+        x = df['time'].astype(float).values
+    else:
+        x = np.arange(len(df), dtype=float)
+
+    # Normalize x to range [-1, 1]
+    x_min, x_max = x.min(), x.max()
+    if x_max == x_min:
+        x_norm = np.linspace(-1, 1, num_points)
+    else:
+        x_norm = (x - x_min) / (x_max - x_min) * 2.0 - 1.0
+
+    x_interp = np.linspace(-1.0, 1.0, num_points)
+
+    # Interpolate each required column onto x_interp
+    df_interp = pd.DataFrame(index=x_interp)
+    for col in required:
+        y = df[col].astype(float).values
+        # interp1d expects increasing x; ensure x_norm is sorted
+        sort_idx = np.argsort(x_norm)
+        f = interp1d(x_norm[sort_idx], y[sort_idx], kind='linear', fill_value='extrapolate')
+        df_interp[col] = f(x_interp)
+
+    # Normalize rows so the stacked areas are comparable
+    # First ensure no negative values (if present, shift up)
+    min_row = df_interp.min(axis=1).min()
+    if min_row < 0:
+        df_interp = df_interp - min_row
+
+    # Row-wise normalize to sum=1, then scale to ~2 and shift down for visual range
+    df_interp = df_interp.div(df_interp.sum(axis=1), axis=0).fillna(0) * 2.0
+    df_interp = df_interp - 0.25
+
+    # Colors (pastel-ish close to example)
+    colors = ['#5fd3d9', '#2f77b0', '#d74b4b', '#e299d6']
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.stackplot(x_interp,
+                 df_interp['char1_food'],
+                 df_interp['char1_drink'],
+                 df_interp['char1_sleep'],
+                 df_interp['char1_stress'],
+                 labels=['Food', 'Drink', 'Sleep', 'Stress'],
+                 colors=colors,
+                 alpha=0.95)
+
     ax.set_xlabel('position x')
     ax.set_ylabel('position y')
-    ax.set_title(title)
+    ax.set_title('Trained Network Outputs')
+    ax.set_xlim(-1, 1)
+    ax.set_ylim(-0.5, 1.5)
+    ax.legend(loc='upper left')
+    ax.grid(True, alpha=0.3)
 
-    # Legend patches
-    import matplotlib.patches as mpatches
-    patches = [mpatches.Patch(color=cmap_colors[k], label=lab) for k, lab in
-               zip([0,1,2,3], ['no engine', 'right engine', 'down engine', 'left engine'])]
-    ax.legend(handles=patches, loc='upper right')
+    plt.tight_layout()
 
-    if out_file:
-        fig.tight_layout()
-        fig.savefig(out_file, dpi=150)
-        print(f"Saved decision map to: {out_file}")
+    if save_path:
+        plt.savefig(save_path, dpi=200)
+        print(f'Saved figure to {save_path}')
     else:
         plt.show()
 
 
-def main():
-    p = argparse.ArgumentParser(description='Decision boundary plot for LunarLander-style policy')
-    p.add_argument('--model', type=str, default=None, help='Path to a PyTorch model (optional)')
-    p.add_argument('--out', type=str, default='decision_map.png', help='Output image file')
-    p.add_argument('--nx', type=int, default=300, help='Grid resolution in x')
-    p.add_argument('--ny', type=int, default=240, help='Grid resolution in y')
-    p.add_argument('--xlim', type=float, nargs=2, default=[-1.0, 1.0], help='x range')
-    p.add_argument('--ylim', type=float, nargs=2, default=[-0.5, 1.5], help='y range')
-    p.add_argument('--fixed', type=float, nargs=6, default=[0,0,0,0,0,0],
-                   help='Fixed values for [vel_x, vel_y, angle, ang_vel, right_contact, left_contact]')
-    args = p.parse_args()
-
-    model_path = Path(args.model) if args.model else None
-
-    policy_fn = heuristic_policy
-    # If a model is provided try to load as a PyTorch model
-    if model_path and model_path.exists():
-        try:
-            import torch
-            loaded = torch.load(str(model_path), map_location='cpu')
-            if isinstance(loaded, torch.nn.Module):
-                net = loaded
-            else:
-                # Try to infer: if it's a state_dict, create a simple MLP with matching size
-                # Fallback: wrap loaded if callable
-                if callable(loaded):
-                    net = loaded
-                else:
-                    print('Loaded object is not a nn.Module; falling back to heuristic policy')
-                    net = None
-        except Exception as e:
-            print('Failed to load model (PyTorch):', e)
-            net = None
-
-        if 'net' in locals() and net is not None:
-            def net_policy(obs):
-                import torch
-                obs_t = torch.tensor(obs, dtype=torch.float32).unsqueeze(0)
-                with torch.no_grad():
-                    out = net(obs_t)
-                # Expect output either Q-values or action logits
-                if out.ndim == 2 and out.shape[1] >= 1:
-                    act = int(out.argmax(dim=1).item())
-                else:
-                    act = int(out.item())
-                return act
-
-            policy_fn = net_policy
-    else:
-        if args.model:
-            print(f"Model path provided but not found: {args.model}. Using heuristic demo policy.")
-
-    xs, ys, actions = generate_grid_actions(policy_fn, args.xlim, args.ylim, args.nx, args.ny, args.fixed)
-
-    out_file = Path(args.out)
-    plot_decision_map(xs, ys, actions, out_file=out_file)
-
-
 if __name__ == '__main__':
-    main()
+    import argparse
+    parser = argparse.ArgumentParser(description='Draw stacked outputs from stats_log.csv')
+    parser.add_argument('--file', '-f', help='Path to CSV file', default=None)
+    parser.add_argument('--points', type=int, default=200, help='Interpolation points')
+    parser.add_argument('--save', help='Path to save PNG (optional)')
+    args = parser.parse_args()
+    make_stacked_plot(csv_path=args.file, num_points=args.points, save_path=args.save)

@@ -1,84 +1,84 @@
-import sys
-import onnx
-from onnx import numpy_helper
-import numpy as np
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# from io import StringIO
+
+# # Dữ liệu bạn cung cấp (đã được định dạng)
+# data = """PosX,PosY,Sleep,Food,Drink,Stress,Money,DistKitchen,DistFridge,DistSofa,DistDoor,DistBed,Timeline,MoveAction,InteractAction
+# 4.5,-11.5,108,121,52,48,20,15,12.04159,3.162278,7.28011,10.29563,1200,0,0
+# 4.5,-10.5,107.9444,120.9444,51.94444,48,20,14.4222,11.31371,3,7.615773,9.433981,1201,0,0
+# """
+# df = pd.read_csv("D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\actions.csv")
+
+# # Chọn các cột cần thống kê
+# metrics = ['Sleep', 'Food', 'Drink', 'Stress', 'Money']
+
+# # Tính toán giá trị trung bình
+# mean_values = df[metrics].mean()
+
+# # Tạo DataFrame cho biểu đồ cột
+# df_bar = pd.DataFrame({
+#     'Thuộc tính': mean_values.index,
+#     'Giá trị Trung bình': mean_values.values
+# })
+
+# # --- TRỰC QUAN HÓA BẰNG BIỂU ĐỒ CỘT ---
+# plt.style.use('seaborn-v0_8-pastel') 
+# plt.figure(figsize=(9, 6))
+# # Sử dụng seaborn để tạo biểu đồ cột
+# ax = sns.barplot(x='Thuộc tính', y='Giá trị Trung bình', data=df_bar, palette='deep')
+
+# # Thêm giá trị lên trên mỗi cột (để hiển thị chi tiết)
+# for p in ax.patches:
+#     ax.annotate(f'{p.get_height():.2f}', 
+#                 (p.get_x() + p.get_width() / 2., p.get_height()), 
+#                 ha = 'center', va = 'center', 
+#                 xytext = (0, 9), 
+#                 textcoords = 'offset points')
+
+# plt.title('Giá trị Trung bình của các Thuộc tính Trạng thái', fontsize=16)
+# plt.xlabel('Thuộc tính (Sleep, Food, Drink, Stress, Money)', fontsize=12)
+# plt.ylabel('Giá trị Trung bình', fontsize=12)
+# plt.ylim(0, 230) # Đặt giới hạn Y để biểu đồ cân đối
+# plt.grid(axis='y', linestyle='--', alpha=0.7)
+# plt.show()
+
+
+
+
+import pandas as pd
 import matplotlib.pyplot as plt
 
+df = pd.read_csv("D:\\BLverse-Life_Simulation_Game\\Assets\\Episode\\actions.csv")
 
-def list_initializers(model):
-    """Return list of (name, shape) for initializers in model."""
-    out = []
-    for init in model.graph.initializer:
-        arr = numpy_helper.to_array(init)
-        out.append((init.name, arr.shape))
-    return out
+# Đếm tần suất theo từng giá trị
+count_move = df['MoveAction'].value_counts().sort_index()
+count_interact = df['InteractAction'].value_counts().sort_index()
 
+# Ghép thành 1 DataFrame (fill NaN = 0)
+df_count = pd.DataFrame({
+    "MoveAction": count_move,
+    "InteractAction": count_interact
+}).fillna(0)
 
-def get_actor_weights(onnx_path, verbose=True):
-    """Load ONNX and try to collect actor-related weights.
+# Giá trị trục X: vị trí bắt đầu từ 1, còn nhãn giữ nguyên (giá trị action)
+labels = df_count.index.tolist()
+ x_positions = range(1, len(labels) + 1)
 
-    Heuristics:
-    - First look for initializer names containing 'actor' or 'policy'
-    - Next, fall back to any initializer name containing 'weight', 'bias', 'fc', 'linear', 'action', 'pi'
-    - If still nothing, raise ValueError but include available initializers in message
-    """
-    model = onnx.load(onnx_path)
+# Vẽ stacked bar
+plt.figure(figsize=(8, 5))
 
-    candidates = []
-    for initializer in model.graph.initializer:
-        name = initializer.name.lower()
-        candidates.append((name, initializer))
+# Nếu bạn muốn hiển thị MoveAction dưới cùng, có thể bật lại dòng dưới
+# plt.bar(x_positions, df_count["MoveAction"], label="MoveAction (bottom)")
+plt.bar(x_positions, df_count["InteractAction"], label="InteractAction (top)")
 
-    found = []
+# Đặt nhãn trục x thành các giá trị action (nhưng đánh số vị trí từ 1 trở đi)
+plt.xticks(x_positions, labels)
 
-    # Primary heuristics
-    for name, initializer in candidates:
-        if any(tok in name for tok in ("actor", "policy", "pi")):
-            arr = numpy_helper.to_array(initializer)
-            found.append(arr.flatten())
+plt.title("Tần suất của InteractAction", fontsize=14)
+plt.xlabel("Giá trị Action", fontsize=12)
+plt.ylabel("Số lần xuất hiện", fontsize=12)
+plt.legend()
+plt.grid(axis='y', linestyle='--', alpha=0.5)
 
-    # Secondary heuristics
-    if not found:
-        for name, initializer in candidates:
-            if any(tok in name for tok in ("weight", "bias", "fc", "linear", "action")):
-                arr = numpy_helper.to_array(initializer)
-                found.append(arr.flatten())
-
-    if not found:
-        # build informative message
-        init_list = list_initializers(model)
-        msg_lines = ["No Actor weights found in ONNX file using heuristics."]
-        msg_lines.append("Available initializers (name, shape):")
-        for n, s in init_list:
-            msg_lines.append(f"  - {n} : {s}")
-        raise ValueError("\n".join(msg_lines))
-
-    return np.concatenate(found)
-
-
-def plot_weights_hist(weights, bins=80, title="Histogram of Actor Weights Distribution"):
-    plt.figure(figsize=(10, 5))
-    plt.hist(weights, bins=bins, color='red')
-    plt.title(title)
-    plt.xlabel("Weight Value")
-    plt.ylabel("Frequency")
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
-
-
-if __name__ == '__main__':
-    # allow passing ONNX path as CLI arg
-    if len(sys.argv) > 1:
-        onnx_file = sys.argv[1]
-    else:
-        onnx_file = r"D:\BLverse-Life_Simulation_Game\Assets\Episode\RLnotBC_01\RLnotBC_01\GridBrain.onnx"
-
-    try:
-        weights = get_actor_weights(onnx_file)
-    except Exception as e:
-        print("Error while extracting weights:")
-        print(e)
-        sys.exit(1)
-
-    plot_weights_hist(weights)
+plt.show()

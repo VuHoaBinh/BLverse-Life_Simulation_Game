@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from tensorboard.backend.event_processing import event_accumulator
 
 # File events
-LOG_FILE = r"D:\BLverse-Life_Simulation_Game\Assets\Episode\RLBC_07\RLBC_07\GridBrain\events.out.tfevents.1764451312.LongWings.15476.0"
+LOG_FILE = r"D:\BLverse-Life_Simulation_Game\Assets\Episode\RLBC_07\RLBC_07\GridBrain\events.out.tfevents.1764447731.LongWings.20416.0"
 
 
 def load_step_reward(filepath):
