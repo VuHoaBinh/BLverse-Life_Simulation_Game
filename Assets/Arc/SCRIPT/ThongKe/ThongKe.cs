@@ -21,7 +21,7 @@ public class ThongKe : MonoBehaviour
     public int soLanChet = 0;
     // Số step đi được trước khi chết
     public int countStepTruocKhiChetToiDa = 0;
-    public int countStepTruocKhiChetToiThieu = 9999;
+    public int countStepTruocKhiChetToiThieu = 99999;
     public float countStepChetTrungBinh;
     private float tongChet;
     public GridBrain gridBrain;

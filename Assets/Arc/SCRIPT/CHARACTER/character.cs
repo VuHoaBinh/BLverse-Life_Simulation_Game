@@ -1,11 +1,12 @@
 using System.Collections;
+using System.IO.Abstractions;
 using UnityEngine;
 
 public class Character : MonoBehaviour
 {
     public GameObject player;
     public Rigidbody2D rb;
-    public float speed = 12f;
+    public float speed = 2f;
     public bool isMoving = false;
     [SerializeField] private float food;
     [SerializeField] private float drink;
@@ -23,6 +24,35 @@ public class Character : MonoBehaviour
     // Đang giảm stress?
     public bool isRelaxing = false;
     public bool isIdle = false;
+    public bool isDeath = false;
+
+    public Animator animator;
+    public void moveLeft()
+    {
+        animator.SetFloat("ngang", -1);
+        animator.SetBool("isMoving", true);
+    }
+    public void moveRight()
+    {
+        animator.SetFloat("ngang", 1);
+        animator.SetBool("isMoving", true);
+    }
+    public void moveDown()
+    {
+        animator.SetFloat("doc", -1);
+        animator.SetBool("isMoving", true);
+    }
+    public void moveUp()
+    {
+        animator.SetFloat("doc", 1);
+        animator.SetBool("isMoving", true);
+    }
+    public void notMove()
+    {
+        animator.SetFloat("doc", 0);
+        animator.SetFloat("ngang", 0);
+        animator.SetBool("isMoving", false);
+    }
     public void ResetFlags()
     {
         isEating = false;
@@ -126,7 +156,28 @@ public class Character : MonoBehaviour
         /*19/10/2025: Chỗ này nếu cần thì nên fix đồ họa*/
         while (Vector3.Distance(player.transform.position, targetPosition) > 0.1f)
         {
-            Vector3 direction = (targetPosition - player.transform.position).normalized;
+            Vector3 direction = targetPosition - player.transform.position;
+
+            if (direction.x == 1)
+            {
+                moveRight();
+            }
+            else if (direction.x == -1)
+            {
+                moveLeft();
+            }
+            else
+            {
+                if (direction.y == 1)
+                {
+                    moveUp();
+                }
+                else if (direction.y == -1)
+                {
+                    moveDown();
+                }
+            }
+
             Vector3 moveStep = direction * speed * Time.deltaTime;
             this.transform.position = targetPosition;
             rb.MovePosition(player.transform.position + moveStep);

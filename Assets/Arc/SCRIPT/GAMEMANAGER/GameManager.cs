@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour
     public TrajectoryCollector trajectoryCollector;
     public TextSetter textSetter;
     private static int timeLine = -1;
+
+    public List<Vector3> actionQueue = new List<Vector3>();
+
     public int TimeLine
     {
         get { return timeLine; }
@@ -74,6 +77,32 @@ public class GameManager : MonoBehaviour
 
             trajectoryCollector.addStep(trajectoryStep);
             yield return new WaitForSecondsRealtime(0.5f);
+            character.notMove();
+            if (posPlayer == posEat)
+            {
+                character.Eating();
+                calcStat(character);
+            }
+            if (posPlayer == posDrink)
+            {
+                character.Drinking();
+                calcStat(character);
+            }
+            if (posPlayer == posStress)
+            {
+                character.Relaxing();
+                calcStat(character);
+            }
+            if (posPlayer == posSleep)
+            {
+                character.Sleeping();
+                calcStat(character);
+            }
+            if (posPlayer == posWork)
+            {
+                character.Working();
+                calcStat(character);
+            }
         }
         currentState = GameState.Waiting;
         character.isMoving = false;
@@ -90,7 +119,7 @@ public class GameManager : MonoBehaviour
         character.Sleep -= (1f / 18f);
 
 
-        if (character.Food < 12 || character.Drink < 12)
+        if (character.Food < 24 || character.Drink < 12)
         {
             character.Stress += 0.2f;
         }
@@ -174,7 +203,7 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        // map.onAwake();
+        map.onAwake();
         if (!character.isMoving)
         {
             // map.onUpdate();
@@ -184,23 +213,69 @@ public class GameManager : MonoBehaviour
             currentState = GameState.Process;
             ProcessStep(false);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            timeLine++;
-            currentState = GameState.Process;
-            ProcessStep(true);
-        }
-        //Để debug Trajectory
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     timeLine++;
+        //     currentState = GameState.Process;
+        //     // ProcessStep(true);
+        // }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.Log(trajectoryCollector.ToString());
-
+            inPath();
+            character.transform.position = actionQueue[0];
+            timeLineCouroutine = StartCoroutine(movePerStep(actionQueue));
         }
-        // character.StartMove(new Vector3(-12.5f, 4.5f, 0));
+
     }
     public void ProcessStep(bool isIdle)
     {
         map.onClick();
+        character.isMoving = true;
+        path = astar.path;
+        if (!isIdle)
+        {
+            timeLineCouroutine = StartCoroutine(movePerStep(path));
+        }
+        else
+        {
+            calcStat(character);
+            TrajectoryStep trajectoryStep = new TrajectoryStep(Vector3.zero, character, this);
+            trajectoryStep.stepIndex += 1;
+            trajectoryCollector.addStep(trajectoryStep);
+            character.isMoving = false;
+            currentState = GameState.Waiting;
+        }
+    }
+    public void inPath()
+    {
+        if (actionQueue == null || actionQueue.Count == 0)
+        {
+            Debug.Log("Path rỗng hoặc chưa được tính!");
+            return;
+        }
+
+        Debug.Log("===== PATH =====");
+        for (int i = 0; i < actionQueue.Count; i++)
+        {
+            Debug.Log($"Step {i}: {actionQueue[i]}");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void ProcessSteptoA(bool isIdle)
+    {
+        // map.onClick();
         character.isMoving = true;
         path = astar.path;
         if (!isIdle)
