@@ -1,14 +1,14 @@
 behaviors:
   GridBrain:
     trainer_type: ppo
-    max_steps: 100000
+    max_steps: 10000000
     time_horizon: 64
     summary_freq: 10000
     hyperparameters:
       batch_size: 1024
       buffer_size: 10240
       learning_rate: 2.0e-4
-      beta: 0.1
+      beta: 0.07
       epsilon: 0.2
     network_settings:
       num_layers: 3
@@ -19,7 +19,7 @@ behaviors:
         strength: 1.0
     # behavioral_cloning:
     #   demo_path: "C:/Users/M S I/Desktop/GamePartI/FinalProject/Assets/Arc/SCRIPT/Trajectories/BC01.demo"
-    #   strength: 0.5
-    #   steps: 100000
+    #   strength: 0.7
+    #   steps: 412641
     #   batch_size: 1024    
     #   samples_per_update: 0

@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    public HealthBar foodBar;
+    public bool isInteracting = false;
+    public HealthBar drinkBar;
+    public HealthBar sleepBar;
+    public HealthBar StressBar;
+    public HealthBar loadBar;
     public GameObject player;
     public Rigidbody2D rb;
-    public float speed = 2f;
+    public float speed = 1f;
     public bool isMoving = false;
     [SerializeField] private float food;
     [SerializeField] private float drink;
@@ -25,26 +31,31 @@ public class Character : MonoBehaviour
     public bool isRelaxing = false;
     public bool isIdle = false;
     public bool isDeath = false;
-
+    public int countStep = 0;
     public Animator animator;
     public void moveLeft()
     {
+        animator.SetFloat("doc", 0);
         animator.SetFloat("ngang", -1);
         animator.SetBool("isMoving", true);
     }
     public void moveRight()
     {
+        animator.SetFloat("doc", 0);
         animator.SetFloat("ngang", 1);
         animator.SetBool("isMoving", true);
     }
     public void moveDown()
     {
+        // Debug.Log("có đi xuống");
         animator.SetFloat("doc", -1);
+        animator.SetFloat("ngang", 0);
         animator.SetBool("isMoving", true);
     }
     public void moveUp()
     {
         animator.SetFloat("doc", 1);
+        animator.SetFloat("ngang", 0);
         animator.SetBool("isMoving", true);
     }
     public void notMove()
@@ -140,7 +151,12 @@ public class Character : MonoBehaviour
             money = Mathf.Max(value, 0);  // chỉ cần >= 0
         }
     }
-
+    public void Awake()
+    {
+        this.GetComponent<Astar>().map = GameObject.Find("Map").GetComponent<Map>();
+        this.GetComponent<GridBrain>().gameManager = GameObject.Find("Game_Controller").GetComponent<GameManager>();
+        // this.GetComponent<GridBrain>().loggerBC = GameObject.Find("thongKeLog").GetComponent<SaveLogBC>();
+    }
     private Coroutine moveCoroutine;
 
     public void StartMove(Vector3 targetPosition)

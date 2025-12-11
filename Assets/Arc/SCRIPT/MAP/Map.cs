@@ -15,7 +15,6 @@ public class Map : MonoBehaviour
     public Vector3Int cellBefore = new Vector3Int(-1000, -1000, 0); // Khởi tạo với giá trị không hợp lệ
     public Vector3 recentCellPos = new Vector3(-1000, -1000, 0); // Khởi tạo với giá trị không hợp lệ
     public MapUI mapUI;
-    public Astar astar;
     //Constructor
     public Map(GameObject vertices)
     {
@@ -39,13 +38,13 @@ public class Map : MonoBehaviour
         return "Map with vertices: " + vertices.name + " and tile positions count: " + tilepositions.Count;
     }
     //Other Methods
-    public void onAwake()
-    {
-        astar.startNode = new Node(player.transform.position - new Vector3(0.5f, 0.5f, 0));
-        astar.goalNode = new Node(recentCellPos);
-        astar.calcHeuristic(astar.startNode, astar.goalNode);
-        astar.startNode.totalCost = astar.startNode.distance + astar.startNode.heuristic;
-    }
+    // public void onAwake()
+    // {
+    //     astar.startNode = new Node(player.transform.position - new Vector3(0.5f, 0.5f, 0));
+    //     astar.goalNode = new Node(recentCellPos);
+    //     astar.calcHeuristic(astar.startNode, astar.goalNode);
+    //     astar.startNode.totalCost = astar.startNode.distance + astar.startNode.heuristic;
+    // }
     public void getListVertices()
     {
         verticesList = new List<GameObject>();
@@ -98,10 +97,9 @@ public class Map : MonoBehaviour
         Vector3Int cellPos = gameObject.GetComponentInChildren<Tilemap>().WorldToCell(mouseWorldPos); //chuyển sang tọa độ dạng lưới của tilemap
         mouseWorldPos.z = 0; //2D nên trực z bằng 0
 
-        //Get key from cell tilepositions
         Vector2Int key = new Vector2Int(cellPos.x, cellPos.y);
         tilepositions.TryGetValue(key, out bool hasTile);
-        //Check conditions to update UI on map
+
         if (cellPos != cellBefore && !hasTile)
         {
             //Put cellBefor equal cellPos
@@ -109,8 +107,9 @@ public class Map : MonoBehaviour
             mapUI.deleteCircle("dot");
             mapUI.drawBox(changeCellPos(cellPos));
             recentCellPos = cellPos;
-            astar.goalNode.position = recentCellPos;
-            List<Vector3> path = astar.FindPath();
+            List<Vector3> path = player.GetComponent<Astar>().FindPath(new Node(player.transform.position - new Vector3(0.5f, 0.5f, 0)), new Node(recentCellPos));
+            // Debug.Log("start: " + (player.transform.position - new Vector3(0.5f, 0.5f, 0)));
+            // Debug.Log("end: " + recentCellPos);
             if (path != null)
             {
                 int index = 0;
@@ -118,6 +117,10 @@ public class Map : MonoBehaviour
                 {
                     mapUI.drawCircle(changeCellPos(path[index++]));
                 }
+            }
+            else
+            {
+                // Debug.Log("nulll");
             }
             path = null;
         }

@@ -49,7 +49,7 @@ public class SaveLog : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        SaveCSV();
+        // SaveCSV();
     }
 
     public void SaveCSV()
