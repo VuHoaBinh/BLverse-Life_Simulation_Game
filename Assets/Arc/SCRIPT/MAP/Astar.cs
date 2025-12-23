@@ -8,17 +8,15 @@ public class Astar : MonoBehaviour
 {
     // Start is called before the first frame update
     public Map map;
-    public Node startNode;
-    public Node goalNode;
     public List<Vector3> path;
     // Update is called once per frame
-    public List<Vector3> FindPath()
+    public List<Vector3> FindPath(Node startNode, Node goalNode)
     {
         path = new List<Vector3>(); //Khởi tạo danh sách đường đi
         Node curentNode = startNode;
 
         /*Khai báo 2 hashset là openset và closedset 
-        - Không dubpltcate
+        - Không dulitcate
         - mỗi phần tử đưa vào sẽ có 1 hashcode khác nhau và dựa vào đó để tìm index chứa
         phần từ
         */
@@ -68,7 +66,7 @@ public class Astar : MonoBehaviour
         }
 
         // In ra đường đi cuối cuùng
-        Debug.Log("No path found to goal node.");
+        // Debug.Log("No path found to goal node.");
         return null;
     }
     public Node GetLowestCostNode(HashSet<Node> openSet)
@@ -89,8 +87,6 @@ public class Astar : MonoBehaviour
     }
     public void calcHeuristic(Node node, Node goal)
     {
-        // Calculate heuristic value for the node
-        // This is just a placeholder for the method
         node.heuristic = Vector3.Distance(node.position, goal.position);
     }
 
